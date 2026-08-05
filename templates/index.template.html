@@ -50,7 +50,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&amp;family=Inter:wght@300;400;500&amp;display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
   <!-- Dati strutturati per la ricerca locale: generati da build.js a partire
        da contatti.telefono, contatti.indirizzo e servizi.lista, cosi' non
@@ -272,9 +271,15 @@
         <h3 class="form-title">{{form.titolo}}</h3>
         <p class="form-note">{{form.nota}}</p>
 
-        <form name="contatti" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <!-- TODO MIGRAZIONE: sostituire SOSTITUISCI-CON-IL-TUO-ID con l'indirizzo
+             del form Formspree (es. https://formspree.io/f/abcdwxyz) appena
+             creato l'account. Finche' resta questo segnaposto, il modulo non
+             invia nulla da nessuna parte. -->
+        <form name="contatti" method="POST" action="https://formspree.io/f/SOSTITUISCI-CON-IL-TUO-ID">
+          <!-- Trappola anti-spam di Formspree: campo nascosto che un umano non
+               compila mai. Il nome _gotcha e' quello che Formspree riconosce. -->
           <p class="hp-field" aria-hidden="true">
-            <label>Non compilare questo campo <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+            <label>Non compilare questo campo <input name="_gotcha" tabindex="-1" autocomplete="off" /></label>
           </p>
 
           <div class="form-group">
@@ -327,16 +332,5 @@
   </footer>
 
   <script src="script.js"></script>
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", function (user) {
-        if (!user) {
-          window.netlifyIdentity.on("login", function () {
-            document.location.href = "/admin/";
-          });
-        }
-      });
-    }
-  </script>
 </body>
 </html>

@@ -6,13 +6,10 @@
   <meta name="robots" content="noindex" />
   <title>Gestione sito — Sofia Tornaghi</title>
   <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
-
-  <!-- Necessario per il login: con backend git-gateway Decap delega
-       l'autenticazione a Netlify Identity, che va caricato QUI. -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
-  <!-- Decap CMS -->
+  <!-- Decap CMS. Il login (backend "github" in config.yml) apre una finestra
+       di autenticazione GitHub: non serve nessuno script aggiuntivo qui. -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </body>
 </html>

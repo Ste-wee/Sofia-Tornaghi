@@ -1,0 +1,53 @@
+name: Pubblica il sito
+
+# Ad ogni push su main: rigenera index.html da content/site.json (build.js)
+# e pubblica il risultato su GitHub Pages. Se la build fallisce, questo
+# workflow si ferma e Pages continua a servire l'ultima versione pubblicata
+# con successo: un salvataggio malformato dal pannello non porta mai online
+# una pagina rotta.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Non far partire due pubblicazioni in parallelo; se arrivano piu' push di
+# fila, aspetta che quella in corso finisca prima di far partire l'ultima.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scarica il codice del repository
+        uses: actions/checkout@v4
+
+      - name: Prepara Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Genera index.html da content/site.json
+        run: node build.js
+
+      - name: Prepara i file da pubblicare
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Pubblica su GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

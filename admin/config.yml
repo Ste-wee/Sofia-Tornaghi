@@ -1,6 +1,13 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: Ste-wee/Sofia-Tornaghi
   branch: main
+  # Indirizzo del piccolo servizio (Cloudflare Worker) che completa il login
+  # con GitHub. Va sostituito con l'indirizzo vero appena il Worker e'
+  # pubblicato — finche' resta questo segnaposto, il pulsante di accesso
+  # del pannello non funziona.
+  base_url: https://SOSTITUISCI-CON-IL-TUO-WORKER.workers.dev
+  auth_endpoint: auth
 
 media_folder: "images"
 public_folder: "/images"
