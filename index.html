@@ -1,15 +1,6 @@
 <!-- Pagina generata automaticamente da build.js — NON MODIFICARE A MANO.
      Per cambiare un testo usa il pannello (/admin/) o content/site.json,
      poi rigenera con: node build.js -->
-<!--
-  QUESTO FILE È IL SORGENTE. build.js lo legge insieme a content/site.json
-  e genera index.html nella cartella principale a ogni pubblicazione.
-
-  Non contiene testo vero: solo segnaposto tipo "sezione.campo" tra doppie
-  graffe (sostituiti col valore preso da content/site.json, con lo stesso
-  percorso a punti) e marcatori HTML nel testo dove build.js inserisce le
-  schede generate dalle liste (aree, servizi, recensioni, credenziali).
--->
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -140,6 +131,9 @@
 
     <div class="hero-visual">
       <div class="hero-card">
+        <!-- La foto arriva da content/foto.json, cioè dal widget immagine del
+             pannello: caricarne una nuova la aggiorna qui, in og:image e nei
+             dati strutturati, senza toccare il codice. -->
         <img class="hero-photo" src="foto-professionale.jpg" alt="Dott.ssa Sofia Tornaghi" width="400" height="400" loading="eager" fetchpriority="high" decoding="async" />
         <!-- La citazione riprende di proposito chiSono.bio_p2: un'unica frase,
              una sola volta nel pannello, invece di doverla scrivere due volte. -->

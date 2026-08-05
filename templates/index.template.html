@@ -16,13 +16,13 @@
   <meta name="description" content="Dott.ssa Sofia Tornaghi, psicologa a Milano. Supporto per preadolescenti, adolescenti e giovani adulti e disturbi della nutrizione e dell'alimentazione. Studio in Viale Gran Sasso 10, anche online." />
   <meta property="og:title" content="Dott.ssa Sofia Tornaghi — Psicologa a Milano" />
   <meta property="og:description" content="Supporto psicologico per preadolescenti, adolescenti e giovani adulti e disturbi alimentari. Studio a Milano, anche online." />
-  <meta property="og:image" content="foto-professionale.jpg" />
+  <meta property="og:image" content="{{foto.immagine}}" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="it_IT" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Dott.ssa Sofia Tornaghi — Psicologa a Milano" />
   <meta name="twitter:description" content="Supporto psicologico per preadolescenti, adolescenti e giovani adulti e disturbi alimentari. Studio a Milano, anche online." />
-  <meta name="twitter:image" content="foto-professionale.jpg" />
+  <meta name="twitter:image" content="{{foto.immagine}}" />
   <meta name="theme-color" content="#3D5A4C" />
 
   <!-- TODO: appena il dominio definitivo è online, aggiungere qui:
@@ -86,7 +86,10 @@
 
     <div class="hero-visual">
       <div class="hero-card">
-        <img class="hero-photo" src="foto-professionale.jpg" alt="{{generale.nav_brand}}" width="400" height="400" loading="eager" fetchpriority="high" decoding="async" />
+        <!-- La foto arriva da content/foto.json, cioè dal widget immagine del
+             pannello: caricarne una nuova la aggiorna qui, in og:image e nei
+             dati strutturati, senza toccare il codice. -->
+        <img class="hero-photo" src="{{foto.immagine}}" alt="{{generale.nav_brand}}" width="400" height="400" loading="eager" fetchpriority="high" decoding="async" />
         <!-- La citazione riprende di proposito chiSono.bio_p2: un'unica frase,
              una sola volta nel pannello, invece di doverla scrivere due volte. -->
         <p class="hero-card-quote">{{chiSono.bio_p2}}</p>

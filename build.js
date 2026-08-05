@@ -10,11 +10,14 @@
 // di lunghezza libera (aree, servizi, recensioni, credenziali): il pannello
 // puo' aggiungere o togliere voci, e qui generiamo tante schede quante servono.
 //
-// Se un campo manca o un'icona non esiste, lo script si ferma con un errore
-// chiaro (vedi in fondo) invece di generare una pagina con "undefined" scritto
-// dentro. Netlify, quando la build fallisce, NON pubblica nulla di nuovo: il
-// sito resta quello di prima. Un pannello compilato male non puo' quindi mai
-// mandare il sito online rotto.
+// Regola di fondo: il testo scritto nel pannello e' SEMPRE dato, mai codice.
+// Non deve poter rompere la pagina ne' bloccare la pubblicazione, qualunque
+// cosa contenga (simboli, graffe, tag). Le funzioni qui sotto lo garantiscono;
+// i casi limite sono annotati dove capitano.
+//
+// Se invece manca un campo o un'icona non esiste, lo script si ferma con un
+// errore chiaro invece di generare una pagina con "undefined" dentro. Netlify,
+// quando la build fallisce, NON pubblica nulla: il sito resta quello di prima.
 
 const fs = require('fs');
 const path = require('path');
@@ -22,12 +25,14 @@ const path = require('path');
 const ROOT = __dirname;
 const TEMPLATE_PATH = path.join(ROOT, 'templates', 'index.template.html');
 const DATA_PATH = path.join(ROOT, 'content', 'site.json');
+const FOTO_PATH = path.join(ROOT, 'content', 'foto.json');
 const OUTPUT_PATH = path.join(ROOT, 'index.html');
 
 // --- Libreria icone -------------------------------------------------------
 // Ogni voce di una lista (aree, credenziali) sceglie un'icona per nome da qui,
 // invece di incollare codice SVG nel pannello. Tutte condividono lo stesso
 // stile (viewBox 24x24, tratto sottile) definito una volta sola in renderIcon.
+// I nomi devono restare identici a quelli elencati in admin/config.yml.
 const ICONS = {
   crescita: ['M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5'],
   cuore: ['M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z'],
@@ -54,7 +59,8 @@ function renderIcon(key, className) {
   return `<svg class="${className}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">\n      ${pathTags}\n    </svg>`;
 }
 
-// --- Motore di sostituzione -------------------------------------------------
+// --- Trattamento del testo --------------------------------------------------
+
 // Legge un JSON annidato usando un percorso a punti: "servizi.lista.0.prezzo".
 function get(obj, dottedPath) {
   return dottedPath.split('.').reduce((o, key) => (o == null ? undefined : o[key]), obj);
@@ -69,23 +75,38 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
-// Il testo scritto dal pannello e' sempre trattato come testo, mai come HTML:
-// cosi' Sofia non puo' rompere la pagina scrivendo per sbaglio un simbolo
-// come < o &. Un "a capo" nel campo diventa pero' un <br> visivo.
+// Testo destinato al contenuto della pagina: un "a capo" scritto nel pannello
+// diventa un'interruzione di riga visibile.
 function textOf(value) {
   return escapeHtml(value == null ? '' : value).split('\n').join('<br>');
 }
 
-// Sostituisce ogni {{percorso.al.campo}} nel template col valore preso dal
-// JSON. Si ferma con un errore leggibile se un campo non esiste, invece di
-// scrivere "undefined" nella pagina pubblicata.
+// Testo destinato a un attributo (href, alt, content...): qui un <br> sarebbe
+// stampato come testo letterale, quindi gli "a capo" diventano spazi.
+function attrOf(value) {
+  return escapeHtml(value == null ? '' : value).replace(/\s*\n\s*/g, ' ');
+}
+
+// Serve a capire se un segnaposto sta dentro un tag (quindi in un attributo)
+// oppure nel contenuto: guarda se l'ultima '<' viene dopo l'ultima '>'.
+function isInsideTag(html, index) {
+  return html.lastIndexOf('<', index) > html.lastIndexOf('>', index);
+}
+
+// Sostituisce ogni segnaposto col valore preso dal JSON. Si ferma con un
+// errore leggibile se un campo non esiste, invece di scrivere "undefined"
+// nella pagina pubblicata.
+//
+// Va eseguita SUL TEMPLATE, prima di inserire il testo del pannello: cosi' se
+// Sofia scrive delle doppie graffe in una recensione restano testo normale,
+// invece di essere interpretate come segnaposto (bloccando la pubblicazione).
 function fillPlaceholders(html, data) {
-  return html.replace(/\{\{\s*([\w.]+)\s*\}\}/g, (match, dottedPath) => {
+  return html.replace(/\{\{\s*([\w.]+)\s*\}\}/g, (match, dottedPath, offset) => {
     const value = get(data, dottedPath);
     if (value === undefined) {
       throw new Error('Campo mancante in content/site.json: "' + dottedPath + '"');
     }
-    return textOf(value);
+    return isInsideTag(html, offset) ? attrOf(value) : textOf(value);
   });
 }
 
@@ -139,7 +160,7 @@ function renderTelLink(telefono) {
 
 // Dati strutturati (SEO) generati dai dati veri, cosi' non possono mai
 // mostrare un telefono o un indirizzo diverso da quello scritto in pagina.
-function renderJsonLd(data) {
+function renderJsonLd(data, immagine) {
   const cifre = data.contatti.telefono.replace(/[^\d]/g, '');
   const prezzi = data.servizi.lista.map((s) => parseFloat(String(s.prezzo).replace(/[^\d.]/g, ''))).filter((n) => !isNaN(n));
   const min = prezzi.length ? Math.min(...prezzi) : null;
@@ -157,7 +178,7 @@ function renderJsonLd(data) {
     '@type': 'Psychologist',
     name: data.generale.nav_brand,
     description: "Psicologa a Milano. Supporto clinico per preadolescenti, adolescenti e giovani adulti, con competenza specifica nei Disturbi della Nutrizione e dell'Alimentazione.",
-    image: 'foto-professionale.jpg',
+    image: immagine,
     telephone: '+39' + cifre,
     priceRange: min !== null ? `${min}–${max} €` : undefined,
     currenciesAccepted: 'EUR',
@@ -177,30 +198,61 @@ function renderJsonLd(data) {
     availableService: data.servizi.lista.map((s) => ({ '@type': 'MedicalTherapy', name: s.nome })),
   };
 
-  return `<script type="application/ld+json" id="dati-strutturati">\n${JSON.stringify(ld, null, 2)}\n</script>`;
+  // Dentro un tag <script> il browser cerca "</script>" senza guardare se e'
+  // in mezzo a una stringa: se un campo del pannello lo contenesse, chiuderebbe
+  // il blocco in anticipo e il resto finirebbe nella pagina come HTML. Scrivere
+  // '<' come < e' JSON valido (rileggendolo si ottiene di nuovo '<') ed
+  // elimina il problema alla radice.
+  const json = JSON.stringify(ld, null, 2).replace(/</g, '\\u003c');
+
+  return `<script type="application/ld+json" id="dati-strutturati">\n${json}\n</script>`;
 }
 
 // --- Generazione -------------------------------------------------------
 
+const INTESTAZIONE =
+  '<!-- Pagina generata automaticamente da build.js — NON MODIFICARE A MANO.\n' +
+  '     Per cambiare un testo usa il pannello (/admin/) o content/site.json,\n' +
+  '     poi rigenera con: node build.js -->\n';
+
 function build() {
   const data = JSON.parse(fs.readFileSync(DATA_PATH, 'utf8'));
+
+  // La foto profilo sta in un file separato perche' il pannello la gestisce
+  // con il widget immagine (caricamento file), non con un campo di testo.
+  const foto = JSON.parse(fs.readFileSync(FOTO_PATH, 'utf8'));
+  if (!foto.immagine) {
+    throw new Error('Campo mancante in content/foto.json: "immagine"');
+  }
+  // Reso disponibile al template come {{foto.immagine}}: cosi' la foto
+  // caricata dal pannello finisce anche in og:image e nei dati strutturati,
+  // e non solo nel riquadro della home.
+  data.foto = foto;
+
   let html = fs.readFileSync(TEMPLATE_PATH, 'utf8');
 
-  // Prima le liste (producono markup che a sua volta non deve essere
-  // ripassato dal sostitutore di {{...}}), poi i segnaposto singoli.
+  // Il commento in cima al template spiega come funziona il template: non ha
+  // senso spedirlo ai visitatori dentro la pagina generata.
+  const inizioDocumento = html.indexOf('<!DOCTYPE');
+  if (inizioDocumento === -1) {
+    throw new Error('Il template non contiene <!DOCTYPE html>');
+  }
+  html = html.slice(inizioDocumento);
+
+  // Prima i segnaposto (sul solo template), poi il testo del pannello: vedi
+  // la nota su fillPlaceholders. I marcatori sono commenti HTML, quindi non
+  // vengono toccati da questo passaggio.
+  html = fillPlaceholders(html, data);
+
   html = html.replace('<!--AREA_CARDS-->', data.aree.lista.map(renderAreaCard).join('\n\n'));
   html = html.replace('<!--SERVICE_ITEMS-->', data.servizi.lista.map(renderServizio).join('\n'));
   html = html.replace('<!--REVIEW_CARDS-->', data.recensioni.lista.map(renderRecensione).join('\n\n'));
   html = html.replace('<!--CREDENTIAL_ITEMS-->', data.chiSono.credenziali.map(renderCredenziale).join('\n\n'));
   html = html.replace('<!--MAPS_LINK-->', renderMapsLink(data.contatti.indirizzo));
   html = html.replace('<!--TEL_LINK-->', renderTelLink(data.contatti.telefono));
-  html = html.replace('<!--JSON_LD-->', renderJsonLd(data));
+  html = html.replace('<!--JSON_LD-->', renderJsonLd(data, foto.immagine));
 
-  html = fillPlaceholders(html, data);
-
-  html = '<!-- Pagina generata automaticamente da build.js — NON MODIFICARE A MANO.\n     Per cambiare un testo usa il pannello (/admin/) o content/site.json,\n     poi rigenera con: node build.js -->\n' + html;
-
-  fs.writeFileSync(OUTPUT_PATH, html);
+  fs.writeFileSync(OUTPUT_PATH, INTESTAZIONE + html);
   console.log('index.html generato da templates/index.template.html + content/site.json');
 }
 
