@@ -8,17 +8,29 @@
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
 
+    // Tiene allineati classi, stato ARIA ed etichetta: chi usa uno screen reader
+    // deve sapere se il menu è aperto, non solo vederlo.
+    function setMenu(open) {
+      hamburger.classList.toggle('open', open);
+      mobileMenu.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      hamburger.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+
     hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('open');
-      mobileMenu.classList.toggle('open');
-      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+      setMenu(!mobileMenu.classList.contains('open'));
     });
 
     // Chiudi menu al click su un link
     document.querySelectorAll('.nav-mobile-menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('open');
-        mobileMenu.classList.remove('open');
-        document.body.style.overflow = '';
-      });
+      link.addEventListener('click', () => setMenu(false));
+    });
+
+    // Chiudi menu con Esc e riporta il focus sul pulsante
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+        setMenu(false);
+        hamburger.focus();
+      }
     });

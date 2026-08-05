@@ -2,8 +2,8 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "/"
-public_folder: "/"
+media_folder: "images"
+public_folder: "/images"
 
 locale: "it"
 
@@ -33,6 +33,9 @@ collections:
             widget: "text"
           - label: "Titolo sezione — Recensioni"
             name: "titolo_recensioni"
+            widget: "string"
+          - label: "Titolo sezione — Servizi"
+            name: "titolo_servizi"
             widget: "string"
           - label: "Titolo sezione — Contatti"
             name: "titolo_contatti"
