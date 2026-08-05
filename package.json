@@ -1,0 +1,9 @@
+{
+  "name": "sito-sofia-tornaghi",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sito vetrina di Dott.ssa Sofia Tornaghi. L'HTML è generato da build.js a partire da content/site.json — vedi i commenti in cima a build.js.",
+  "scripts": {
+    "build": "node build.js"
+  }
+}

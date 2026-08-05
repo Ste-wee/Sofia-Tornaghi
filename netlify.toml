@@ -1,0 +1,10 @@
+[build]
+  # Rigenera index.html da templates/index.template.html + content/site.json
+  # prima di pubblicare. Se lo script fallisce (JSON non valido, icona
+  # sconosciuta, campo mancante), la build si ferma e Netlify NON pubblica
+  # nulla: il sito resta quello della pubblicazione precedente.
+  command = "node build.js"
+  publish = "."
+
+[build.environment]
+  NODE_VERSION = "20"

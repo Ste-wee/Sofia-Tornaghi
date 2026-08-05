@@ -1,3 +1,15 @@
+<!-- Pagina generata automaticamente da build.js — NON MODIFICARE A MANO.
+     Per cambiare un testo usa il pannello (/admin/) o content/site.json,
+     poi rigenera con: node build.js -->
+<!--
+  QUESTO FILE È IL SORGENTE. build.js lo legge insieme a content/site.json
+  e genera index.html nella cartella principale a ogni pubblicazione.
+
+  Non contiene testo vero: solo segnaposto tipo "sezione.campo" tra doppie
+  graffe (sostituiti col valore preso da content/site.json, con lo stesso
+  percorso a punti) e marcatori HTML nel testo dove build.js inserisce le
+  schede generate dalle liste (aree, servizi, recensioni, credenziali).
+-->
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -19,51 +31,73 @@
   <!-- TODO: appena il dominio definitivo è online, aggiungere qui:
        <link rel="canonical" href="https://IL-TUO-DOMINIO/" />
        <meta property="og:url" content="https://IL-TUO-DOMINIO/" />
-       e sostituire le due immagini og/twitter con URL assoluti. -->
+       e sostituire le due immagini og/twitter con URL assoluti.
+       Questi campi restano fissi di proposito: sono testo tecnico per i
+       motori di ricerca, non contenuto della pagina, quindi non sono nel
+       pannello di Sofia. -->
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&amp;family=Inter:wght@300;400;500&amp;display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
-  <!-- Dati strutturati per la ricerca locale. Il telefono viene riallineato
-       da content-loader.js se viene modificato dal pannello di gestione. -->
+  <!-- Dati strutturati per la ricerca locale: generati da build.js a partire
+       da contatti.telefono, contatti.indirizzo e servizi.lista, cosi' non
+       possono mai disallinearsi da quello che c'e' scritto nella pagina. -->
   <script type="application/ld+json" id="dati-strutturati">
-  {
-    "@context": "https://schema.org",
-    "@type": "Psychologist",
-    "name": "Dott.ssa Sofia Tornaghi",
-    "description": "Psicologa a Milano. Supporto clinico per preadolescenti, adolescenti e giovani adulti, con competenza specifica nei Disturbi della Nutrizione e dell'Alimentazione.",
-    "image": "foto-professionale.jpg",
-    "telephone": "+393351665278",
-    "priceRange": "60–70 €",
-    "currenciesAccepted": "EUR",
-    "paymentAccepted": "Contanti, Bonifico, PayPal, Satispay, Carta",
-    "knowsLanguage": "it",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Viale Gran Sasso 10",
-      "postalCode": "20131",
-      "addressLocality": "Milano",
-      "addressRegion": "MI",
-      "addressCountry": "IT"
+{
+  "@context": "https://schema.org",
+  "@type": "Psychologist",
+  "name": "Dott.ssa Sofia Tornaghi",
+  "description": "Psicologa a Milano. Supporto clinico per preadolescenti, adolescenti e giovani adulti, con competenza specifica nei Disturbi della Nutrizione e dell'Alimentazione.",
+  "image": "foto-professionale.jpg",
+  "telephone": "+393351665278",
+  "priceRange": "60–70 €",
+  "currenciesAccepted": "EUR",
+  "paymentAccepted": "Contanti, Bonifico, PayPal, Satispay, Carta",
+  "knowsLanguage": "it",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Viale Gran Sasso 10",
+    "postalCode": "20131",
+    "addressLocality": "Milano",
+    "addressRegion": "MI",
+    "addressCountry": "IT"
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Milano"
+  },
+  "availableService": [
+    {
+      "@type": "MedicalTherapy",
+      "name": "Primo colloquio individuale"
     },
-    "areaServed": {
-      "@type": "City",
-      "name": "Milano"
+    {
+      "@type": "MedicalTherapy",
+      "name": "Colloquio psicologico"
     },
-    "availableService": [
-      { "@type": "MedicalTherapy", "name": "Primo colloquio individuale" },
-      { "@type": "MedicalTherapy", "name": "Colloquio psicologico" },
-      { "@type": "MedicalTherapy", "name": "Sostegno psicologico" },
-      { "@type": "MedicalTherapy", "name": "Consulenza genitoriale" },
-      { "@type": "MedicalTherapy", "name": "Somministrazione test" },
-      { "@type": "MedicalTherapy", "name": "Consultazione psicologica" }
-    ]
-  }
-  </script>
+    {
+      "@type": "MedicalTherapy",
+      "name": "Sostegno psicologico"
+    },
+    {
+      "@type": "MedicalTherapy",
+      "name": "Consulenza genitoriale"
+    },
+    {
+      "@type": "MedicalTherapy",
+      "name": "Somministrazione test"
+    },
+    {
+      "@type": "MedicalTherapy",
+      "name": "Consultazione psicologica"
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -95,8 +129,8 @@
       <h1 class="hero-headline">
         Dott.ssa Sofia Tornaghi
       </h1>
-      <p class="hero-sub" data-content="hero_sub">
-        Sono una psicologa specializzanda nel supporto clinico di preadolescenti, adolescenti e giovani adulti. Esperta nel trattamento dei Disturbi della Nutrizione e dell'Alimentazione.
+      <p class="hero-sub">
+        Sono una psicologa specializzanda nel supporto clinico di preadolescenti, adolescenti e giovani adulti. Esperta nel trattamento dei Disturbi della Nutrizione e dell&#39;Alimentazione.
       </p>
       <div class="hero-actions">
         <a href="#contatti" class="btn-primary">Prenota un primo colloquio</a>
@@ -106,21 +140,25 @@
 
     <div class="hero-visual">
       <div class="hero-card">
-        <img class="hero-photo" src="foto-professionale.jpg" data-content-img alt="Dott.ssa Sofia Tornaghi" width="400" height="400" loading="eager" fetchpriority="high" decoding="async" />
-        <p class="hero-card-quote" data-content="bio_p2">Offro uno spazio di ascolto professionale e protetto, volto a trasformare la crisi in un'opportunità di rilancio evolutivo.</p>
+        <img class="hero-photo" src="foto-professionale.jpg" alt="Dott.ssa Sofia Tornaghi" width="400" height="400" loading="eager" fetchpriority="high" decoding="async" />
+        <!-- La citazione riprende di proposito chiSono.bio_p2: un'unica frase,
+             una sola volta nel pannello, invece di doverla scrivere due volte. -->
+        <p class="hero-card-quote">Offro uno spazio di ascolto professionale e protetto, volto a trasformare la crisi in un&#39;opportunità di rilancio evolutivo.</p>
         <p class="hero-card-meta">Sofia Tornaghi, psicologa</p>
         <div class="hero-stats">
           <div>
-            <div class="stat-num" data-content="recensioni_num">16+</div>
+            <div class="stat-num">16+</div>
             <div class="stat-label">Recensioni verificate</div>
           </div>
           <div>
-            <div class="stat-num" data-content="serv1_prezzo">60 €</div>
+            <!-- Anche qui: il prezzo mostrato e' sempre il primo della lista
+                 servizi, non un numero scritto a parte che potrebbe disallinearsi. -->
+            <div class="stat-num">60 €</div>
             <div class="stat-label">Seduta individuale</div>
           </div>
           <div>
             <div class="stat-num">In studio</div>
-            <div class="stat-label" data-content="indirizzo">Viale Gran Sasso 10, Milano 20131</div>
+            <div class="stat-label">Viale Gran Sasso 10, Milano 20131</div>
           </div>
           <div>
             <div class="stat-num">Online</div>
@@ -143,11 +181,11 @@
     <div class="about-grid">
       <div>
         <p class="section-eyebrow">Chi sono</p>
-        <h2 class="section-title">Una professionista <br>al tuo fianco</h2>
+        <h2 class="section-title">Una professionista<br>al tuo fianco</h2>
 
         <div class="bio-block">
-          <p data-content="bio_p1">Psicologa specializzanda nel supporto clinico di preadolescenti, adolescenti e giovani adulti, accompagno i pazienti nel delicato percorso di costruzione dell'identità e nel superamento dei blocchi evolutivi.</p>
-          <p data-content="bio_p2">Offro uno spazio di ascolto professionale e protetto, volto a trasformare la crisi in un'opportunità di rilancio evolutivo.</p>
+          <p>Psicologa specializzanda nel supporto clinico di preadolescenti, adolescenti e giovani adulti, accompagno i pazienti nel delicato percorso di costruzione dell&#39;identità e nel superamento dei blocchi evolutivi.</p>
+          <p>Offro uno spazio di ascolto professionale e protetto, volto a trasformare la crisi in un&#39;opportunità di rilancio evolutivo.</p>
         </div>
 
         <div class="approach-box">
@@ -156,20 +194,17 @@
         </div>
 
         <div class="bio-block">
-          <p>
-            Sono psicoterapeuta in formazione presso l'Istituto del Minotauro di Milano, con una competenza specifica nei Disturbi della Nutrizione e dell'Alimentazione (DNA), ambito perfezionato attraverso Master universitario e intensa pratica clinica.
-          </p>
+          <p>Sono psicoterapeuta in formazione presso l&#39;Istituto del Minotauro di Milano, con una competenza specifica nei Disturbi della Nutrizione e dell&#39;Alimentazione (DNA), ambito perfezionato attraverso Master universitario e intensa pratica clinica.</p>
         </div>
       </div>
 
       <div class="about-right">
         <div class="credentials">
-
           <div class="credential-item">
             <svg class="credential-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
-              <path d="M12 14l9-5-9-5-9 5 9 5z"/>
-              <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
-            </svg>
+      <path d="M12 14l9-5-9-5-9 5 9 5z"/>
+      <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+    </svg>
             <div class="credential-text">
               <div class="credential-label">Formazione</div>
               <div class="credential-value">Scuola di Psicoterapia Adolescente e Giovane Adulto del Minotauro (2023 – in corso)</div>
@@ -178,8 +213,8 @@
 
           <div class="credential-item">
             <svg class="credential-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
-              <path d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/>
-            </svg>
+      <path d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/>
+    </svg>
             <div class="credential-text">
               <div class="credential-label">Laurea Magistrale</div>
               <div class="credential-value">Psicologia per il Benessere – Università Cattolica del Sacro Cuore, Milano (2021)</div>
@@ -188,8 +223,8 @@
 
           <div class="credential-item">
             <svg class="credential-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
-              <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
-            </svg>
+      <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
+    </svg>
             <div class="credential-text">
               <div class="credential-label">Specializzazione</div>
               <div class="credential-value">Master DCA – Disturbi del Comportamento Alimentare, Associazione Ananke (2021–2022)</div>
@@ -198,14 +233,13 @@
 
           <div class="credential-item">
             <svg class="credential-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
-              <path d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/>
-            </svg>
+      <path d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/>
+    </svg>
             <div class="credential-text">
               <div class="credential-label">Esperienza Clinica</div>
               <div class="credential-value">CPS Cassina Nuova – ambulatorio specialistico DNA (2024 – in corso)</div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -221,89 +255,83 @@
   <!-- AREE DI LAVORO -->
   <section id="aree">
     <p class="section-eyebrow">Aree di specializzazione</p>
-    <h2 class="section-title" data-content="titolo_aree">Di cosa mi occupo</h2>
-    <p class="section-body" data-content="aree_intro">
-      Principali patologie trattate e aree di competenza.
-    </p>
+    <h2 class="section-title">Di cosa mi occupo</h2>
+    <p class="section-body">Principali patologie trattate e aree di competenza.</p>
 
     <div class="areas-grid">
-
       <div class="area-card">
         <svg class="area-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
-          <path d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>
-        </svg>
-        <h3 class="area-title" data-content="area1_titolo">Preadolescenti, adolescenti e giovani adulti</h3>
-        <p class="area-desc" data-content="area1_desc">Psicologia dell'età evolutiva. Supporto clinico per preadolescenti, adolescenti e giovani adulti con blocchi evolutivi e fatica nei momenti di passaggio tra le diverse fasi della vita.</p>
+      <path d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>
+    </svg>
+        <h3 class="area-title">Preadolescenti, adolescenti e giovani adulti</h3>
+        <p class="area-desc">Psicologia dell&#39;età evolutiva. Supporto clinico per preadolescenti, adolescenti e giovani adulti con blocchi evolutivi e fatica nei momenti di passaggio tra le diverse fasi della vita.</p>
       </div>
 
       <div class="area-card">
         <svg class="area-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
-          <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
-        </svg>
-        <h3 class="area-title" data-content="area2_titolo">Disturbi alimentari (DNA)</h3>
-        <p class="area-desc" data-content="area2_desc">Percorso di sostegno psicologico per persone che soffrono di DNA (anoressia, bulimia, ortoressia, vigoressia, binge eating, sovrappeso e obesità).</p>
+      <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
+    </svg>
+        <h3 class="area-title">Disturbi alimentari (DNA)</h3>
+        <p class="area-desc">Percorso di sostegno psicologico per persone che soffrono di DNA (anoressia, bulimia, ortoressia, vigoressia, binge eating, sovrappeso e obesità).</p>
       </div>
 
       <div class="area-card">
         <svg class="area-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
-          <path d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
-        </svg>
-        <h3 class="area-title" data-content="area3_titolo">Genitorialità e famiglia</h3>
-        <p class="area-desc" data-content="area3_desc">Sostegno del ruolo genitoriale quando un figlio è in crisi oppure quando è il genitore stesso ad essere in difficoltà nel aiutare il figlio nel suo percorso di crescita.</p>
+      <path d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
+    </svg>
+        <h3 class="area-title">Genitorialità e famiglia</h3>
+        <p class="area-desc">Sostegno del ruolo genitoriale quando un figlio è in crisi oppure quando è il genitore stesso ad essere in difficoltà nel aiutare il figlio nel suo percorso di crescita.</p>
       </div>
 
       <div class="area-card">
         <svg class="area-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
-          <path d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/>
-        </svg>
-        <h3 class="area-title" data-content="area4_titolo">Blocco universitario</h3>
-        <p class="area-desc" data-content="area4_desc">Il blocco universitario rappresenta una sofferenza interna del soggetto, che spesso vive una difficoltà interna a conciliare le proprie aspettative, quelle dei genitori e a questo si aggiunge la paura del futuro.</p>
+      <path d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/>
+    </svg>
+        <h3 class="area-title">Blocco universitario</h3>
+        <p class="area-desc">Il blocco universitario rappresenta una sofferenza interna del soggetto, che spesso vive una difficoltà interna a conciliare le proprie aspettative, quelle dei genitori e a questo si aggiunge la paura del futuro.</p>
       </div>
 
       <div class="area-card">
         <svg class="area-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
-          <path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
-        </svg>
-        <h3 class="area-title" data-content="area5_titolo">Costruzione dell'identità di genere</h3>
-        <p class="area-desc" data-content="area5_desc">Lavoro sugli ideali e i valori di genere che orientano il proprio modo di diventare uomini e donne.</p>
+      <path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
+    </svg>
+        <h3 class="area-title">Costruzione dell&#39;identità di genere</h3>
+        <p class="area-desc">Lavoro sugli ideali e i valori di genere che orientano il proprio modo di diventare uomini e donne.</p>
       </div>
 
       <div class="area-card">
         <svg class="area-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
-          <path d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"/>
-        </svg>
-        <h3 class="area-title" data-content="area6_titolo">Difficoltà relazionali</h3>
-        <p class="area-desc" data-content="area6_desc">Supporto psicologico a persone che hanno difficoltà nelle relazioni famigliari, amicali e sentimentali, con un particolare focus sulle difficoltà al termine di relazioni importanti.</p>
+      <path d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"/>
+    </svg>
+        <h3 class="area-title">Difficoltà relazionali</h3>
+        <p class="area-desc">Supporto psicologico a persone che hanno difficoltà nelle relazioni famigliari, amicali e sentimentali, con un particolare focus sulle difficoltà al termine di relazioni importanti.</p>
       </div>
-
     </div>
   </section>
 
   <!-- RECENSIONI -->
   <section id="recensioni" class="alt">
     <p class="section-eyebrow">Recensioni verificate</p>
-    <h2 class="section-title" data-content="titolo_recensioni">Cosa dicono i pazienti</h2>
+    <h2 class="section-title">Cosa dicono i pazienti</h2>
 
     <div class="reviews-grid">
-
       <div class="review-card">
         <div class="stars" role="img" aria-label="Valutazione 5 stelle su 5">★★★★★</div>
-        <p class="review-text" data-content="rec1_testo">Mi sono sentito a mio agio fin dal primo minuto. Dopo tanto tempo e tanti altri professionisti, sono finalmente entusiasta di proseguire questo percorso di scoperta personale.</p>
-        <div class="review-meta" data-content="rec1_autore">Enrico · Studio privato</div>
+        <p class="review-text">Mi sono sentito a mio agio fin dal primo minuto. Dopo tanto tempo e tanti altri professionisti, sono finalmente entusiasta di proseguire questo percorso di scoperta personale.</p>
+        <div class="review-meta">Enrico · Studio privato</div>
       </div>
 
       <div class="review-card">
         <div class="stars" role="img" aria-label="Valutazione 5 stelle su 5">★★★★★</div>
-        <p class="review-text" data-content="rec2_testo">Grazie al suo supporto sono riuscito a vedere con maggiore chiarezza alcune situazioni personali e a sviluppare strumenti concreti per affrontarle.</p>
-        <div class="review-meta" data-content="rec2_autore">G.A. · Studio online</div>
+        <p class="review-text">Grazie al suo supporto sono riuscito a vedere con maggiore chiarezza alcune situazioni personali e a sviluppare strumenti concreti per affrontarle.</p>
+        <div class="review-meta">G.A. · Studio online</div>
       </div>
 
       <div class="review-card">
         <div class="stars" role="img" aria-label="Valutazione 5 stelle su 5">★★★★★</div>
-        <p class="review-text" data-content="rec3_testo">Professionista seria e attenta, capace di mettere a proprio agio fin dal primo contatto. Un punto di riferimento affidabile per chi cerca ascolto e supporto.</p>
-        <div class="review-meta" data-content="rec3_autore">CP · Studio privato</div>
+        <p class="review-text">Professionista seria e attenta, capace di mettere a proprio agio fin dal primo contatto. Un punto di riferimento affidabile per chi cerca ascolto e supporto.</p>
+        <div class="review-meta">CP · Studio privato</div>
       </div>
-
     </div>
 
     <div class="reviews-cta">
@@ -316,36 +344,34 @@
   <!-- SERVIZI & PREZZI -->
   <section id="servizi">
     <p class="section-eyebrow">Servizi e tariffe</p>
-    <h2 class="section-title" data-content="titolo_servizi">Sedute e tariffe</h2>
+    <h2 class="section-title">Sedute e tariffe</h2>
 
-    <p class="section-body" data-content="servizi_intro">
-      Tutte le sedute hanno una durata di circa 50 minuti. Sono disponibile sia in studio in Viale Gran Sasso 10, Milano sia possibilità di sedute online.
-    </p>
+    <p class="section-body">Tutte le sedute hanno una durata di circa 50 minuti. Sono disponibile sia in studio in Viale Gran Sasso 10, Milano sia possibilità di sedute online.</p>
 
     <div class="services-list">
       <div class="service-item">
-        <span class="service-name" data-content="serv1_nome">Primo colloquio individuale</span>
-        <span class="service-price" data-content="serv1_prezzo">60 €</span>
+        <span class="service-name">Primo colloquio individuale</span>
+        <span class="service-price">60 €</span>
       </div>
       <div class="service-item">
-        <span class="service-name" data-content="serv2_nome">Colloquio psicologico</span>
-        <span class="service-price" data-content="serv2_prezzo">60 €</span>
+        <span class="service-name">Colloquio psicologico</span>
+        <span class="service-price">60 €</span>
       </div>
       <div class="service-item">
-        <span class="service-name" data-content="serv3_nome">Sostegno psicologico</span>
-        <span class="service-price" data-content="serv3_prezzo">60 €</span>
+        <span class="service-name">Sostegno psicologico</span>
+        <span class="service-price">60 €</span>
       </div>
       <div class="service-item">
-        <span class="service-name" data-content="serv4_nome">Consulenza genitoriale</span>
-        <span class="service-price" data-content="serv4_prezzo">60 €</span>
+        <span class="service-name">Consulenza genitoriale</span>
+        <span class="service-price">60 €</span>
       </div>
       <div class="service-item">
-        <span class="service-name" data-content="serv5_nome">Somministrazione test</span>
-        <span class="service-price" data-content="serv5_prezzo">70 €</span>
+        <span class="service-name">Somministrazione test</span>
+        <span class="service-price">70 €</span>
       </div>
       <div class="service-item">
-        <span class="service-name" data-content="serv6_nome">Consultazione psicologica</span>
-        <span class="service-price" data-content="serv6_prezzo">60 €</span>
+        <span class="service-name">Consultazione psicologica</span>
+        <span class="service-price">60 €</span>
       </div>
     </div>
   </section>
@@ -356,10 +382,8 @@
 
       <div>
         <p class="section-eyebrow">Contatti</p>
-        <h2 class="section-title" data-content="titolo_contatti">Inizia il tuo percorso</h2>
-        <p class="section-body" data-content="contatti_intro">
-          Per informazioni o per prenotare un colloquio, scrivimi o prenota direttamente online.
-        </p>
+        <h2 class="section-title">Inizia il tuo percorso</h2>
+        <p class="section-body">Per informazioni o per prenotare un colloquio, scrivimi o prenota direttamente online.</p>
 
         <div class="contact-info">
 
@@ -370,11 +394,7 @@
             </svg>
             <div>
               <div class="contact-label">Studio</div>
-              <a class="contact-value contact-link"
-                 data-content="indirizzo"
-                 data-href-tpl="https://www.google.com/maps/search/?api=1&amp;query={url}"
-                 href="https://www.google.com/maps/search/?api=1&amp;query=Viale%20Gran%20Sasso%2010%2C%20Milano%2020131"
-                 target="_blank" rel="noopener noreferrer">Viale Gran Sasso 10, Milano 20131</a>
+              <a class="contact-value contact-link" href="https://www.google.com/maps/search/?api=1&amp;query=Viale%20Gran%20Sasso%2010%2C%20Milano%2020131" target="_blank" rel="noopener noreferrer">Viale Gran Sasso 10, Milano 20131</a>
             </div>
           </div>
 
@@ -384,10 +404,7 @@
             </svg>
             <div>
               <div class="contact-label">Telefono</div>
-              <a class="contact-value contact-link"
-                 data-content="telefono"
-                 data-href-tpl="tel:{tel}"
-                 href="tel:3351665278">3351665278</a>
+              <a class="contact-value contact-link" href="tel:3351665278">3351665278</a>
             </div>
           </div>
 
@@ -472,8 +489,7 @@
     </div>
   </footer>
 
-    <script src="script.js"></script>
-  <script src="content-loader.js"></script>
+  <script src="script.js"></script>
   <script>
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on("init", function (user) {

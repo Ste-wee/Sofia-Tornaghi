@@ -1,0 +1,327 @@
+<!--
+  QUESTO FILE È IL SORGENTE. build.js lo legge insieme a content/site.json
+  e genera index.html nella cartella principale a ogni pubblicazione.
+
+  Non contiene testo vero: solo segnaposto tipo "sezione.campo" tra doppie
+  graffe (sostituiti col valore preso da content/site.json, con lo stesso
+  percorso a punti) e marcatori HTML nel testo dove build.js inserisce le
+  schede generate dalle liste (aree, servizi, recensioni, credenziali).
+-->
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dott.ssa Sofia Tornaghi — Psicologa a Milano</title>
+  <meta name="description" content="Dott.ssa Sofia Tornaghi, psicologa a Milano. Supporto per preadolescenti, adolescenti e giovani adulti e disturbi della nutrizione e dell'alimentazione. Studio in Viale Gran Sasso 10, anche online." />
+  <meta property="og:title" content="Dott.ssa Sofia Tornaghi — Psicologa a Milano" />
+  <meta property="og:description" content="Supporto psicologico per preadolescenti, adolescenti e giovani adulti e disturbi alimentari. Studio a Milano, anche online." />
+  <meta property="og:image" content="foto-professionale.jpg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="it_IT" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Dott.ssa Sofia Tornaghi — Psicologa a Milano" />
+  <meta name="twitter:description" content="Supporto psicologico per preadolescenti, adolescenti e giovani adulti e disturbi alimentari. Studio a Milano, anche online." />
+  <meta name="twitter:image" content="foto-professionale.jpg" />
+  <meta name="theme-color" content="#3D5A4C" />
+
+  <!-- TODO: appena il dominio definitivo è online, aggiungere qui:
+       <link rel="canonical" href="https://IL-TUO-DOMINIO/" />
+       <meta property="og:url" content="https://IL-TUO-DOMINIO/" />
+       e sostituire le due immagini og/twitter con URL assoluti.
+       Questi campi restano fissi di proposito: sono testo tecnico per i
+       motori di ricerca, non contenuto della pagina, quindi non sono nel
+       pannello di Sofia. -->
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&amp;family=Inter:wght@300;400;500&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+  <!-- Dati strutturati per la ricerca locale: generati da build.js a partire
+       da contatti.telefono, contatti.indirizzo e servizi.lista, cosi' non
+       possono mai disallinearsi da quello che c'e' scritto nella pagina. -->
+  <!--JSON_LD-->
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#" class="nav-brand">{{generale.nav_brand}}</a>
+    <ul class="nav-links">
+      <li><a href="#chi-sono">Chi sono</a></li>
+      <li><a href="#aree">Aree di lavoro</a></li>
+      <li><a href="#recensioni">Recensioni</a></li>
+      <li><a href="{{generale.link_prenotazione}}" target="_blank" rel="noopener noreferrer" class="nav-cta">Prenota online</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" type="button" aria-label="Apri menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="nav-mobile-menu" id="mobileMenu">
+    <a href="#chi-sono" class="mobile-link">Chi sono</a>
+    <a href="#aree" class="mobile-link">Aree di lavoro</a>
+    <a href="#recensioni" class="mobile-link">Recensioni</a>
+    <a href="{{generale.link_prenotazione}}" target="_blank" rel="noopener noreferrer" class="mobile-cta">Prenota online</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-text">
+      <h1 class="hero-headline">
+        {{generale.nav_brand}}
+      </h1>
+      <p class="hero-sub">
+        {{home.hero_sub}}
+      </p>
+      <div class="hero-actions">
+        <a href="#contatti" class="btn-primary">{{home.hero_cta_primario}}</a>
+        <a href="#chi-sono" class="btn-secondary">{{home.hero_cta_secondario}}</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-card">
+        <img class="hero-photo" src="foto-professionale.jpg" alt="{{generale.nav_brand}}" width="400" height="400" loading="eager" fetchpriority="high" decoding="async" />
+        <!-- La citazione riprende di proposito chiSono.bio_p2: un'unica frase,
+             una sola volta nel pannello, invece di doverla scrivere due volte. -->
+        <p class="hero-card-quote">{{chiSono.bio_p2}}</p>
+        <p class="hero-card-meta">{{home.hero_meta}}</p>
+        <div class="hero-stats">
+          <div>
+            <div class="stat-num">{{home.stat1_num}}</div>
+            <div class="stat-label">{{home.stat1_label}}</div>
+          </div>
+          <div>
+            <!-- Anche qui: il prezzo mostrato e' sempre il primo della lista
+                 servizi, non un numero scritto a parte che potrebbe disallinearsi. -->
+            <div class="stat-num">{{servizi.lista.0.prezzo}}</div>
+            <div class="stat-label">{{home.stat2_label}}</div>
+          </div>
+          <div>
+            <div class="stat-num">{{home.stat3_num}}</div>
+            <div class="stat-label">{{contatti.indirizzo}}</div>
+          </div>
+          <div>
+            <div class="stat-num">{{home.stat4_num}}</div>
+            <div class="stat-label">{{home.stat4_label}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WAVE DIVIDER -->
+  <div class="wave-divider">
+    <svg viewBox="0 0 1200 30" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path d="M0,15 C150,28 300,2 450,15 C600,28 750,2 900,15 C1050,28 1150,5 1200,15" stroke="#C8B89A" stroke-width="1" fill="none" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <!-- CHI SONO -->
+  <section id="chi-sono" class="alt">
+    <div class="about-grid">
+      <div>
+        <p class="section-eyebrow">{{chiSono.eyebrow}}</p>
+        <h2 class="section-title">{{chiSono.titolo}}</h2>
+
+        <div class="bio-block">
+          <p>{{chiSono.bio_p1}}</p>
+          <p>{{chiSono.bio_p2}}</p>
+        </div>
+
+        <div class="approach-box">
+          <div class="approach-box-label">{{chiSono.approach_label}}</div>
+          <div class="approach-box-value">{{chiSono.approach_value}}</div>
+        </div>
+
+        <div class="bio-block">
+          <p>{{chiSono.bio_p3}}</p>
+        </div>
+      </div>
+
+      <div class="about-right">
+        <div class="credentials">
+<!--CREDENTIAL_ITEMS-->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WAVE -->
+  <div class="wave-divider">
+    <svg viewBox="0 0 1200 30" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path d="M0,15 C200,5 400,25 600,15 C800,5 1000,25 1200,15" stroke="#C8B89A" stroke-width="1" fill="none" opacity="0.4"/>
+    </svg>
+  </div>
+
+  <!-- AREE DI LAVORO -->
+  <section id="aree">
+    <p class="section-eyebrow">{{aree.eyebrow}}</p>
+    <h2 class="section-title">{{aree.titolo}}</h2>
+    <p class="section-body">{{aree.intro}}</p>
+
+    <div class="areas-grid">
+<!--AREA_CARDS-->
+    </div>
+  </section>
+
+  <!-- RECENSIONI -->
+  <section id="recensioni" class="alt">
+    <p class="section-eyebrow">{{recensioni.eyebrow}}</p>
+    <h2 class="section-title">{{recensioni.titolo}}</h2>
+
+    <div class="reviews-grid">
+<!--REVIEW_CARDS-->
+    </div>
+
+    <div class="reviews-cta">
+      <a href="{{generale.link_prenotazione}}#profile-reviews" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+        {{recensioni.cta}}
+      </a>
+    </div>
+  </section>
+
+  <!-- SERVIZI & PREZZI -->
+  <section id="servizi">
+    <p class="section-eyebrow">{{servizi.eyebrow}}</p>
+    <h2 class="section-title">{{servizi.titolo}}</h2>
+
+    <p class="section-body">{{servizi.intro}}</p>
+
+    <div class="services-list">
+<!--SERVICE_ITEMS-->
+    </div>
+  </section>
+
+  <!-- CONTATTI -->
+  <section id="contatti" class="alt">
+    <div class="contact-grid">
+
+      <div>
+        <p class="section-eyebrow">{{contatti.eyebrow}}</p>
+        <h2 class="section-title">{{contatti.titolo}}</h2>
+        <p class="section-body">{{contatti.intro}}</p>
+
+        <div class="contact-info">
+
+          <div class="contact-item">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+              <path d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
+              <path d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
+            </svg>
+            <div>
+              <div class="contact-label">Studio</div>
+              <!--MAPS_LINK-->
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+              <path d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/>
+            </svg>
+            <div>
+              <div class="contact-label">Telefono</div>
+              <!--TEL_LINK-->
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+              <path d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0H3"/>
+            </svg>
+            <div>
+              <div class="contact-label">Consulenze online</div>
+              <div class="contact-value">{{contatti.consulenzeOnlineTesto}}</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+              <path d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/>
+            </svg>
+            <div>
+              <div class="contact-label">Metodi di pagamento</div>
+              <div class="contact-value">{{contatti.metodiPagamento}}</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="contact-form-block">
+        <h3 class="form-title">{{form.titolo}}</h3>
+        <p class="form-note">{{form.nota}}</p>
+
+        <form name="contatti" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <p class="hp-field" aria-hidden="true">
+            <label>Non compilare questo campo <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+          </p>
+
+          <div class="form-group">
+            <label for="nome">Nome e cognome</label>
+            <input type="text" id="nome" name="nome" placeholder="Il tuo nome" autocomplete="name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="tua@email.com" autocomplete="email" required />
+          </div>
+          <div class="form-group">
+            <label for="motivo">Motivo del contatto</label>
+            <select id="motivo" name="motivo" required>
+              <option value="">Seleziona...</option>
+              <option>Primo colloquio individuale</option>
+              <option>Consulenza per un adolescente</option>
+              <option>Supporto genitoriale</option>
+              <option>Disturbi alimentari</option>
+              <option>Altro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="messaggio">Messaggio (facoltativo)</label>
+            <textarea id="messaggio" name="messaggio" placeholder="Raccontami brevemente cosa ti ha spinto a cercare supporto..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit">Invia richiesta</button>
+          <p class="form-privacy">{{form.privacy}}</p>
+        </form>
+
+        <p class="form-alt">{{form.alt}}</p>
+        <a href="{{generale.link_prenotazione}}" target="_blank" rel="noopener noreferrer" class="btn-secondary btn-secondary-block">{{form.ctaSecondaria}}</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-brand">{{generale.nav_brand}}</div>
+      <div class="footer-note" style="margin-top:0.4rem;">{{footer.nota}}</div>
+    </div>
+    <div class="footer-links">
+      <a href="#chi-sono">Chi sono</a>
+      <a href="#aree">Aree</a>
+      <a href="#contatti">Contatti</a>
+      <a href="{{generale.link_prenotazione}}" target="_blank" rel="noopener noreferrer">Prenota online</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", function (user) {
+        if (!user) {
+          window.netlifyIdentity.on("login", function () {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>
