@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **8 agosto 2026**
+> Ultimo aggiornamento: **8 agosto 2026** — impianto unito su `main`
 
 ---
 
@@ -24,9 +24,12 @@ foto da sola.
 
 - **Repository: `Ste-wee/Sofia-Tornaghi`, pubblico.** Conta: qui non deve mai
   finire nulla di riservato, in particolare nessun messaggio di pazienti.
-- **Hosting: Cloudflare Pages**, collegato a questo repository e ricostruito a
-  ogni push su `main`. Il codice, le PR e la storia restano su GitHub: cambia
-  solo chi serve le pagine.
+- **Hosting previsto: Cloudflare Pages**, collegato a questo repository e
+  ricostruito a ogni push su `main`. Il codice, le PR e la storia restano su
+  GitHub: cambia solo chi serve le pagine. ⚠️ **Da confermare:** i controlli
+  sulle PR arrivano ancora da un progetto Netlify (`gentle-quokka-edc2ee`) e
+  non compare nessun controllo di Cloudflare. Può darsi che su Cloudflare le
+  anteprime di ramo siano disattivate — vedi il punto 1 delle cose in sospeso.
 - Dominio di prenotazione esterno: MioDottore.
 
 ---
@@ -74,8 +77,8 @@ contenuti alla build invece di popolarlo nel browser. I testi finirebbero
 dentro la pagina, il che è meglio per i motori di ricerca e per chi ha una
 connessione lenta. Applicabile in seguito senza rifare nulla.
 
-Il branch `fix/audit-codice-e-ui` può essere chiuso una volta portato su `main`
-l'impianto scelto.
+Il branch `fix/audit-codice-e-ui` **può essere chiuso**: l'impianto scelto è su
+`main` dall'8 agosto e quel che valeva la pena tenere è già stato portato via.
 
 ## Struttura
 
@@ -150,24 +153,33 @@ quello di telefono, ma solo se è un cellulare.
   - rimosso il widget Netlify Identity e la configurazione Decap;
   - `_headers` con CSP, HSTS, `noindex` su `/admin` e `/api`;
   - modulo contatti sostituito dai pulsanti di contatto diretto;
-  - corretto un numero di ripiego nell'HTML rimasto a un vecchio `02`.
+  - corretto un numero di ripiego nell'HTML rimasto a un vecchio `02`;
+  - **unito su `main`** con la PR #2, insieme a favicon, correzioni di
+    accessibilità e il refuso *"ceh"* → *"che"* recuperati dal ramo scartato.
 
 ### In sospeso
 
-1. **Portare l'impianto su `main`** e collegare Cloudflare Pages al
-   repository. Finché `main` resta la versione Netlify di luglio, il sito
-   pubblicato non ha nulla di tutto questo.
-2. **Configurare le variabili su Cloudflare** — finché non è fatto, il pannello
+1. **Verificare chi pubblica davvero il sito.** Aprire `/api/login` sul dominio:
+   se risponde JSON (anche un errore di configurazione) allora Cloudflare sta
+   eseguendo le Functions e il pannello c'è; se risponde 404, non le esegue
+   nessuno e il pannello non può funzionare. È il controllo che scioglie ogni
+   dubbio, e va fatto prima degli altri punti.
+2. **Scollegare Netlify dal repository.** Risulta ancora installato e costruisce
+   ogni push: due piattaforme sullo stesso repo rendono impossibile capire chi
+   serve il dominio. ⚠️ **Da fare solo dopo il punto 1:** se è ancora Netlify a
+   servire il dominio, scollegarlo manda il sito offline finché il DNS non
+   punta a Cloudflare.
+3. **Configurare le variabili su Cloudflare** — finché non è fatto, il pannello
    risponde "configurazione incompleta". Il sito pubblico funziona comunque.
    Istruzioni in `SETUP.md`. *Tocca a Stefano.*
-3. **Inserire l'indirizzo email** dal pannello: è l'unico recapito ancora
+4. **Inserire l'indirizzo email** dal pannello: è l'unico recapito ancora
    vuoto, quindi al momento il pulsante email non compare.
-4. **Informativa privacy** — non più bloccante da quando il modulo non c'è più,
+5. **Informativa privacy** — non più bloccante da quando il modulo non c'è più,
    ma resta opportuna.
-5. **Font Google** caricati da `fonts.googleapis.com`, che riceve l'IP di ogni
+6. **Font Google** caricati da `fonts.googleapis.com`, che riceve l'IP di ogni
    visitatore. Ospitarli sul sito chiuderebbe la questione.
-6. Mancano `canonical` e `og:url`.
-7. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
+7. Mancano `canonical` e `og:url`.
+8. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
    scartato: meglio per i motori di ricerca. Da valutare quando il resto è in
    piedi.
 
