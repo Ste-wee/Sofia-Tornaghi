@@ -79,13 +79,25 @@ export const GROUPS = [
     ]
   },
   {
-    title: 'Modulo contatti',
+    title: 'Come farsi contattare',
     fields: [
       {
-        name: 'web3forms_key',
-        label: 'Chiave Web3Forms',
+        name: 'email',
+        label: 'Indirizzo email',
         type: 'string',
-        hint: 'Si ottiene gratis su web3forms.com indicando l\'indirizzo email a cui devono arrivare i messaggi. Senza questa chiave il modulo del sito non invia nulla.'
+        hint: 'Il pulsante "Scrivimi una email" apre il programma di posta del visitatore con questo indirizzo già compilato. Se lasci vuoto, il pulsante non compare.'
+      },
+      {
+        name: 'whatsapp',
+        label: 'Numero WhatsApp',
+        type: 'string',
+        hint: 'Con il prefisso internazionale, es. +39 333 1234567. Deve essere un cellulare: un numero fisso non funziona su WhatsApp. Se lasci vuoto, il pulsante non compare.'
+      },
+      {
+        name: 'whatsapp_messaggio',
+        label: 'Messaggio precompilato di WhatsApp',
+        type: 'text',
+        hint: 'Il testo che il visitatore si ritrova già scritto e può modificare. Meglio tenerlo generico, senza riferimenti clinici.'
       }
     ]
   }

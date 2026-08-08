@@ -3,7 +3,7 @@
 Il sito è statico e gira su **Cloudflare Pages**. Sopra ci sono due cose che
 richiedono una configurazione iniziale:
 
-- il **modulo contatti**, che invia le email tramite Web3Forms;
+- i **contatti**, cioè i pulsanti che aprono WhatsApp, l'email o il telefono;
 - il **pannello di gestione** su `/admin`, con cui Sofia modifica i testi e la
   foto senza toccare il codice e senza bisogno di un account GitHub.
 
@@ -11,21 +11,30 @@ Tutto quello che segue si fa una volta sola.
 
 ---
 
-## 1. Chiave per il modulo contatti
+## 1. Recapiti per i contatti
 
-1. Vai su [web3forms.com](https://web3forms.com) e inserisci l'indirizzo email a
-   cui devono arrivare i messaggi del sito.
-2. Arriva una **Access Key** via email.
-3. Incollala nel pannello `/admin`, sezione **Modulo contatti**, e salva.
+Il sito non ha un modulo da compilare: nella sezione Contatti ci sono pulsanti
+che aprono direttamente WhatsApp, il programma di posta o il telefono del
+visitatore. Non passa nessun dato da server di terze parti, perché il sito non
+raccoglie niente: mette solo in comunicazione due persone.
 
-Non serve modificare il codice: la chiave sta in `content/site.json` e viene
-letta dalla pagina all'avvio. È una chiave **pubblica** — è pensata per stare
-nell'HTML — quindi non è un segreto, ma chiunque la legga può usarla per
-inviare messaggi a quella casella. Se arriva spam, si attiva hCaptcha dal
-pannello di Web3Forms.
+I recapiti si impostano dal pannello `/admin`, sezione **Come farsi
+contattare**:
 
-Finché la chiave è vuota, il modulo mostra un avviso e invita a usare la
-prenotazione online: non fallisce in silenzio.
+- **Indirizzo email** — attiva il pulsante "Scrivimi una email".
+- **Numero WhatsApp** — con prefisso internazionale, es. `+39 335 166 5278`.
+  Se lo lasci vuoto e il campo *Telefono* contiene un cellulare italiano,
+  WhatsApp usa automaticamente quel numero.
+- **Messaggio precompilato** — il testo che il visitatore si ritrova già
+  scritto su WhatsApp e può modificare prima di inviare.
+
+**Ogni pulsante compare solo se il recapito è configurato.** Un campo vuoto
+non produce un pulsante che non porta da nessuna parte. Il pulsante di
+prenotazione su MioDottore è invece sempre presente.
+
+Gli indirizzi non sono scritti nell'HTML: arrivano da `content/site.json`
+tramite JavaScript, il che li rende meno facili da raccogliere per i robot
+che cercano email da spammare.
 
 ---
 
@@ -103,17 +112,32 @@ Sofia apre `https://<il-dominio>/admin`, inserisce la password ed è dentro.
   robusta conviene aggiungere una **Rate limiting rule** di Cloudflare su
   `/api/login` (es. 10 richieste al minuto per IP).
 - Il repository è **pubblico**: nessun messaggio dei pazienti passa o viene
-  salvato qui. Le email del modulo vanno direttamente da Web3Forms alla
-  casella di Sofia.
+  salvato qui. Con i contatti diretti i messaggi viaggiano da WhatsApp o dal
+  programma di posta del visitatore alla casella di Sofia, senza toccare né
+  il sito né il repository.
+
+---
+
+## Note pratiche sui contatti diretti
+
+- **WhatsApp è di Meta.** Il primo contatto va benissimo, ma è bene che lo
+  scambio resti sul piano organizzativo (disponibilità, appuntamenti) e che i
+  contenuti clinici si affrontino in seduta. Per questo il messaggio
+  precompilato è volutamente generico.
+- **Numero dedicato.** Se il numero del sito è lo stesso personale, vale la
+  pena valutare una seconda utenza o WhatsApp Business, così i contatti di
+  lavoro restano separati.
+- **Su computer** il pulsante email apre il programma di posta predefinito.
+  Chi non ne ha uno configurato vede comunque l'indirizzo scritto sotto al
+  pulsante e può copiarlo.
 
 ---
 
 ## In sospeso
 
-- **Informativa privacy.** Il modulo contatti ha una casella di consenso al
-  trattamento dei dati, ma la pagina con l'informativa non esiste ancora.
-  Trattandosi di dati raccolti da una psicologa, e potenzialmente relativi
-  alla salute (art. 9 GDPR), l'informativa va scritta e collegata prima di
-  promuovere il modulo.
+- **Informativa privacy.** Con i contatti diretti il sito non raccoglie più
+  dati, quindi non serve più una casella di consenso. Resta comunque
+  opportuna una breve pagina di informativa, dato che Sofia tratta i dati dei
+  pazienti nella sua attività.
 - **Font Google.** Sono caricati da `fonts.googleapis.com`, che riceve l'IP di
   ogni visitatore. Ospitarli direttamente sul sito eliminerebbe il problema.
