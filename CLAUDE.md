@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **8 agosto 2026** — impianto unito su `main`
+> Ultimo aggiornamento: **9 agosto 2026** — correzioni al pannello dopo rilettura
 
 ---
 
@@ -156,6 +156,21 @@ quello di telefono, ma solo se è un cellulare.
   - corretto un numero di ripiego nell'HTML rimasto a un vecchio `02`;
   - **unito su `main`** con la PR #2, insieme a favicon, correzioni di
     accessibilità e il refuso *"ceh"* → *"che"* recuperati dal ramo scartato.
+- **9 agosto 2026** — la biforcazione si è ripresentata: una sessione è
+  ripartita da `fix/audit-codice-e-ui` senza fare `git fetch`, e ha portato
+  Stefano a creare per niente un Worker Cloudflare per OAuth e una GitHub
+  OAuth App, oltre a un account Formspree. **Roba da buttare: il pannello usa
+  una password, non OAuth, e il modulo di contatto non esiste più.** Il locale
+  è stato riallineato a `main` e il branch non serve più a nulla.
+  Poi, rileggendo il codice unito con la PR #2, corretti quattro difetti:
+  - `writeJsonFile` prometteva di non sovrascrivere le modifiche altrui ma
+    faceva l'opposto (contenuto calcolato una volta sola, prima del ciclo di
+    riprova); ora l'unione si rifà sui dati riletti;
+  - il conflitto 409 si riconosceva cercando la stringa nel messaggio d'errore,
+    che include il corpo restituito da GitHub; ora si guarda lo stato;
+  - le foto sostituite non venivano mai cancellate;
+  - `font-src` senza `'self'` avrebbe bloccato i font una volta ospitati in
+    casa (punto 6 delle cose in sospeso).
 
 ### In sospeso
 
@@ -172,6 +187,10 @@ quello di telefono, ma solo se è un cellulare.
 3. **Configurare le variabili su Cloudflare** — finché non è fatto, il pannello
    risponde "configurazione incompleta". Il sito pubblico funziona comunque.
    Istruzioni in `SETUP.md`. *Tocca a Stefano.*
+   Nello stesso giro va creata la **Rate limiting rule** su `/api/login`
+   (punto 4 di `SETUP.md`): il ritardo sui tentativi sbagliati che c'è nel
+   codice non ferma chi prova le password in parallelo, e quella password
+   protegge la scrittura sul repository.
 4. **Inserire l'indirizzo email** dal pannello: è l'unico recapito ancora
    vuoto, quindi al momento il pulsante email non compare.
 5. **Informativa privacy** — non più bloccante da quando il modulo non c'è più,
@@ -194,16 +213,23 @@ quello di telefono, ma solo se è un cellulare.
 
 ## Prima di iniziare a lavorare
 
-Il lavoro si è già biforcato una volta perché due sessioni non sapevano l'una
-dell'altra. Per non ripetere l'errore, all'inizio di ogni sessione:
+Il lavoro si è già biforcato **due volte** perché una sessione è ripartita
+dallo stato locale senza guardare il remoto. La seconda volta è costato a
+Stefano il tempo di creare un Worker OAuth, una GitHub OAuth App e un account
+Formspree che non servivano a niente. Non è un passaggio formale: è la prima
+cosa da fare, prima di leggere qualsiasi file.
 
 ```bash
 git fetch origin && git branch -r        # quali rami esistono davvero
 git log --oneline origin/main -5         # cosa c'e' su main adesso
+git status                               # su che ramo siamo, e quanto e' vecchio
 ```
 
-Se compare un branch non citato in questo file, va esaminato **prima** di
-scrivere codice, e questo file va aggiornato di conseguenza.
+Se il ramo locale è indietro rispetto a `origin/main`, **allinearsi prima di
+toccare qualsiasi cosa**: quello che c'è sul disco può descrivere un impianto
+che è già stato scartato. Se compare un branch non citato in questo file, va
+esaminato **prima** di scrivere codice, e questo file va aggiornato di
+conseguenza.
 
 ## Come verificare le modifiche
 
