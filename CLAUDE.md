@@ -24,72 +24,58 @@ foto da sola.
 
 - **Repository: `Ste-wee/Sofia-Tornaghi`, pubblico.** Conta: qui non deve mai
   finire nulla di riservato, in particolare nessun messaggio di pazienti.
+- **Hosting: Cloudflare Pages**, collegato a questo repository e ricostruito a
+  ogni push su `main`. Il codice, le PR e la storia restano su GitHub: cambia
+  solo chi serve le pagine.
 - Dominio di prenotazione esterno: MioDottore.
-- **Hosting: da decidere.** Vedi il capitolo *Decisione aperta* qui sotto: al
-  momento esistono due impianti diversi su due branch diversi, e `main` è
-  ancora fermo alla vecchia versione Netlify.
 
 ---
 
-## ⚠️ Decisione aperta: due impianti in parallelo
+## Impianto scelto (8 agosto 2026)
 
-**Nessuno dei due è su `main`.** `main` è ancora la versione Netlify di luglio,
-con il CMS rotto. Prima di scrivere altro codice va deciso quale impianto
-tenere, perché toccano gli stessi file in modi inconciliabili.
+Per un periodo sono esistiti due impianti in parallelo su due branch che non
+sapevano l'uno dell'altro. **La biforcazione è chiusa.** Scelta presa:
 
-**Punto fermo dell'8 agosto:** il modulo di contatto non serve più, restano i
-pulsanti diretti (WhatsApp, email, telefono). Vale qualunque impianto si
-scelga, quindi Formspree esce di scena.
-
-**Ancora da decidere:** dove ospitare e quale pannello usare. Stefano
-preferirebbe restare su GitHub. Da tenere presente che **GitHub Pages non
-esegue codice lato server**, e che *entrambe* le soluzioni di CMS ne hanno
-bisogno: il nostro pannello per le API, Decap per il proxy OAuth del login.
-Non esiste quindi la variante "solo GitHub Pages": serve comunque un secondo
-servizio, oppure si sposta l'hosting su una piattaforma che esegue codice
-(il repository resta su GitHub in ogni caso).
-
-### Branch `fix/audit-codice-e-ui` (5 agosto)
-
-- **GitHub Pages + GitHub Actions.** `index.html` viene *generato* da
-  `content/site.json` a ogni push, tramite `build.js` e
-  `templates/index.template.html`. Niente più caricamento dei testi a runtime:
-  `content-loader.js` è stato eliminato.
-- **CMS Decap** con backend `github` e un Cloudflare Worker per il login OAuth
-  (`docs/cloudflare-worker-oauth.js`). Sofia entrerebbe **con un account
-  GitHub**. Il Worker non è pubblicato: in `admin/config.yml` c'è ancora un
-  segnaposto, quindi il login non funziona.
-- **Modulo contatti su Formspree**, anche qui con l'ID segnaposto da sostituire.
-- **Microsoft Clarity** attivo con ID reale `xxofk1n8l1`: registra le visite e
-  le mappe di click. Da valutare: su un sito di psicologa serve un banner
-  cookie, e il masking va tenuto su *Strict*.
-- Aggiunge `favicon.svg`. Si porta ancora dietro `netlify.toml`.
-
-### Branch `claude/dove-siamo-rimasti-nrsh36` (8 agosto, questo)
-
-- **Cloudflare Pages + Pages Functions.** Nessuna build: `index.html` è statico
-  e `content-loader.js` inserisce i testi nel browser.
-- **Pannello scritto da noi**, login a password. Sofia **non ha bisogno di un
-  account GitHub**. Funziona già, mancano solo le variabili su Cloudflare.
-- **Nessun modulo**: pulsanti che aprono WhatsApp, email o telefono.
-- `_headers` con CSP e intestazioni di sicurezza (funziona solo su Cloudflare).
-
-### Cosa cambia scegliere l'uno o l'altro
-
-| | `fix/audit-codice-e-ui` | `claude/dove-siamo-rimasti-nrsh36` |
+| | Scelto | Scartato |
 |---|---|---|
-| Hosting | GitHub Pages | Cloudflare Pages |
-| Login di Sofia | account GitHub | password |
-| Testi in pagina | generati alla build | caricati dal browser |
-| Contatti | modulo Formspree | WhatsApp / email / telefono |
-| Statistiche | Microsoft Clarity | nessuna |
-| Pronto all'uso | no: Worker e ID Formspree mancanti | quasi: mancano le variabili |
+| Hosting | Cloudflare Pages | GitHub Pages + Actions |
+| Pannello | scritto da noi, login a **password** | Decap CMS via OAuth GitHub |
+| Contatti | pulsanti WhatsApp / email / telefono | modulo Formspree |
+| Statistiche | nessuna | Microsoft Clarity |
 
-I due branch riscrivono entrambi pesantemente `index.html` e `style.css`:
-**non si fondono senza un lavoro di riconciliazione a mano.** Le parti
-recuperabili dall'altro branch, qualunque sia la scelta, sono la favicon,
-l'idea della build che protegge dai salvataggi malformati, e le correzioni di
-accessibilità del primo commit.
+### Perché
+
+- **Sofia non deve avere un account GitHub.** Con Decap le servirebbe: creare
+  l'account, accettare l'invito come collaboratrice, fare login OAuth. E come
+  collaboratrice avrebbe accesso in scrittura a *tutto* il repository, non solo
+  ai testi. Col nostro pannello ha una password e può toccare esclusivamente i
+  campi dello schema.
+- **GitHub Pages non esegue codice lato server**, e servirebbe comunque: il
+  nostro pannello per le API, Decap per il proxy OAuth. Nessuna delle due
+  strade evitava un secondo servizio, quindi tenere tutto su Cloudflare
+  significa un servizio invece di due.
+- Il nostro pannello è ~400 righe senza dipendenze, già scritto e verificato.
+  Decap è una libreria di terze parti caricata da `unpkg` con range di versione
+  aperto, dentro una pagina che ha in mano un token di scrittura sul repo.
+
+**Se un domani servisse un CMS vero** — più tipi di contenuto, un blog,
+anteprime, workflow editoriale — Decap tornerebbe a essere la scelta giusta.
+Per 45 campi fissi e una foto è sovradimensionato.
+
+### Cosa è stato recuperato dal branch scartato
+
+`favicon.svg`, le correzioni di accessibilità (SVG decorative nascoste ai
+lettori di schermo, stato del menu annunciato, foto in cima caricata subito),
+il numero di recensioni non più scritto a mano nell'HTML, e un refuso nei
+testi pubblicati (*"ceh"* → *"che"* in `area5_desc`).
+
+**Non ancora recuperato, ma valido:** l'idea di generare `index.html` dai
+contenuti alla build invece di popolarlo nel browser. I testi finirebbero
+dentro la pagina, il che è meglio per i motori di ricerca e per chi ha una
+connessione lenta. Applicabile in seguito senza rifare nulla.
+
+Il branch `fix/audit-codice-e-ui` può essere chiuso una volta portato su `main`
+l'impianto scelto.
 
 ## Struttura
 
@@ -168,31 +154,22 @@ quello di telefono, ma solo se è un cellulare.
 
 ### In sospeso
 
-0. **Scegliere quale dei due impianti tenere** e portarlo su `main`. Blocca
-   tutto il resto: finché non è deciso, ogni riga scritta rischia di finire
-   sul ramo che verrà abbandonato. *Tocca a Stefano.*
-
-Se si prosegue con l'impianto Cloudflare:
-
-1. **Configurare le variabili su Cloudflare** — finché non è fatto, il pannello
+1. **Portare l'impianto su `main`** e collegare Cloudflare Pages al
+   repository. Finché `main` resta la versione Netlify di luglio, il sito
+   pubblicato non ha nulla di tutto questo.
+2. **Configurare le variabili su Cloudflare** — finché non è fatto, il pannello
    risponde "configurazione incompleta". Il sito pubblico funziona comunque.
    Istruzioni in `SETUP.md`. *Tocca a Stefano.*
-2. **Inserire l'indirizzo email** dal pannello: è l'unico recapito ancora
+3. **Inserire l'indirizzo email** dal pannello: è l'unico recapito ancora
    vuoto, quindi al momento il pulsante email non compare.
-
-In ogni caso, qualunque impianto si scelga:
-
-3. **Informativa privacy** — non più bloccante da quando il modulo non c'è più,
-   ma resta opportuna. Se si tiene Microsoft Clarity serve anche un banner
-   cookie.
-4. **Font Google** caricati da `fonts.googleapis.com`, che riceve l'IP di ogni
+4. **Informativa privacy** — non più bloccante da quando il modulo non c'è più,
+   ma resta opportuna.
+5. **Font Google** caricati da `fonts.googleapis.com`, che riceve l'IP di ogni
    visitatore. Ospitarli sul sito chiuderebbe la questione.
-5. **Manca la favicon** (ce n'è una pronta sull'altro branch); mancano
-   `canonical` e `og:url`.
-6. `index.html` dice "tutte le **16** recensioni" con il numero scritto a mano,
-   mentre `recensioni_num` è modificabile dal pannello: prima o poi divergono.
-7. `script.js` non ha guardie sugli `id`: se uno cambia, l'errore blocca il
-   resto del file, menu mobile compreso.
+6. Mancano `canonical` e `og:url`.
+7. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
+   scartato: meglio per i motori di ricerca. Da valutare quando il resto è in
+   piedi.
 
 ### Decisioni prese, da non rimettere in discussione senza motivo
 
