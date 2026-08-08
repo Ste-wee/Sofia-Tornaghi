@@ -24,12 +24,40 @@ foto da sola.
 
 - **Repository: `Ste-wee/Sofia-Tornaghi`, pubblico.** Conta: qui non deve mai
   finire nulla di riservato, in particolare nessun messaggio di pazienti.
-- **Hosting previsto: Cloudflare Pages**, collegato a questo repository e
-  ricostruito a ogni push su `main`. Il codice, le PR e la storia restano su
-  GitHub: cambia solo chi serve le pagine. ⚠️ **Da confermare:** i controlli
-  sulle PR arrivano ancora da un progetto Netlify (`gentle-quokka-edc2ee`) e
-  non compare nessun controllo di Cloudflare. Può darsi che su Cloudflare le
-  anteprime di ramo siano disattivate — vedi il punto 1 delle cose in sospeso.
+- **Hosting attuale: GitHub Pages**, su `https://ste-wee.github.io/Sofia-Tornaghi/`.
+  Verificato il 9 agosto 2026 con `curl`: risponde `server: GitHub.com` e serve
+  i file di `main` così come sono. Non è Cloudflare e non è Netlify, che erano
+  i due sospettati.
+  **Conseguenza pesante: il pannello lì non può funzionare.** GitHub Pages
+  serve file statici e non esegue codice, quindi `/api/login` risponde 404 e
+  `functions/` non gira mai. La pagina `/admin` si apre lo stesso e mostra la
+  casella della password, che però non potrà mai andare a buon fine.
+  **Anche `_headers` è inerte**: quel file lo leggono Cloudflare e Netlify, non
+  GitHub Pages. Sul sito live l'unica intestazione di sicurezza è l'HSTS che
+  mette GitHub di suo — CSP, `X-Frame-Options`, `nosniff` e `Permissions-Policy`
+  non arrivano al visitatore.
+- **⚠️ Esiste una seconda copia live, su Netlify**, all'indirizzo
+  `https://gentle-quokka-edc2ee.netlify.app/`. Serve gli stessi identici file
+  di `main` e si ricostruisce anch'essa a ogni push. Differenza rispetto a
+  GitHub Pages: qui `_headers` **viene applicato** (CSP, `X-Frame-Options`,
+  `nosniff`, `Permissions-Policy` arrivano davvero al visitatore). Ma nemmeno
+  Netlify fa funzionare il pannello: `/api/login` risponde 404 anche lì, perché
+  le funzioni di Netlify vogliono `netlify/functions/` e un'altra firma.
+  Due copie identiche raggiungibili significa **contenuto duplicato** per i
+  motori di ricerca, per giunta senza `canonical` (punto 7): nessuno può sapere
+  quale sia quella buona.
+- **Hosting di destinazione: Cloudflare Pages** (non un Worker: i file in
+  `functions/api/` usano la convenzione Pages, `onRequestPost(context)`, che su
+  un Worker non viene nemmeno chiamata). È l'unica delle tre che fa girare il
+  pannello **senza riscrivere una riga**. Finché il trasloco non è fatto, il
+  pannello resta una schermata che non funziona.
+- Non esiste nessun dominio proprio: l'indirizzo pubblico è quello `github.io`.
+  Il trasloco quindi non richiede di toccare il DNS, ma **cambia l'indirizzo**
+  del sito.
+- Su Cloudflare c'è un Worker `sofia-tornaghi` avanzato dalla sessione del
+  9 agosto, protetto da una policy di Access e quindi irraggiungibile dal
+  pubblico. Non serve a niente: va cancellato, insieme alla GitHub OAuth App
+  creata lo stesso giorno.
 - Dominio di prenotazione esterno: MioDottore.
 
 ---
@@ -172,18 +200,28 @@ quello di telefono, ma solo se è un cellulare.
   - `font-src` senza `'self'` avrebbe bloccato i font una volta ospitati in
     casa (punto 6 delle cose in sospeso).
 
+  Sciolto anche il dubbio su chi pubblica il sito: **è GitHub Pages** (dettagli
+  in "Dove gira"). Confermata la scelta di tenere il pannello, quindi il
+  trasloco su Cloudflare Pages diventa obbligatorio e non piu' rinviabile: le
+  due cose non possono coesistere.
+
 ### In sospeso
 
-1. **Verificare chi pubblica davvero il sito.** Aprire `/api/login` sul dominio:
-   se risponde JSON (anche un errore di configurazione) allora Cloudflare sta
-   eseguendo le Functions e il pannello c'è; se risponde 404, non le esegue
-   nessuno e il pannello non può funzionare. È il controllo che scioglie ogni
-   dubbio, e va fatto prima degli altri punti.
-2. **Scollegare Netlify dal repository.** Risulta ancora installato e costruisce
-   ogni push: due piattaforme sullo stesso repo rendono impossibile capire chi
-   serve il dominio. ⚠️ **Da fare solo dopo il punto 1:** se è ancora Netlify a
-   servire il dominio, scollegarlo manda il sito offline finché il DNS non
-   punta a Cloudflare.
+1. **Creare il progetto Cloudflare Pages** collegato al repository, e spegnere
+   GitHub Pages quando il nuovo indirizzo risponde. È il passo che sblocca
+   tutti gli altri: finché il sito sta su GitHub Pages, il pannello resta una
+   schermata di login che non può funzionare e `_headers` resta lettera morta.
+   ⚠️ Deve essere un progetto **Pages**, non un **Worker**: `functions/api/`
+   usa la convenzione Pages.
+   Da decidere insieme: l'indirizzo pubblico cambia (da `github.io` a
+   `pages.dev`), a meno di registrare un dominio proprio — che per un sito
+   professionale sarebbe comunque piu' appropriato.
+2. **Spegnere le copie di troppo.** Oggi il sito è live in due posti
+   contemporaneamente, GitHub Pages e Netlify, con gli stessi file. Quando
+   Cloudflare Pages risponde, vanno spenti entrambi gli altri, altrimenti le
+   copie diventano tre. Adesso si può fare senza rischi: nessuno dei due serve
+   un dominio proprio, quindi spegnerli non lascia offline nessun indirizzo che
+   qualcuno abbia dato via — a parte quelli stessi.
 3. **Configurare le variabili su Cloudflare** — finché non è fatto, il pannello
    risponde "configurazione incompleta". Il sito pubblico funziona comunque.
    Istruzioni in `SETUP.md`. *Tocca a Stefano.*
