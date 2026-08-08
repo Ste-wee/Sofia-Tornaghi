@@ -3,10 +3,452 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gestione sito — Sofia Tornaghi</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Gestione sito — Dott.ssa Sofia Tornaghi</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ivory: #FAFAF7;
+      --sage: #3D5A4C;
+      --sage-light: #5A7A6A;
+      --sand: #C8B89A;
+      --sand-light: #E8DDD0;
+      --fog: #F0EDE8;
+      --text: #2A2A25;
+      --text-muted: #7A7A72;
+      --error: #A8564B;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--ivory);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    .wrap { max-width: 780px; margin: 0 auto; padding: 2rem 1.2rem 6rem; }
+
+    header {
+      border-bottom: 1px solid var(--sand-light);
+      padding-bottom: 1.2rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    h1 { font-size: 1.3rem; font-weight: 600; color: var(--sage); }
+    .subtitle { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* LOGIN */
+    .login-box {
+      max-width: 380px;
+      margin: 12vh auto 0;
+      background: var(--fog);
+      border-radius: 6px;
+      padding: 2rem;
+    }
+    .login-box h1 { margin-bottom: 0.4rem; }
+    .login-box p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-top: 0.3rem;
+      line-height: 1.45;
+    }
+
+    input[type="text"], input[type="password"], textarea {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      background: #fff;
+      border: 1px solid var(--sand-light);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: var(--text);
+      transition: border-color 0.15s;
+    }
+    input:focus, textarea:focus { outline: none; border-color: var(--sage); }
+    textarea { min-height: 90px; resize: vertical; line-height: 1.55; }
+
+    .field { margin-bottom: 1.4rem; }
+
+    button {
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.75rem 1.6rem;
+      border: none;
+      border-radius: 4px;
+      background: var(--sage);
+      color: var(--ivory);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    button:hover:not(:disabled) { background: var(--sage-light); }
+    button:disabled { opacity: 0.55; cursor: default; }
+    button.ghost {
+      background: none;
+      color: var(--text-muted);
+      font-weight: 400;
+      padding: 0.4rem 0;
+      font-size: 0.82rem;
+      text-decoration: underline;
+    }
+    button.ghost:hover:not(:disabled) { background: none; color: var(--sage); }
+
+    details.group {
+      border: 1px solid var(--sand-light);
+      border-radius: 6px;
+      margin-bottom: 0.8rem;
+      background: #fff;
+      overflow: hidden;
+    }
+    details.group > summary {
+      padding: 1rem 1.2rem;
+      font-weight: 600;
+      color: var(--sage);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    details.group > summary::-webkit-details-marker { display: none; }
+    details.group > summary::after { content: '+'; font-size: 1.2rem; color: var(--sand); }
+    details.group[open] > summary::after { content: '−'; }
+    details.group[open] > summary { border-bottom: 1px solid var(--sand-light); }
+    .group-body { padding: 1.4rem 1.2rem 0.4rem; }
+
+    .photo-row { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+    .photo-preview {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--sand-light);
+      background: var(--fog);
+      flex-shrink: 0;
+    }
+
+    /* BARRA DI SALVATAGGIO */
+    .actionbar {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      background: rgba(250,250,247,0.97);
+      border-top: 1px solid var(--sand-light);
+      padding: 0.9rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .actionbar-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .status { font-size: 0.85rem; color: var(--text-muted); min-height: 1.3em; }
+    .status.ok { color: var(--sage); }
+    .status.error { color: var(--error); }
+
+    .hidden { display: none !important; }
+  </style>
 </head>
 <body>
-  <!-- Decap CMS -->
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+  <!-- LOGIN -->
+  <div id="login-view">
+    <div class="login-box">
+      <h1>Gestione del sito</h1>
+      <p>Inserisci la password per modificare i testi.</p>
+      <form id="login-form">
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" autocomplete="current-password" required />
+        </div>
+        <button type="submit" id="login-button">Entra</button>
+        <p class="status" id="login-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- PANNELLO -->
+  <div id="editor-view" class="hidden">
+    <div class="wrap">
+      <header>
+        <div>
+          <h1>Gestione del sito</h1>
+          <div class="subtitle">Modifica i testi, poi salva. Le modifiche appaiono online dopo circa un minuto.</div>
+        </div>
+        <button class="ghost" id="logout-button" type="button">Esci</button>
+      </header>
+
+      <!-- FOTO -->
+      <details class="group" open>
+        <summary>Foto profilo</summary>
+        <div class="group-body">
+          <div class="field">
+            <div class="photo-row">
+              <img class="photo-preview" id="photo-preview" alt="" />
+              <div>
+                <label for="photo-input">Cambia foto</label>
+                <input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp" />
+                <div class="hint">Meglio una foto quadrata, in formato JPG, PNG o WebP, sotto i 3 MB. Si carica subito, senza bisogno di salvare.</div>
+                <p class="status" id="photo-status" role="status" aria-live="polite"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <div id="groups"></div>
+    </div>
+
+    <div class="actionbar">
+      <div class="actionbar-inner">
+        <span class="status" id="save-status" role="status" aria-live="polite"></span>
+        <button type="button" id="save-button">Salva le modifiche</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var loginView = document.getElementById('login-view');
+      var editorView = document.getElementById('editor-view');
+      var loginForm = document.getElementById('login-form');
+      var loginButton = document.getElementById('login-button');
+      var loginStatus = document.getElementById('login-status');
+      var groupsHost = document.getElementById('groups');
+      var saveButton = document.getElementById('save-button');
+      var saveStatus = document.getElementById('save-status');
+      var photoPreview = document.getElementById('photo-preview');
+      var photoInput = document.getElementById('photo-input');
+      var photoStatus = document.getElementById('photo-status');
+
+      var inputsByName = {};
+
+      function setStatus(element, message, kind) {
+        element.textContent = message;
+        element.className = 'status' + (kind ? ' ' + kind : '');
+      }
+
+      function request(url, options) {
+        return fetch(url, Object.assign({ credentials: 'same-origin' }, options))
+          .then(function (response) {
+            return response.json()
+              .catch(function () { return {}; })
+              .then(function (payload) {
+                if (!response.ok) {
+                  var error = new Error(payload.error || 'Errore imprevisto.');
+                  error.status = response.status;
+                  throw error;
+                }
+                return payload;
+              });
+          });
+      }
+
+      // Il testo dei contenuti finisce sempre in .value o .textContent, mai
+      // in innerHTML: così non può essere interpretato come codice.
+      function buildField(field) {
+        var wrapper = document.createElement('div');
+        wrapper.className = 'field';
+
+        var label = document.createElement('label');
+        label.setAttribute('for', 'campo-' + field.name);
+        label.textContent = field.label;
+        wrapper.appendChild(label);
+
+        var input = field.type === 'text'
+          ? document.createElement('textarea')
+          : document.createElement('input');
+        if (field.type !== 'text') input.type = 'text';
+        input.id = 'campo-' + field.name;
+        wrapper.appendChild(input);
+
+        if (field.hint) {
+          var hint = document.createElement('div');
+          hint.className = 'hint';
+          hint.textContent = field.hint;
+          wrapper.appendChild(hint);
+        }
+
+        inputsByName[field.name] = input;
+        return wrapper;
+      }
+
+      function buildEditor(data) {
+        groupsHost.textContent = '';
+        inputsByName = {};
+
+        data.groups.forEach(function (group, index) {
+          var details = document.createElement('details');
+          details.className = 'group';
+          if (index === 0) details.open = true;
+
+          var summary = document.createElement('summary');
+          summary.textContent = group.title;
+          details.appendChild(summary);
+
+          var body = document.createElement('div');
+          body.className = 'group-body';
+          group.fields.forEach(function (field) {
+            body.appendChild(buildField(field));
+          });
+          details.appendChild(body);
+
+          groupsHost.appendChild(details);
+        });
+
+        Object.keys(inputsByName).forEach(function (name) {
+          inputsByName[name].value = typeof data.values[name] === 'string' ? data.values[name] : '';
+        });
+
+        // I percorsi in foto.json sono relativi alla radice del sito, mentre
+        // questa pagina sta dentro /admin/: serve risalire di un livello.
+        photoPreview.src = '../' + (data.foto || 'foto-professionale.jpg');
+      }
+
+      function openEditor() {
+        return request('/api/content')
+          .then(function (data) {
+            buildEditor(data);
+            loginView.classList.add('hidden');
+            editorView.classList.remove('hidden');
+          });
+      }
+
+      function backToLogin(message) {
+        editorView.classList.add('hidden');
+        loginView.classList.remove('hidden');
+        if (message) setStatus(loginStatus, message, 'error');
+      }
+
+      loginForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        var password = document.getElementById('password').value;
+
+        loginButton.disabled = true;
+        setStatus(loginStatus, 'Verifica in corso...');
+
+        request('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: password })
+        })
+          .then(function () {
+            document.getElementById('password').value = '';
+            setStatus(loginStatus, '');
+            return openEditor();
+          })
+          .catch(function (error) {
+            setStatus(loginStatus, error.message, 'error');
+          })
+          .then(function () {
+            loginButton.disabled = false;
+          });
+      });
+
+      document.getElementById('logout-button').addEventListener('click', function () {
+        request('/api/logout', { method: 'POST' })
+          .catch(function () {})
+          .then(function () {
+            window.location.reload();
+          });
+      });
+
+      saveButton.addEventListener('click', function () {
+        var values = {};
+        Object.keys(inputsByName).forEach(function (name) {
+          values[name] = inputsByName[name].value;
+        });
+
+        saveButton.disabled = true;
+        setStatus(saveStatus, 'Salvataggio in corso...');
+
+        request('/api/content', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ values: values })
+        })
+          .then(function () {
+            setStatus(saveStatus, 'Salvato. Il sito si aggiorna tra circa un minuto.', 'ok');
+          })
+          .catch(function (error) {
+            if (error.status === 401) return backToLogin(error.message);
+            setStatus(saveStatus, error.message, 'error');
+          })
+          .then(function () {
+            saveButton.disabled = false;
+          });
+      });
+
+      photoInput.addEventListener('change', function () {
+        var file = photoInput.files && photoInput.files[0];
+        if (!file) return;
+
+        if (file.size > 3 * 1024 * 1024) {
+          setStatus(photoStatus, 'Immagine troppo pesante: il limite è 3 MB.', 'error');
+          photoInput.value = '';
+          return;
+        }
+
+        setStatus(photoStatus, 'Caricamento in corso...');
+        photoInput.disabled = true;
+
+        var reader = new FileReader();
+        reader.onload = function () {
+          var base64 = String(reader.result).split(',')[1];
+
+          request('/api/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ data: base64 })
+          })
+            .then(function (payload) {
+              photoPreview.src = URL.createObjectURL(file);
+              setStatus(photoStatus, 'Foto caricata. Il sito si aggiorna tra circa un minuto.', 'ok');
+              return payload;
+            })
+            .catch(function (error) {
+              if (error.status === 401) return backToLogin(error.message);
+              setStatus(photoStatus, error.message, 'error');
+            })
+            .then(function () {
+              photoInput.disabled = false;
+              photoInput.value = '';
+            });
+        };
+        reader.onerror = function () {
+          setStatus(photoStatus, 'Non sono riuscito a leggere il file.', 'error');
+          photoInput.disabled = false;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // Se il cookie di sessione è ancora valido si salta la schermata di login.
+      openEditor().catch(function () {});
+    })();
+  </script>
 </body>
 </html>
