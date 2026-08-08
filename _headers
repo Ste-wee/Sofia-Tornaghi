@@ -1,0 +1,18 @@
+# Intestazioni di sicurezza applicate da Cloudflare Pages.
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'
+
+# Il pannello di gestione non deve finire sui motori di ricerca.
+/admin/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+
+# Le risposte delle API non vanno mai messe in cache.
+/api/*
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow

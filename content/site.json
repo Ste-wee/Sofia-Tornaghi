@@ -7,7 +7,7 @@
   "titolo_recensioni": "Cosa dicono i pazienti",
   "contatti_intro": "Per informazioni o per prenotare un colloquio, scrivimi o prenota direttamente online.",
   "area6_desc": "Supporto psicologico a persone che hanno difficoltà nelle relazioni famigliari, amicali e sentimentali, con un particolare focus sulle difficoltà al termine di relazioni importanti. ",
-  "area5_desc": "Lavoro sugli ideali e i valori di genere ceh orientano il proprio modo di diventare uomini e donne. ",
+  "area5_desc": "Lavoro sugli ideali e i valori di genere che orientano il proprio modo di diventare uomini e donne. ",
   "area6_titolo": "Difficoltà relazionali",
   "area4_desc": "Il blocco universitario rappresenta una sofferenza interna del soggetto, che spesso vive una difficoltà interna a conciliare le proprie aspettative, quelle dei genitori e a questo si aggiunge la paura del futuro.",
   "area5_titolo": "Costruzione dell'identità di genere",
@@ -40,5 +40,8 @@
   "aree_intro": "Principali patologie trattate e aree di competenza.",
   "rec3_autore": "CP · Studio privato",
   "rec2_autore": "G.A. · Studio online",
-  "rec1_testo": "Mi sono sentito a mio agio fin dal primo minuto. Dopo tanto tempo e tanti altri professionisti, sono finalmente entusiasta di proseguire questo percorso di scoperta personale."
+  "rec1_testo": "Mi sono sentito a mio agio fin dal primo minuto. Dopo tanto tempo e tanti altri professionisti, sono finalmente entusiasta di proseguire questo percorso di scoperta personale.",
+  "email": "",
+  "whatsapp": "",
+  "whatsapp_messaggio": "Buongiorno Dott.ssa Tornaghi, ho visto il suo sito e vorrei informazioni per un primo colloquio."
 }
