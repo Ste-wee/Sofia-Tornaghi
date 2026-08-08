@@ -1,8 +1,12 @@
 import { isAuthenticated, jsonResponse, missingConfig } from '../_lib/auth.js';
-import { writeFile, writeJsonFile } from '../_lib/github.js';
+import { writeFile, writeJsonFile, deleteFile } from '../_lib/github.js';
 
 const PHOTO_PATH = 'content/foto.json';
 const MAX_BYTES = 3 * 1024 * 1024;
+
+// Solo i file generati dal pannello, che hanno sempre questa forma. La foto
+// originale committata a mano non corrisponde e non viene mai cancellata.
+const GENERATED_PHOTO = /^foto-profilo-\d+\.(jpg|png|webp)$/;
 
 // Il tipo dichiarato dal browser non viene creduto: si guardano i primi
 // byte del file. Un .jpg che in realtà è qualcos'altro non passa.
@@ -88,7 +92,24 @@ export async function onRequestPost(context) {
 
   try {
     await writeFile(env, filename, base64.replace(/\s/g, ''), 'Carica una nuova foto profilo dal pannello', null);
-    await writeJsonFile(env, PHOTO_PATH, { immagine: filename }, 'Aggiorna la foto profilo dal pannello');
+
+    let previous = '';
+    await writeJsonFile(env, PHOTO_PATH, function (current) {
+      previous = typeof current.immagine === 'string' ? current.immagine : '';
+      return { immagine: filename };
+    }, 'Aggiorna la foto profilo dal pannello');
+
+    // La foto sostituita non serve più a nessuno: senza questo passaggio il
+    // repository si riempirebbe di immagini morte a ogni cambio.
+    if (previous !== filename && GENERATED_PHOTO.test(previous)) {
+      try {
+        await deleteFile(env, previous, 'Rimuovi la foto profilo sostituita');
+      } catch (error) {
+        // Il caricamento è andato a buon fine: resta un file di troppo, non
+        // è un motivo per dire a Sofia che non ha funzionato.
+      }
+    }
+
     return jsonResponse({ ok: true, immagine: filename });
   } catch (error) {
     return jsonResponse({ error: error.message }, 502);

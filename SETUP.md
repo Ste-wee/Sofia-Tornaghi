@@ -82,7 +82,25 @@ applicate (Deployments → Retry deployment).
 
 ---
 
-## 4. Come si usa il pannello
+## 4. Limite ai tentativi di login
+
+**Da fare, non è facoltativo.** Quella password è l'unica cosa che protegge
+l'accesso in scrittura al repository. Il codice rallenta di 0,7 secondi ogni
+tentativo sbagliato, ma è una difesa debole: chi prova le password *in
+parallelo* non viene rallentato affatto, perché ogni richiesta aspetta per
+conto suo. A fermarlo può essere solo Cloudflare, che vede tutte le richieste
+insieme.
+
+Cloudflare Dashboard → il dominio → **Security** → **WAF** → *Rate limiting
+rules* → **Create rule**:
+
+- **Se** `URI Path` è uguale a `/api/login`
+- **Allora** blocca oltre **10 richieste al minuto** per indirizzo IP
+- Durata del blocco: 10 minuti
+
+---
+
+## 5. Come si usa il pannello
 
 Sofia apre `https://<il-dominio>/admin`, inserisce la password ed è dentro.
 
@@ -108,9 +126,14 @@ Sofia apre `https://<il-dominio>/admin`, inserisce la password ed è dentro.
   davvero a un JPG, PNG o WebP, con un limite di 3 MB. Il nome del file lo
   decide il server.
 - Il cookie di sessione è `HttpOnly`, `Secure` e `SameSite=Strict`.
-- I tentativi di login sbagliati vengono rallentati. Per una protezione più
-  robusta conviene aggiungere una **Rate limiting rule** di Cloudflare su
-  `/api/login` (es. 10 richieste al minuto per IP).
+- I tentativi di login sbagliati vengono rallentati, ma la protezione che
+  conta è la Rate limiting rule del punto 4.
+- **Cambiare `ADMIN_PASSWORD` non chiude le sessioni già aperte**, perché il
+  cookie è firmato con `SESSION_SECRET` e non con la password. Se una sessione
+  va chiusa subito — un computer smarrito, una password finita nelle mani
+  sbagliate — bisogna cambiare **anche `SESSION_SECRET`**: da quel momento
+  tutti i cookie in circolazione smettono di valere. Altrimenti la vecchia
+  sessione resta valida fino alla sua scadenza naturale, al massimo 8 ore.
 - Il repository è **pubblico**: nessun messaggio dei pazienti passa o viene
   salvato qui. Con i contatti diretti i messaggi viaggiano da WhatsApp o dal
   programma di posta del visitatore alla casella di Sofia, senza toccare né

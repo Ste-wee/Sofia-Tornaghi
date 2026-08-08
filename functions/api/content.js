@@ -1,19 +1,9 @@
 import { isAuthenticated, jsonResponse, missingConfig } from '../_lib/auth.js';
-import { readFile, writeJsonFile } from '../_lib/github.js';
+import { readFile, writeJsonFile, parseJsonObject } from '../_lib/github.js';
 import { GROUPS, sanitizeValues } from '../_lib/schema.js';
 
 const CONTENT_PATH = 'content/site.json';
 const PHOTO_PATH = 'content/foto.json';
-
-function parseJson(text, fallback) {
-  if (!text) return fallback;
-  try {
-    const parsed = JSON.parse(text);
-    return parsed && typeof parsed === 'object' ? parsed : fallback;
-  } catch (error) {
-    return fallback;
-  }
-}
 
 async function guard(request, env) {
   const incomplete = missingConfig(env);
@@ -45,8 +35,8 @@ export async function onRequestGet(context) {
 
     return jsonResponse({
       groups: GROUPS,
-      values: parseJson(site.text, {}),
-      foto: parseJson(photo.text, {}).immagine || ''
+      values: parseJsonObject(site.text),
+      foto: parseJsonObject(photo.text).immagine || ''
     });
   } catch (error) {
     return jsonResponse({ error: error.message }, 502);
@@ -74,11 +64,13 @@ export async function onRequestPut(context) {
   try {
     // I valori esistenti restano sotto: se in futuro si aggiunge un campo
     // allo schema, un salvataggio fatto da una scheda aperta da prima non
-    // cancella quello che non conosce.
-    const current = await readFile(env, CONTENT_PATH);
-    const merged = Object.assign({}, parseJson(current.text, {}), values);
-
-    await writeJsonFile(env, CONTENT_PATH, merged, 'Aggiorna i testi del sito dal pannello');
+    // cancella quello che non conosce. L'unione avviene qui dentro perche'
+    // in caso di conflitto viene rifatta sui dati appena riletti.
+    let merged;
+    await writeJsonFile(env, CONTENT_PATH, function (current) {
+      merged = Object.assign({}, current, values);
+      return merged;
+    }, 'Aggiorna i testi del sito dal pannello');
 
     return jsonResponse({ ok: true, values: merged });
   } catch (error) {

@@ -71,25 +71,78 @@ export async function writeFile(env, path, base64Content, message, sha) {
 
   if (!response.ok) {
     const detail = await response.text();
-    throw new Error('Scrittura di ' + path + ' non riuscita (GitHub ' + response.status + '): ' + detail.slice(0, 200));
+    // Lo stato viaggia sull'errore invece di essere ripescato dal testo del
+    // messaggio: il corpo restituito da GitHub potrebbe contenere "409" per
+    // conto suo e far scambiare un errore qualsiasi per un conflitto.
+    const error = new Error('Scrittura di ' + path + ' non riuscita (GitHub ' + response.status + '): ' + detail.slice(0, 200));
+    error.status = response.status;
+    throw error;
   }
 
   return response.json();
 }
 
-// Rilegge lo sha subito prima di scrivere: se nel frattempo qualcun altro
-// ha salvato, GitHub rifiuta il commit con 409 e qui si riprova una volta
-// sui dati aggiornati, invece di sovrascrivere in silenzio.
-export async function writeJsonFile(env, path, value, message) {
-  const base64 = textToBase64(JSON.stringify(value, null, 2) + '\n');
+// Un file di contenuto illeggibile non deve bloccare il salvataggio: si
+// riparte da un oggetto vuoto e i campi vengono riscritti.
+export function parseJsonObject(text) {
+  if (!text) return {};
+  try {
+    const parsed = JSON.parse(text);
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch (error) {
+    return {};
+  }
+}
 
+// Scrive un file JSON ricalcolando il contenuto a ogni tentativo.
+//
+// `buildValue` riceve il contenuto attuale del file e restituisce quello da
+// scrivere. Viene richiamata dopo ogni rilettura, ed è questo il punto: se
+// fra la lettura e la scrittura qualcun altro ha salvato, GitHub rifiuta il
+// commit con 409 e si riparte dai dati aggiornati. Calcolare il contenuto
+// una volta sola e riprovare col solo sha nuovo significherebbe cancellare
+// la modifica dell'altro, che è esattamente quello che si vuole evitare.
+export async function writeJsonFile(env, path, buildValue, message) {
   for (let attempt = 0; attempt < 2; attempt++) {
     const current = await readFile(env, path);
+    const value = buildValue(parseJsonObject(current.text));
+    const base64 = textToBase64(JSON.stringify(value, null, 2) + '\n');
+
     try {
       return await writeFile(env, path, base64, message, current.sha);
     } catch (error) {
-      const isConflict = String(error.message).indexOf('409') !== -1;
-      if (!isConflict || attempt === 1) throw error;
+      if (error.status !== 409 || attempt === 1) throw error;
     }
+  }
+}
+
+// Serve solo lo sha, quindi il contenuto non viene decodificato: per
+// un'immagine da qualche megabyte sarebbe lavoro sprecato.
+async function readSha(env, path) {
+  const response = await fetch(contentsUrl(env, path) + '?ref=' + encodeURIComponent(branch(env)), {
+    headers: headers(env)
+  });
+
+  if (response.status === 404) return null;
+  if (!response.ok) {
+    throw new Error('Lettura di ' + path + ' non riuscita (GitHub ' + response.status + ')');
+  }
+
+  const payload = await response.json();
+  return payload.sha || null;
+}
+
+export async function deleteFile(env, path, message) {
+  const sha = await readSha(env, path);
+  if (!sha) return;
+
+  const response = await fetch(contentsUrl(env, path), {
+    method: 'DELETE',
+    headers: headers(env),
+    body: JSON.stringify({ message: message, sha: sha, branch: branch(env) })
+  });
+
+  if (!response.ok) {
+    throw new Error('Cancellazione di ' + path + ' non riuscita (GitHub ' + response.status + ')');
   }
 }

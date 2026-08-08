@@ -1,7 +1,10 @@
 import { passwordMatches, createSessionToken, sessionCookieHeader, jsonResponse, missingConfig } from '../_lib/auth.js';
 
-// Ritardo su ogni tentativo fallito: rende impraticabile provare password a
-// raffica, senza bisogno di uno stato condiviso fra le richieste.
+// Ritardo su ogni tentativo fallito. Scoraggia chi prova le password una
+// dopo l'altra, ma NON chi le prova in parallelo: ogni richiesta aspetta per
+// conto proprio, quindi mille tentativi lanciati insieme finiscono comunque
+// in poco più di questo ritardo. La protezione vera è la Rate limiting rule
+// di Cloudflare su /api/login, che va configurata (vedi SETUP.md).
 function pause(milliseconds) {
   return new Promise(function (resolve) { setTimeout(resolve, milliseconds); });
 }
