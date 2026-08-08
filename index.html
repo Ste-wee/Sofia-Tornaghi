@@ -13,7 +13,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&amp;family=Inter:wght@300;400;500&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
 
@@ -364,9 +363,10 @@
 
         <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
 
-          <!-- Chiave pubblica Web3Forms: si ottiene su https://web3forms.com inserendo
-               l'indirizzo email a cui devono arrivare i messaggi. -->
-          <input type="hidden" name="access_key" value="INSERIRE_ACCESS_KEY_WEB3FORMS" />
+          <!-- La chiave Web3Forms arriva da content/site.json, così si cambia dal
+               pannello senza toccare il codice. E' una chiave pubblica per
+               definizione: sta nell'HTML e la vede chiunque apra la pagina. -->
+          <input type="hidden" name="access_key" data-content-value="web3forms_key" value="" />
           <input type="hidden" name="subject" value="Nuovo messaggio dal sito — Dott.ssa Sofia Tornaghi" />
           <input type="hidden" name="from_name" value="Sito Sofia Tornaghi" />
           <!-- Trappola anti-spam: i bot la compilano, le persone no. -->
@@ -447,6 +447,15 @@
       form.addEventListener('submit', function (e) {
         e.preventDefault();
 
+        // Senza chiave Web3Forms l'invio fallirebbe con un errore generico:
+        // meglio dirlo subito e indicare l'alternativa per essere ricontattati.
+        var key = form.querySelector('[name="access_key"]');
+        if (!key || !key.value) {
+          status.className = 'form-status is-error';
+          status.textContent = 'Il modulo non è ancora attivo. Nel frattempo puoi prenotare online qui sotto.';
+          return;
+        }
+
         status.className = 'form-status';
         status.textContent = 'Invio in corso...';
         button.disabled = true;
@@ -475,17 +484,6 @@
           });
       });
     })();
-  </script>
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", function (user) {
-        if (!user) {
-          window.netlifyIdentity.on("login", function () {
-            document.location.href = "/admin/";
-          });
-        }
-      });
-    }
   </script>
 </body>
 </html>
