@@ -362,31 +362,58 @@
         <h3 class="form-title">Scrivimi</h3>
         <p class="form-note">Risponderò entro breve. Il primo colloquio non richiede alcun impegno.</p>
 
-        <div class="form-group">
-          <label for="nome">Nome e cognome</label>
-          <input type="text" id="nome" placeholder="Il tuo nome" />
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" placeholder="tua@email.com" />
-        </div>
-        <div class="form-group">
-          <label for="motivo">Motivo del contatto</label>
-          <select id="motivo">
-            <option value="">Seleziona...</option>
-            <option>Primo colloquio individuale</option>
-            <option>Consulenza per un adolescente</option>
-            <option>Supporto genitoriale</option>
-            <option>Disturbi alimentari</option>
-            <option>Altro</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="messaggio">Messaggio (facoltativo)</label>
-          <textarea id="messaggio" placeholder="Raccontami brevemente cosa ti ha spinto a cercare supporto..."></textarea>
-        </div>
+        <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
 
-        <a href="https://www.miodottore.it/sofia-tornaghi/psicologo/milano" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display:block; text-align:center; width:100%;">Prenota un primo colloquio</a>
+          <!-- Chiave pubblica Web3Forms: si ottiene su https://web3forms.com inserendo
+               l'indirizzo email a cui devono arrivare i messaggi. -->
+          <input type="hidden" name="access_key" value="INSERIRE_ACCESS_KEY_WEB3FORMS" />
+          <input type="hidden" name="subject" value="Nuovo messaggio dal sito — Dott.ssa Sofia Tornaghi" />
+          <input type="hidden" name="from_name" value="Sito Sofia Tornaghi" />
+          <!-- Trappola anti-spam: i bot la compilano, le persone no. -->
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+
+          <div class="form-group">
+            <label for="nome">Nome e cognome</label>
+            <input type="text" id="nome" name="Nome e cognome" placeholder="Il tuo nome" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="Email" placeholder="tua@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="telefono-form">Telefono (facoltativo)</label>
+            <input type="tel" id="telefono-form" name="Telefono" placeholder="Il tuo numero" />
+          </div>
+          <div class="form-group">
+            <label for="motivo">Motivo del contatto</label>
+            <select id="motivo" name="Motivo del contatto" required>
+              <option value="">Seleziona...</option>
+              <option>Primo colloquio individuale</option>
+              <option>Consulenza per un adolescente</option>
+              <option>Supporto genitoriale</option>
+              <option>Disturbi alimentari</option>
+              <option>Altro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="messaggio">Messaggio (facoltativo)</label>
+            <textarea id="messaggio" name="Messaggio" placeholder="Raccontami brevemente cosa ti ha spinto a cercare supporto..."></textarea>
+          </div>
+
+          <div class="form-group form-privacy">
+            <label class="form-check">
+              <input type="checkbox" name="Consenso privacy" value="Sì" required />
+              <span>Ho letto e accetto il trattamento dei miei dati per essere ricontattato/a.</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary" id="contact-submit" style="width:100%;">Invia messaggio</button>
+
+          <p class="form-status" id="contact-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <p class="form-note" style="margin:1.5rem 0 0.8rem;">Oppure prenota direttamente online:</p>
+        <a href="https://www.miodottore.it/sofia-tornaghi/psicologo/milano" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="display:block; text-align:center; width:100%;">Prenota un primo colloquio</a>
       </div>
 
     </div>
@@ -408,6 +435,47 @@
 
     <script src="script.js"></script>
   <script src="content-loader.js"></script>
+
+  <!-- Invio del modulo contatti tramite Web3Forms, senza lasciare la pagina. -->
+  <script>
+    (function () {
+      var form = document.getElementById('contact-form');
+      if (!form) return;
+      var status = document.getElementById('contact-status');
+      var button = document.getElementById('contact-submit');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        status.className = 'form-status';
+        status.textContent = 'Invio in corso...';
+        button.disabled = true;
+
+        fetch(form.action, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form)
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (data.success) {
+              form.reset();
+              status.className = 'form-status is-ok';
+              status.textContent = 'Messaggio inviato. Ti risponderò al più presto.';
+            } else {
+              throw new Error(data.message || 'errore');
+            }
+          })
+          .catch(function () {
+            status.className = 'form-status is-error';
+            status.textContent = 'Invio non riuscito. Riprova, oppure scrivimi direttamente.';
+          })
+          .then(function () {
+            button.disabled = false;
+          });
+      });
+    })();
+  </script>
   <script>
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on("init", function (user) {

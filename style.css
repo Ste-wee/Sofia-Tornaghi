@@ -199,6 +199,12 @@
       transition: background 0.2s, transform 0.15s;
     }
     .btn-primary:hover { background: var(--sage-light); transform: translateY(-1px); }
+    button.btn-primary {
+      font-family: 'Inter', sans-serif;
+      border: none;
+      cursor: pointer;
+      appearance: none;
+    }
 
     .btn-secondary {
       display: inline-block;
@@ -643,6 +649,40 @@
       color: var(--text-muted);
       margin-bottom: 1.2rem;
     }
+
+    .form-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .form-check input[type="checkbox"] {
+      width: auto;
+      margin-top: 0.15rem;
+      flex-shrink: 0;
+      accent-color: var(--sage);
+    }
+
+    #contact-submit[disabled] {
+      opacity: 0.6;
+      cursor: default;
+      transform: none;
+    }
+
+    .form-status {
+      font-size: 0.82rem;
+      line-height: 1.5;
+      margin-top: 1rem;
+      min-height: 1.2em;
+      color: var(--text-muted);
+    }
+    .form-status.is-ok { color: var(--sage); }
+    .form-status.is-error { color: #a8564b; }
 
     /* FOOTER */
     footer {
