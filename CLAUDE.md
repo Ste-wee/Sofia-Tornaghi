@@ -37,6 +37,18 @@ foto da sola.
 con il CMS rotto. Prima di scrivere altro codice va deciso quale impianto
 tenere, perché toccano gli stessi file in modi inconciliabili.
 
+**Punto fermo dell'8 agosto:** il modulo di contatto non serve più, restano i
+pulsanti diretti (WhatsApp, email, telefono). Vale qualunque impianto si
+scelga, quindi Formspree esce di scena.
+
+**Ancora da decidere:** dove ospitare e quale pannello usare. Stefano
+preferirebbe restare su GitHub. Da tenere presente che **GitHub Pages non
+esegue codice lato server**, e che *entrambe* le soluzioni di CMS ne hanno
+bisogno: il nostro pannello per le API, Decap per il proxy OAuth del login.
+Non esiste quindi la variante "solo GitHub Pages": serve comunque un secondo
+servizio, oppure si sposta l'hosting su una piattaforma che esegue codice
+(il repository resta su GitHub in ogni caso).
+
 ### Branch `fix/audit-codice-e-ui` (5 agosto)
 
 - **GitHub Pages + GitHub Actions.** `index.html` viene *generato* da
