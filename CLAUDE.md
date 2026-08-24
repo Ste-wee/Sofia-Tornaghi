@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **9 agosto 2026** — correzioni al pannello dopo rilettura
+> Ultimo aggiornamento: **24 agosto 2026** — trasloco su Cloudflare Pages completato
 
 ---
 
@@ -24,40 +24,34 @@ foto da sola.
 
 - **Repository: `Ste-wee/Sofia-Tornaghi`, pubblico.** Conta: qui non deve mai
   finire nulla di riservato, in particolare nessun messaggio di pazienti.
-- **Hosting attuale: GitHub Pages**, su `https://ste-wee.github.io/Sofia-Tornaghi/`.
-  Verificato il 9 agosto 2026 con `curl`: risponde `server: GitHub.com` e serve
-  i file di `main` così come sono. Non è Cloudflare e non è Netlify, che erano
-  i due sospettati.
-  **Conseguenza pesante: il pannello lì non può funzionare.** GitHub Pages
-  serve file statici e non esegue codice, quindi `/api/login` risponde 404 e
-  `functions/` non gira mai. La pagina `/admin` si apre lo stesso e mostra la
-  casella della password, che però non potrà mai andare a buon fine.
-  **Anche `_headers` è inerte**: quel file lo leggono Cloudflare e Netlify, non
-  GitHub Pages. Sul sito live l'unica intestazione di sicurezza è l'HSTS che
-  mette GitHub di suo — CSP, `X-Frame-Options`, `nosniff` e `Permissions-Policy`
-  non arrivano al visitatore.
-- **⚠️ Esiste una seconda copia live, su Netlify**, all'indirizzo
-  `https://gentle-quokka-edc2ee.netlify.app/`. Serve gli stessi identici file
-  di `main` e si ricostruisce anch'essa a ogni push. Differenza rispetto a
-  GitHub Pages: qui `_headers` **viene applicato** (CSP, `X-Frame-Options`,
-  `nosniff`, `Permissions-Policy` arrivano davvero al visitatore). Ma nemmeno
-  Netlify fa funzionare il pannello: `/api/login` risponde 404 anche lì, perché
-  le funzioni di Netlify vogliono `netlify/functions/` e un'altra firma.
-  Due copie identiche raggiungibili significa **contenuto duplicato** per i
-  motori di ricerca, per giunta senza `canonical` (punto 7): nessuno può sapere
-  quale sia quella buona.
-- **Hosting di destinazione: Cloudflare Pages** (non un Worker: i file in
-  `functions/api/` usano la convenzione Pages, `onRequestPost(context)`, che su
-  un Worker non viene nemmeno chiamata). È l'unica delle tre che fa girare il
-  pannello **senza riscrivere una riga**. Finché il trasloco non è fatto, il
-  pannello resta una schermata che non funziona.
-- Non esiste nessun dominio proprio: l'indirizzo pubblico è quello `github.io`.
-  Il trasloco quindi non richiede di toccare il DNS, ma **cambia l'indirizzo**
-  del sito.
-- Su Cloudflare c'è un Worker `sofia-tornaghi` avanzato dalla sessione del
-  9 agosto, protetto da una policy di Access e quindi irraggiungibile dal
-  pubblico. Non serve a niente: va cancellato, insieme alla GitHub OAuth App
-  creata lo stesso giorno.
+- **Hosting: Cloudflare Pages**, progetto `website-sofy`, su
+  `https://website-sofy.pages.dev/`. Collegato al repository, si ricostruisce a
+  ogni push su `main`. È l'unica delle piattaforme provate che esegue
+  `functions/api/`, quindi **il pannello funziona solo qui**.
+  Verificato il 24 agosto 2026: login, lettura da GitHub e salvataggio
+  funzionano davvero — il commit `613bacd` è stato fatto dal pannello. Anche
+  `_headers` viene applicato: le intestazioni di sicurezza arrivano al
+  visitatore.
+  ⚠️ Il nome `website-sofy` **non è rinominabile**: su Pages il sottodominio è
+  fissato alla creazione. Per cambiarlo va rifatto il progetto da zero,
+  variabili comprese.
+- **GitHub Pages è ancora acceso**, su `https://ste-wee.github.io/Sofia-Tornaghi/`,
+  e serve gli stessi file di `main`. Va spento (punto 2 delle cose in sospeso):
+  finché resta ci sono due copie live e nessun `canonical` che dica quale sia
+  quella buona. Lì il pannello non può funzionare, perché GitHub Pages non
+  esegue codice, e `_headers` è lettera morta.
+- **Netlify: cancellato** il 24 agosto 2026 — `gentle-quokka-edc2ee.netlify.app`
+  risponde 404. Prima della cancellazione era rimasto fermo all'8 agosto: aveva
+  smesso di ricostruire a ogni push, quindi mostrava contenuti scaduti.
+- Non esiste ancora un dominio proprio: l'indirizzo pubblico è quello
+  `pages.dev`. **Conseguenza concreta:** la Rate limiting rule su `/api/login`
+  non è configurabile, perché il WAF di Cloudflare funziona solo sui domini
+  gestiti dall'account. Finché è così il pannello è protetto dalla sola
+  password, che quindi **deve restare quella generata a caso** e non una
+  memorizzabile.
+- Su Cloudflare resta un Worker `sofia-tornaghi`, avanzo dell'impianto OAuth
+  scartato e chiuso dietro una policy di Access. Non serve a niente: va
+  cancellato, insieme alla GitHub OAuth App creata lo stesso giorno.
 - Dominio di prenotazione esterno: MioDottore.
 
 ---
@@ -205,37 +199,47 @@ quello di telefono, ma solo se è un cellulare.
   trasloco su Cloudflare Pages diventa obbligatorio e non piu' rinviabile: le
   due cose non possono coesistere.
 
+- **24 agosto 2026** — **trasloco completato: il pannello funziona.** Creato il
+  progetto Cloudflare Pages `website-sofy`, configurate le cinque variabili,
+  verificata l'intera catena: login, lettura dei contenuti da GitHub e
+  salvataggio. Il commit `613bacd` è stato fatto da Sofia dal pannello, quindi
+  anche il permesso di scrittura del token è provato.
+  Netlify cancellato. Restano accesi GitHub Pages (da spegnere) e il Worker
+  OAuth inutile (da cancellare).
+  Due cose imparate, che valgono per il futuro:
+  - **la GET su `/api/login` non dice niente**: risponde 200 servendo la home,
+    perché quando la funzione non gestisce il metodo Cloudflare ripiega sui
+    file statici. La prova che le Functions girano è un **POST**, che deve
+    tornare JSON;
+  - **il nome di un progetto Pages non si cambia**: il sottodominio è fissato
+    alla creazione.
+
 ### In sospeso
 
-1. **Creare il progetto Cloudflare Pages** collegato al repository, e spegnere
-   GitHub Pages quando il nuovo indirizzo risponde. È il passo che sblocca
-   tutti gli altri: finché il sito sta su GitHub Pages, il pannello resta una
-   schermata di login che non può funzionare e `_headers` resta lettera morta.
-   ⚠️ Deve essere un progetto **Pages**, non un **Worker**: `functions/api/`
-   usa la convenzione Pages.
-   Da decidere insieme: l'indirizzo pubblico cambia (da `github.io` a
-   `pages.dev`), a meno di registrare un dominio proprio — che per un sito
-   professionale sarebbe comunque piu' appropriato.
-2. **Spegnere le copie di troppo.** Oggi il sito è live in due posti
-   contemporaneamente, GitHub Pages e Netlify, con gli stessi file. Quando
-   Cloudflare Pages risponde, vanno spenti entrambi gli altri, altrimenti le
-   copie diventano tre. Adesso si può fare senza rischi: nessuno dei due serve
-   un dominio proprio, quindi spegnerli non lascia offline nessun indirizzo che
-   qualcuno abbia dato via — a parte quelli stessi.
-3. **Configurare le variabili su Cloudflare** — finché non è fatto, il pannello
-   risponde "configurazione incompleta". Il sito pubblico funziona comunque.
-   Istruzioni in `SETUP.md`. *Tocca a Stefano.*
-   Nello stesso giro va creata la **Rate limiting rule** su `/api/login`
-   (punto 4 di `SETUP.md`): il ritardo sui tentativi sbagliati che c'è nel
-   codice non ferma chi prova le password in parallelo, e quella password
-   protegge la scrittura sul repository.
+1. **Spegnere GitHub Pages** — repository → Settings → Pages → Source: None.
+   È rimasta l'unica copia di troppo, e finché è accesa ci sono due indirizzi
+   con lo stesso contenuto e nessun `canonical` (punto 5) che dica quale conti.
+   Si può fare senza rischi: Cloudflare Pages è verificato e funzionante.
+2. **Cancellare gli avanzi**: il Worker `sofia-tornaghi` su Cloudflare e la
+   GitHub OAuth App. Erano per l'impianto OAuth scartato. Nessuno li usa, ma
+   fra sei mesi nessuno ricorderà cos'erano.
+3. **Registrare un dominio proprio**, da scegliere insieme a Sofia. Due motivi:
+   l'indirizzo attuale contiene il nome utente GitHub di Stefano e non il suo,
+   e **senza un dominio gestito dall'account non è configurabile la Rate
+   limiting rule** su `/api/login` (punto 4 di `SETUP.md`), che è l'unica
+   difesa contro i tentativi di password in parallelo.
+   ⚠️ Finché il dominio non c'è, la password di Sofia **deve restare quella
+   generata a caso**: è ciò che tiene in piedi la sicurezza del pannello al
+   posto della regola mancante.
 4. **Inserire l'indirizzo email** dal pannello: è l'unico recapito ancora
-   vuoto, quindi al momento il pulsante email non compare.
-5. **Informativa privacy** — non più bloccante da quando il modulo non c'è più,
+   vuoto, quindi il pulsante email non compare. WhatsApp e telefono funzionano
+   già (il numero è un cellulare, quindi scatta il ripiego previsto).
+5. Mancano `canonical` e `og:url`.
+6. **Informativa privacy** — non più bloccante da quando il modulo non c'è più,
    ma resta opportuna.
-6. **Font Google** caricati da `fonts.googleapis.com`, che riceve l'IP di ogni
-   visitatore. Ospitarli sul sito chiuderebbe la questione.
-7. Mancano `canonical` e `og:url`.
+7. **Font Google** caricati da `fonts.googleapis.com`, che riceve l'IP di ogni
+   visitatore. Ospitarli sul sito chiuderebbe la questione. La CSP è già stata
+   sistemata per accoglierli (`font-src 'self'`).
 8. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
    scartato: meglio per i motori di ricerca. Da valutare quando il resto è in
    piedi.
