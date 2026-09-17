@@ -107,7 +107,7 @@ index.html          la pagina, con segnaposto data-content sui testi modificabil
 style.css           tutti gli stili
 script.js           navbar e menu mobile
 content-loader.js   carica i JSON nella pagina e costruisce i link di contatto
-content/site.json   48 testi e recapiti modificabili dal pannello
+content/site.json   49 testi e recapiti modificabili dal pannello
 content/foto.json   il nome del file della foto profilo
 admin/index.html    il pannello di gestione (login + editor)
 functions/api/      login, logout, content, upload — Cloudflare Pages Functions
@@ -172,6 +172,14 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
 - Niente framework, niente dipendenze, niente passo di build. Il sito deve
   restare apribile e modificabile a mano.
 - I contenuti finiscono in pagina con `textContent`, mai `innerHTML`.
+- **Griglie a due colonne: `repeat(2, 1fr)` più il ritorno a una sola nel
+  blocco `@media (max-width: 768px)`.** È così che funzionano gia'
+  `.services-list` e `.areas-grid`, e conviene seguirle invece di
+  inventare ogni volta.
+  `auto-fit` con `minmax` va bene solo quando il numero di colonne puo'
+  davvero variare — due blocchi di testo che si impilano, per dire. Su un
+  contenuto di quattro elementi che vanno divisi in parti uguali, su schermo
+  largo ne affianca tre e lascia il quarto spaiato.
 - I commenti nel codice spiegano *perché*, non *cosa*.
 - Sviluppo sul branch indicato dalla sessione, mai direttamente su `main`.
 
@@ -255,6 +263,18 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   - **Numero di telefono leggibile**, formattato al momento di mostrarlo.
   Chiusi anche i due punti in sospeso di agosto: GitHub Pages spento, Worker
   OAuth e GitHub OAuth App cancellati. L'email l'aveva gia' messa Sofia.
+
+  Poi, guardando il risultato da PC, due sezioni si sono rivelate mal
+  distribuite sulla larghezza:
+  - **"Inizia il tuo percorso"** era una colonna di testo da 560px con 641px
+    di bianco accanto. Ora due colonne, divise dove Sofia aveva gia' lasciato
+    una riga vuota: le sedute da una parte, il consenso informato dall'altra.
+    I campi diventano `percorso_sedute` e `percorso_consenso`.
+  - **I contatti** erano l'unica sezione incolonnata al centro. Ora i quattro
+    pulsanti stanno su due colonne, e il titolo si allinea a quello delle
+    altre sezioni. Come effetto collaterale i pulsanti sulla stessa riga si
+    pareggiano in altezza, il che chiude lo scarto 63/75px lasciato aperto
+    dalla rimozione delle didascalie.
 
 ### In sospeso
 
