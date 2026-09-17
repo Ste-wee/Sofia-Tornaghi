@@ -599,10 +599,13 @@
       margin: 0 auto;
     }
 
+    /* Niente sfondo: quando la sezione era a due colonne questo riquadro
+       distingueva i pulsanti dal testo accanto. Ora che la colonna e' una
+       sola racchiude tutta la sezione, quindi ripete il lavoro della sezione
+       stessa — e con il colore delle sezioni grigie, rompendo l'alternanza
+       avorio/grigio proprio dove doveva tornare avorio. */
     .contact-form-block {
-      background: var(--fog);
-      border-radius: 4px;
-      padding: 2.5rem;
+      padding: 0;
     }
 
     /* Riga facoltativa sopra i pulsanti: se Sofia non scrive niente dal
@@ -779,8 +782,8 @@
       .services-list { grid-template-columns: 1fr; }
       .service-item { padding: 1.2rem 1rem; }
 
-      /* CONTATTI — form full width */
-      .contact-form-block { padding: 1.5rem 1rem; }
+      /* CONTATTI — su mobile la sezione da' gia' i suoi margini laterali */
+      .contact-form-block { padding: 0; }
 
       /* FOOTER */
       footer {
