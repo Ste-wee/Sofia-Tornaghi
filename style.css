@@ -588,11 +588,15 @@
     }
 
     /* CONTATTI */
+    /* Colonna unica: da quando il racconto sta nella sezione "Inizia il tuo
+       percorso", qui restano solo i pulsanti e una seconda colonna non
+       avrebbe niente da contenere. Larghezza limitata perche' pulsanti larghi
+       quanto lo schermo si leggono male. */
     .contact-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      align-items: start;
+      grid-template-columns: 1fr;
+      max-width: 540px;
+      margin: 0 auto;
     }
 
     .contact-form-block {
@@ -600,12 +604,10 @@
       border-radius: 4px;
       padding: 2.5rem;
     }
-    .form-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      color: var(--sage);
-      margin-bottom: 1.5rem;
-    }
+
+    /* Riga facoltativa sopra i pulsanti: se Sofia non scrive niente dal
+       pannello non deve lasciare uno spazio vuoto. */
+    .contact-form-block .section-body:empty { display: none; }
 
     .form-note {
       font-size: 0.8rem;

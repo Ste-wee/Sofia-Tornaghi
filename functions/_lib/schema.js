@@ -40,6 +40,18 @@ export const GROUPS = [
     ]
   },
   {
+    title: 'Inizia il tuo percorso',
+    fields: [
+      { name: 'percorso_titolo', label: 'Titolo della sezione', type: 'string' },
+      {
+        name: 'percorso_testo',
+        label: 'Come funziona',
+        type: 'text',
+        hint: 'Durata delle sedute, come funzionano gli incontri online, il consenso informato. Puoi andare a capo: gli a capo vengono rispettati sul sito.'
+      }
+    ]
+  },
+  {
     title: 'Recensioni',
     fields: [
       { name: 'titolo_recensioni', label: 'Titolo della sezione', type: 'string' },

@@ -231,8 +231,21 @@
     </div>
   </section>
 
+  <!-- INIZIA IL TUO PERCORSO -->
+  <!-- Sta qui e non in fondo perche' risponde alla domanda che nasce subito
+       dopo aver letto le aree: "mi ci riconosco, e adesso come funziona?".
+       In fondo, mescolato ai recapiti, era dettaglio operativo per chi aveva
+       gia' deciso, messo davanti a chi stava ancora decidendo. -->
+  <section id="percorso" class="alt">
+    <p class="section-eyebrow">Come funziona</p>
+    <h2 class="section-title" data-content="percorso_titolo">Inizia il tuo percorso</h2>
+    <p class="section-body" data-content="percorso_testo">
+      Le sedute durano 45 minuti circa. La frequenza la stabiliamo insieme nei primi colloqui.
+    </p>
+  </section>
+
   <!-- RECENSIONI -->
-  <section id="recensioni" class="alt">
+  <section id="recensioni">
     <p class="section-eyebrow">Recensioni verificate</p>
     <h2 class="section-title" data-content="titolo_recensioni">Cosa dicono i pazienti</h2>
 
@@ -266,7 +279,7 @@
   </section>
 
   <!-- SERVIZI & PREZZI -->
-  <section id="servizi">
+  <section id="servizi" class="alt">
     <p class="section-eyebrow">Servizi e tariffe</p>
 
     <p class="section-body" data-content="servizi_intro">
@@ -309,20 +322,16 @@
   </section>
 
   <!-- CONTATTI -->
-  <section id="contatti" class="alt">
+  <section id="contatti">
     <div class="contact-grid">
 
-      <div>
-        <p class="section-eyebrow">Contatti</p>
-        <h2 class="section-title" data-content="titolo_contatti">Inizia il tuo percorso</h2>
-        <p class="section-body" data-content="contatti_intro">
-          Per informazioni o per prenotare un colloquio, scrivimi o prenota direttamente online.
-        </p>
-
-      </div>
-
       <div class="contact-form-block">
-        <h3 class="form-title">Scrivimi</h3>
+        <!-- Nessun occhiello sopra: il titolo dice gia' "Contatti" e ripeterlo
+             due volte di fila non aggiunge niente. -->
+        <h2 class="section-title" data-content="titolo_contatti">Contatti</h2>
+        <!-- Vuoto di proposito: se Sofia scrive qualcosa dal pannello compare
+             qui sopra i pulsanti, altrimenti la riga sparisce (CSS :empty). -->
+        <p class="section-body" data-content="contatti_intro"></p>
         <p class="form-note">Scegli il modo che preferisci. Rispondo io personalmente, di norma in giornata.</p>
 
         <!-- I recapiti arrivano da content/site.json: content-loader.js costruisce
