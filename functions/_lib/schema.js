@@ -98,7 +98,12 @@ export const GROUPS = [
     fields: [
       { name: 'titolo_contatti', label: 'Titolo della sezione', type: 'string' },
       { name: 'contatti_intro', label: 'Introduzione', type: 'text' },
-      { name: 'indirizzo', label: 'Indirizzo dello studio', type: 'string' },
+      {
+        name: 'indirizzo',
+        label: 'Indirizzo dello studio',
+        type: 'text',
+        hint: 'Se gli studi sono più di uno, scrivine uno per riga: vanno a capo anche sul sito. Compare nel riquadro in alto e nel piè di pagina.'
+      },
       { name: 'telefono', label: 'Telefono', type: 'string' }
     ]
   },
