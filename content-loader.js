@@ -32,6 +32,34 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
   }
 
+  // Come mostrare il numero sotto il pulsante "Chiamami".
+  //
+  // Dal pannello si puo' scrivere come viene: "3351665278", "335 166 5278",
+  // "+39 335 1665278". Due regole:
+  //
+  // 1. Se ci sono gia' degli spazi o dei trattini, e' una scelta di chi ha
+  //    scritto e non si tocca.
+  // 2. Se e' tutto attaccato lo spezziamo, perche' dieci cifre di fila non si
+  //    leggono. Ma solo sui cellulari italiani, dove il raggruppamento 3-3-4
+  //    e' quello d'uso: sui fissi la lunghezza del prefisso cambia da citta' a
+  //    citta' (02 Milano, 0331 Busto Arsizio) e sbagliarla si noterebbe.
+  //
+  // Il numero su cui si chiama non passa di qui: quello resta il formato
+  // internazionale completo nell'attributo href.
+  function phoneForDisplay(raw, international) {
+    var written = String(raw).trim();
+    if (/[\s.\-\/]/.test(written)) return written;
+
+    var parts = international.match(/^39(3\d{2})(\d{3})(\d{4})$/);
+    if (!parts) return written;
+
+    var grouped = parts[1] + ' ' + parts[2] + ' ' + parts[3];
+
+    // Il prefisso internazionale lo teniamo solo se era stato scritto: serve
+    // a chi chiama dall'estero, ma non va aggiunto di nostra iniziativa.
+    return /^(\+|00)/.test(written) ? '+39 ' + grouped : grouped;
+  }
+
   function activate(element, href, noteText) {
     element.setAttribute('href', href);
     element.removeAttribute('hidden');
@@ -65,7 +93,7 @@
     var phone = toInternational(phoneRaw);
     var phoneButton = find('telefono');
     if (phoneButton && looksLikePhoneNumber(phone)) {
-      activate(phoneButton, 'tel:+' + phone, phoneRaw);
+      activate(phoneButton, 'tel:+' + phone, phoneForDisplay(phoneRaw, phone));
     }
 
     // WHATSAPP — se non è indicato un numero dedicato si riusa quello di
