@@ -610,11 +610,13 @@
        percorso", qui restano solo i pulsanti e una seconda colonna non
        avrebbe niente da contenere. Larghezza limitata perche' pulsanti larghi
        quanto lo schermo si leggono male. */
+    /* Larghezza piena, come tutte le altre sezioni: il titolo si allinea a
+       quello di "Servizi e tariffe" che sta subito sopra. Erano i pulsanti,
+       non la sezione, ad aver bisogno di un limite — e ora ce l'hanno per
+       conto loro. */
     .contact-grid {
       display: grid;
       grid-template-columns: 1fr;
-      max-width: 540px;
-      margin: 0 auto;
     }
 
     /* Niente sfondo: quando la sezione era a due colonne questo riquadro
@@ -638,9 +640,16 @@
     }
 
     /* PULSANTI DI CONTATTO DIRETTO */
+    /* Due per riga, come la lista delle tariffe qui sopra: e' la convenzione
+       del sito per le griglie a due colonne, e i contatti erano l'unica
+       sezione che non la seguiva. Con auto-fit su uno schermo largo ne
+       entravano tre, lasciando il quarto spaiato.
+       Effetto collaterale utile: i pulsanti sulla stessa riga si pareggiano in
+       altezza, quindi quelli senza il recapito sotto non risultano piu' bassi
+       degli altri. */
     .contact-actions {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 0.7rem;
     }
 
@@ -802,6 +811,7 @@
 
       /* CONTATTI — su mobile la sezione da' gia' i suoi margini laterali */
       .contact-form-block { padding: 0; }
+      .contact-actions { grid-template-columns: 1fr; }
 
       /* FOOTER */
       footer {
