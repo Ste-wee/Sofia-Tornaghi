@@ -72,7 +72,7 @@
           </div>
           <div>
             <div class="stat-num">In studio</div>
-            <div class="stat-label">Viale Gran Sasso 10, Milano</div>
+            <div class="stat-label" data-content="indirizzo">Viale Gran Sasso 10, Milano</div>
           </div>
           <div>
             <div class="stat-num">Online</div>
@@ -398,7 +398,9 @@
   <footer>
     <div>
       <div class="footer-brand">Dott.ssa Sofia Tornaghi</div>
-      <div class="footer-note" style="margin-top:0.4rem;">Psicologa · Viale Gran Sasso 10, Milano</div>
+      <!-- "Psicologa ·" resta fisso, l'indirizzo arriva dal pannello: cosi'
+           cambiando studio si aggiorna anche qui, non solo in cima. -->
+      <div class="footer-note" style="margin-top:0.4rem;">Psicologa · <span data-content="indirizzo">Viale Gran Sasso 10, Milano</span></div>
     </div>
     <div class="footer-links">
       <a href="#chi-sono">Chi sono</a>
