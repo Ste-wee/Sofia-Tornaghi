@@ -569,42 +569,30 @@
       font-weight: 400;
     }
 
+    /* Riga dei pagamenti, sotto le tariffe. Volutamente discreta: risponde a
+       una domanda pratica, non deve competere con i prezzi. */
+    .services-payment {
+      margin-top: 1.2rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem 0.7rem;
+      align-items: baseline;
+    }
+    .services-payment-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sand);
+    }
+
     /* CONTATTI */
     .contact-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 5rem;
       align-items: start;
-    }
-
-    .contact-info {
-      display: flex;
-      flex-direction: column;
-      gap: 1.8rem;
-      margin-top: 2.5rem;
-    }
-
-    .contact-item {
-      display: flex;
-      gap: 1.2rem;
-      align-items: flex-start;
-    }
-    .contact-icon {
-      width: 20px; height: 20px;
-      color: var(--sage);
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    .contact-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--sand);
-      margin-bottom: 0.25rem;
-    }
-    .contact-value {
-      font-size: 0.95rem;
-      color: var(--text);
     }
 
     .contact-form-block {

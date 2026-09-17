@@ -66,7 +66,13 @@ export const GROUPS = [
       { name: 'serv5_nome', label: 'Servizio 5 — nome', type: 'string' },
       { name: 'serv5_prezzo', label: 'Servizio 5 — prezzo', type: 'string' },
       { name: 'serv6_nome', label: 'Servizio 6 — nome', type: 'string' },
-      { name: 'serv6_prezzo', label: 'Servizio 6 — prezzo', type: 'string' }
+      { name: 'serv6_prezzo', label: 'Servizio 6 — prezzo', type: 'string' },
+      {
+        name: 'pagamenti',
+        label: 'Metodi di pagamento',
+        type: 'string',
+        hint: 'Compaiono sotto le tariffe. Separali con il punto centrale · , es. Contanti · Bonifico · PayPal. Se lasci vuoto, resta l\'elenco scritto nella pagina.'
+      }
     ]
   },
   {
