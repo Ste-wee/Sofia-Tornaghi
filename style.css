@@ -328,6 +328,14 @@
       line-height: 1.85;
     }
 
+    /* Testi che dal pannello arrivano scritti su piu' righe. La classe la
+       mette content-loader.js, e solo quando gli a capo ci sono davvero.
+       pre-line li conserva e continua a compattare gli spazi doppi, cosi' un
+       testo incollato da Word non si porta dietro la spaziatura originale. */
+    .testo-a-capo {
+      white-space: pre-line;
+    }
+
     /* CHI SONO */
     .about-grid {
       display: grid;

@@ -96,6 +96,18 @@
         var key = el.getAttribute('data-content');
         if (data[key] !== undefined && data[key] !== '') {
           el.textContent = data[key];
+
+          // Dal pannello si va a capo premendo Invio, ma in HTML un a capo
+          // vale come uno spazio: senza questa classe un testo scritto su
+          // piu' righe si appiattisce in un blocco unico.
+          //
+          // Si applica solo qui e solo quando gli a capo ci sono davvero. Se
+          // stesse nel CSS su tutti gli elementi [data-content] romperebbe i
+          // testi statici di ripiego, che nel sorgente dell'HTML sono
+          // indentati su piu' righe e andrebbero a capo dove non devono.
+          if (data[key].indexOf('\n') !== -1) {
+            el.classList.add('testo-a-capo');
+          }
         }
       });
 
