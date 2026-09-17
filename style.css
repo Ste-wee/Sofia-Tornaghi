@@ -328,6 +328,24 @@
       line-height: 1.85;
     }
 
+    /* Due colonne affiancate, ma senza una soglia fissa: auto-fit le affianca
+       finche' ciascuna sta in almeno 24rem, e sotto quella misura ne impila
+       una sola. Cosi' si adatta anche ai tablet e alle finestre strette, non
+       solo ai due casi "schermo grande" e "telefono". */
+    .percorso-colonne {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+      gap: 2rem 3.5rem;
+      align-items: start;
+      margin-top: 2rem;
+    }
+
+    /* Il limite di 560px di .section-body resta buono anche qui, e serve
+       proprio nel caso intermedio: quando le colonne si impilano ma la
+       finestra e' ancora larga (un tablet), senza limite verrebbero righe da
+       novanta caratteri, illeggibili. Affiancate la colonna misura 540px,
+       quindi il limite non stringe niente. */
+
     /* Testi che dal pannello arrivano scritti su piu' righe. La classe la
        mette content-loader.js, e solo quando gli a capo ci sono davvero.
        pre-line li conserva e continua a compattare gli spazi doppi, cosi' un

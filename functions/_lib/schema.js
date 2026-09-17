@@ -44,10 +44,16 @@ export const GROUPS = [
     fields: [
       { name: 'percorso_titolo', label: 'Titolo della sezione', type: 'string' },
       {
-        name: 'percorso_testo',
-        label: 'Come funziona',
+        name: 'percorso_sedute',
+        label: 'Come funzionano le sedute',
         type: 'text',
-        hint: 'Durata delle sedute, come funzionano gli incontri online, il consenso informato. Puoi andare a capo: gli a capo vengono rispettati sul sito.'
+        hint: 'Colonna di sinistra: durata, frequenza, incontri online, privacy. Puoi andare a capo: gli a capo vengono rispettati sul sito.'
+      },
+      {
+        name: 'percorso_consenso',
+        label: 'Il consenso informato',
+        type: 'text',
+        hint: 'Colonna di destra. Su schermi stretti finisce sotto l\'altra invece che di fianco. Se lasci vuoto, resta una colonna sola.'
       }
     ]
   },
