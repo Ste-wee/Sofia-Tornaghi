@@ -156,6 +156,12 @@ raccoglie nessun dato**, e questo è deliberato: i messaggi a una psicologa
 ricadono facilmente nei dati sanitari dell'art. 9 GDPR, e non farli passare da
 un fornitore terzo toglie il problema alla radice.
 
+L'indirizzo dello studio e' un campo multiriga: piu' studi si scrivono uno per
+riga. Compare nel riquadro in alto e nel piè di pagina. ⚠️ Compare anche nella
+`meta description` in testa al documento, e li' e' scritto a mano: quella la
+leggono i motori di ricerca prima che il JavaScript abbia girato, quindi non
+puo' arrivare dal pannello. Se lo studio cambia, va aggiornata a mano.
+
 I recapiti stanno in `site.json` e si impostano dal pannello. Ogni pulsante
 compare solo se il recapito è valido. Se manca il numero WhatsApp si riusa
 quello di telefono, ma solo se è un cellulare.
@@ -276,6 +282,17 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
     pareggiano in altezza, il che chiude lo scarto 63/75px lasciato aperto
     dalla rimozione delle didascalie.
 
+  Infine, controllando che Sofia potesse ancora modificare tutto:
+  - **il campo `indirizzo` era rimasto orfano.** Togliendo il blocco
+    ripetitivo era sparito l'unico segnaposto che lo usava, mentre
+    l'indirizzo restava scritto a mano nel riquadro in alto e nel piè di
+    pagina: lei avrebbe potuto cambiarlo, salvare, e non vedere succedere
+    niente. Ricollegati entrambi i punti.
+  - **`indirizzo` e' diventato multiriga**, cosi' si possono avere piu'
+    studi scrivendone uno per riga. Sfrutta la stessa macchina degli a capo
+    messa in piedi la mattina, quindi non e' costato codice nuovo e non pone
+    un limite al numero di studi — a differenza di un campo "indirizzo2".
+
 ### In sospeso
 
 1. **Registrare un dominio proprio**, da scegliere insieme a Sofia. Due motivi:
@@ -328,6 +345,19 @@ conseguenza.
 ## Come verificare le modifiche
 
 Non ci sono test automatici nel repository. Le verifiche si fanno così:
+
+**Dopo aver tolto pezzi di pagina, confrontare i segnaposto con lo schema.**
+È il controllo che ha scoperto il campo `indirizzo` rimasto orfano, e non si
+vede guardando il sito: l'indirizzo era lì, giusto, solo che era diventato
+immutabile. Si scopre il giorno in cui serve cambiarlo.
+
+```bash
+# i data-content nella pagina contro i campi in functions/_lib/schema.js:
+# nessuno dei due elenchi deve contenere qualcosa che manca all'altro,
+# a parte telefono/email/whatsapp/whatsapp_messaggio, che non riempiono un
+# segnaposto ma servono a costruire i pulsanti di contatto.
+```
+
 
 ```bash
 python3 -m http.server 8899     # poi aprire http://localhost:8899
