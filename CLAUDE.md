@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **24 agosto 2026** — trasloco su Cloudflare Pages completato
+> Ultimo aggiornamento: **17 settembre 2026** — pulizie e riordino della pagina
 
 ---
 
@@ -35,23 +35,21 @@ foto da sola.
   ⚠️ Il nome `website-sofy` **non è rinominabile**: su Pages il sottodominio è
   fissato alla creazione. Per cambiarlo va rifatto il progetto da zero,
   variabili comprese.
-- **GitHub Pages è ancora acceso**, su `https://ste-wee.github.io/Sofia-Tornaghi/`,
-  e serve gli stessi file di `main`. Va spento (punto 2 delle cose in sospeso):
-  finché resta ci sono due copie live e nessun `canonical` che dica quale sia
-  quella buona. Lì il pannello non può funzionare, perché GitHub Pages non
-  esegue codice, e `_headers` è lettera morta.
-- **Netlify: cancellato** il 24 agosto 2026 — `gentle-quokka-edc2ee.netlify.app`
-  risponde 404. Prima della cancellazione era rimasto fermo all'8 agosto: aveva
-  smesso di ricostruire a ogni push, quindi mostrava contenuti scaduti.
+- **Nessuna copia di troppo**, verificato con `curl` il 17 settembre 2026:
+  GitHub Pages spento (404 dall'origine, non dalla cache) e Netlify cancellato.
+  `website-sofy.pages.dev` è l'unico indirizzo vivo.
+  ⚠️ Spegnendo GitHub Pages la CDN continua a servire il sito per una decina
+  di minuti: un 200 subito dopo non vuol dire che l'operazione sia fallita. Si
+  distingue dall'intestazione: `X-Cache: HIT` con `Age` basso è cache
+  residua, `X-Cache: MISS` è la risposta vera dell'origine.
 - Non esiste ancora un dominio proprio: l'indirizzo pubblico è quello
   `pages.dev`. **Conseguenza concreta:** la Rate limiting rule su `/api/login`
   non è configurabile, perché il WAF di Cloudflare funziona solo sui domini
   gestiti dall'account. Finché è così il pannello è protetto dalla sola
   password, che quindi **deve restare quella generata a caso** e non una
   memorizzabile.
-- Su Cloudflare resta un Worker `sofia-tornaghi`, avanzo dell'impianto OAuth
-  scartato e chiuso dietro una policy di Access. Non serve a niente: va
-  cancellato, insieme alla GitHub OAuth App creata lo stesso giorno.
+- Il Worker `sofia-tornaghi` e la GitHub OAuth App, avanzi dell'impianto OAuth
+  scartato, sono stati **cancellati** il 17 settembre 2026.
 - Dominio di prenotazione esterno: MioDottore.
 
 ---
@@ -85,7 +83,7 @@ sapevano l'uno dell'altro. **La biforcazione è chiusa.** Scelta presa:
 
 **Se un domani servisse un CMS vero** — più tipi di contenuto, un blog,
 anteprime, workflow editoriale — Decap tornerebbe a essere la scelta giusta.
-Per 45 campi fissi e una foto è sovradimensionato.
+Per una cinquantina di campi fissi e una foto è sovradimensionato.
 
 ### Cosa è stato recuperato dal branch scartato
 
@@ -109,7 +107,7 @@ index.html          la pagina, con segnaposto data-content sui testi modificabil
 style.css           tutti gli stili
 script.js           navbar e menu mobile
 content-loader.js   carica i JSON nella pagina e costruisce i link di contatto
-content/site.json   45 testi e recapiti modificabili dal pannello
+content/site.json   48 testi e recapiti modificabili dal pannello
 content/foto.json   il nome del file della foto profilo
 admin/index.html    il pannello di gestione (login + editor)
 functions/api/      login, logout, content, upload — Cloudflare Pages Functions
@@ -117,6 +115,21 @@ functions/_lib/     auth, github, schema — codice condiviso fra le API
 _headers            CSP e intestazioni di sicurezza
 SETUP.md            configurazione: variabili Cloudflare, token, recapiti
 ```
+
+**Ordine delle sezioni nella pagina**, deciso il 17 settembre 2026:
+
+> Chi sono → Aree di specializzazione → **Inizia il tuo percorso** →
+> Recensioni → Servizi e tariffe → Contatti
+
+Letto di seguito: chi sono, cosa tratto, come funziona, cosa dicono i
+pazienti, quanto costa, come scrivermi. "Inizia il tuo percorso" sta li'
+perche' risponde alla domanda che nasce subito dopo le aree — *mi ci
+riconosco, e adesso come funziona?* — e non in fondo, dove arrivava a chi
+aveva gia' deciso.
+
+Le sezioni alternano sfondo avorio e grigio (`section.alt`). **Inserendone o
+togliendone una va risistemata l'alternanza su tutte quelle che seguono**,
+altrimenti due sezioni adiacenti dello stesso colore si fondono.
 
 ## Come funziona il pannello
 
@@ -146,6 +159,12 @@ un fornitore terzo toglie il problema alla radice.
 I recapiti stanno in `site.json` e si impostano dal pannello. Ogni pulsante
 compare solo se il recapito è valido. Se manca il numero WhatsApp si riusa
 quello di telefono, ma solo se è un cellulare.
+
+Il numero **si formatta al momento di mostrarlo**, non nel pannello: se Sofia
+lo scrive tutto attaccato viene spezzato 3-3-4, se ci mette gia' degli spazi
+si lascia com'e'. Solo sui cellulari italiani — sui fissi la lunghezza del
+prefisso cambia da citta' a citta' e raggrupparli male si noterebbe. Il numero
+su cui si chiama resta comunque il formato internazionale completo nell'href.
 
 ## Convenzioni
 
@@ -192,7 +211,7 @@ quello di telefono, ma solo se è un cellulare.
     che include il corpo restituito da GitHub; ora si guarda lo stato;
   - le foto sostituite non venivano mai cancellate;
   - `font-src` senza `'self'` avrebbe bloccato i font una volta ospitati in
-    casa (punto 6 delle cose in sospeso).
+    casa (vedi le cose in sospeso, "Font Google").
 
   Sciolto anche il dubbio su chi pubblica il sito: **è GitHub Pages** (dettagli
   in "Dove gira"). Confermata la scelta di tenere il pannello, quindi il
@@ -214,16 +233,32 @@ quello di telefono, ma solo se è un cellulare.
   - **il nome di un progetto Pages non si cambia**: il sottodominio è fissato
     alla creazione.
 
+- **17 settembre 2026** — pulizie e riordino della pagina, tutte cose emerse
+  guardandola insieme a Stefano schermo per schermo.
+  - **Gli a capo di Sofia venivano ignorati.** Aveva scritto testi su piu'
+    righe, con un titoletto e tre punti elenco sul consenso informato: in HTML
+    un a capo vale come uno spazio, e in `style.css` non c'era nulla che lo
+    prevedesse. Il blocco dei contatti era un muro da 1598 px. Ora
+    `content-loader.js` mette la classe `.testo-a-capo` quando il testo ne
+    contiene, e solo allora.
+  - **Tolte le informazioni ripetute dai contatti.** Delle quattro voci con
+    icona, indirizzo, telefono e "consulenze online" erano gia' scritti
+    altrove — l'indirizzo compariva quattro volte. L'unica che stava solo li'
+    erano i metodi di pagamento, spostati sotto le tariffe (dove la domanda
+    nasce) e resi modificabili dal pannello.
+  - **Tolte due didascalie** sotto i pulsanti: dicevano cose di natura diversa
+    dalle altre due, che mostrano il recapito.
+  - **Barra in alto allineata al piè di pagina**: Contatti al posto di
+    Recensioni.
+  - **Nuova sezione "Inizia il tuo percorso"** fra le aree e le recensioni.
+    La sezione contatti resta con i soli pulsanti, su colonna unica.
+  - **Numero di telefono leggibile**, formattato al momento di mostrarlo.
+  Chiusi anche i due punti in sospeso di agosto: GitHub Pages spento, Worker
+  OAuth e GitHub OAuth App cancellati. L'email l'aveva gia' messa Sofia.
+
 ### In sospeso
 
-1. **Spegnere GitHub Pages** — repository → Settings → Pages → Source: None.
-   È rimasta l'unica copia di troppo, e finché è accesa ci sono due indirizzi
-   con lo stesso contenuto e nessun `canonical` (punto 5) che dica quale conti.
-   Si può fare senza rischi: Cloudflare Pages è verificato e funzionante.
-2. **Cancellare gli avanzi**: il Worker `sofia-tornaghi` su Cloudflare e la
-   GitHub OAuth App. Erano per l'impianto OAuth scartato. Nessuno li usa, ma
-   fra sei mesi nessuno ricorderà cos'erano.
-3. **Registrare un dominio proprio**, da scegliere insieme a Sofia. Due motivi:
+1. **Registrare un dominio proprio**, da scegliere insieme a Sofia. Due motivi:
    l'indirizzo attuale contiene il nome utente GitHub di Stefano e non il suo,
    e **senza un dominio gestito dall'account non è configurabile la Rate
    limiting rule** su `/api/login` (punto 4 di `SETUP.md`), che è l'unica
@@ -231,16 +266,13 @@ quello di telefono, ma solo se è un cellulare.
    ⚠️ Finché il dominio non c'è, la password di Sofia **deve restare quella
    generata a caso**: è ciò che tiene in piedi la sicurezza del pannello al
    posto della regola mancante.
-4. **Inserire l'indirizzo email** dal pannello: è l'unico recapito ancora
-   vuoto, quindi il pulsante email non compare. WhatsApp e telefono funzionano
-   già (il numero è un cellulare, quindi scatta il ripiego previsto).
-5. Mancano `canonical` e `og:url`.
-6. **Informativa privacy** — non più bloccante da quando il modulo non c'è più,
+2. Mancano `canonical` e `og:url`.
+3. **Informativa privacy** — non più bloccante da quando il modulo non c'è più,
    ma resta opportuna.
-7. **Font Google** caricati da `fonts.googleapis.com`, che riceve l'IP di ogni
+4. **Font Google** caricati da `fonts.googleapis.com`, che riceve l'IP di ogni
    visitatore. Ospitarli sul sito chiuderebbe la questione. La CSP è già stata
    sistemata per accoglierli (`font-src 'self'`).
-8. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
+5. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
    scartato: meglio per i motori di ricerca. Da valutare quando il resto è in
    piedi.
 
