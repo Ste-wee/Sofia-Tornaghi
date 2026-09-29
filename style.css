@@ -413,6 +413,30 @@
       line-height: 1.45;
     }
 
+    /* Riquadro dell'approccio terapeutico. Stava scritto in linea
+       nell'HTML: era l'unico punto della pagina fatto cosi', e con una
+       palette che cambia sarebbe rimasto indietro. */
+    .approccio {
+      margin-top: 2rem;
+      padding: 1.5rem 2rem;
+      background: var(--fog);
+      border-radius: 3px;
+      border-left: 2px solid var(--sage);
+    }
+    .approccio-etichetta {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sand);
+      margin-bottom: 0.4rem;
+    }
+    .approccio-valore {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      color: var(--sage);
+      font-weight: 400;
+    }
+
     /* AREE DI LAVORO */
     .areas-grid {
       display: grid;

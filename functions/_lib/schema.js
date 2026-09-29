@@ -10,14 +10,31 @@ export const GROUPS = [
     title: 'Home',
     fields: [
       { name: 'hero_sub', label: 'Frase sotto il nome', type: 'text', hint: 'La prima cosa che si legge entrando nel sito.' },
-      { name: 'recensioni_num', label: 'Numero recensioni', type: 'string', hint: 'Es. 16+' }
+      { name: 'recensioni_num', label: 'Numero recensioni', type: 'string', hint: 'Es. 16+' },
+      {
+        name: 'hero_citazione',
+        label: 'Frase nel riquadro con la foto',
+        type: 'text',
+        hint: 'La frase fra virgolette accanto alla foto, in cima al sito. Tienila corta: e una frase a effetto, non un paragrafo.'
+      }
     ]
   },
   {
     title: 'Chi sono',
     fields: [
       { name: 'bio_p1', label: 'Primo paragrafo', type: 'text' },
-      { name: 'bio_p2', label: 'Secondo paragrafo', type: 'text' }
+      { name: 'bio_p2', label: 'Secondo paragrafo', type: 'text' },
+      { name: 'bio_p3', label: 'Terzo paragrafo', type: 'text', hint: 'Quello sotto il riquadro dell approccio.' },
+      { name: 'approccio_titolo', label: 'Approccio — etichetta', type: 'string', hint: 'La scritta piccola sopra, in maiuscoletto.' },
+      { name: 'approccio_valore', label: 'Approccio — testo', type: 'string', hint: 'La riga grande nel riquadro in evidenza.' },
+      { name: 'cred1_titolo', label: 'Credenziale 1 — etichetta', type: 'string' },
+      { name: 'cred1_valore', label: 'Credenziale 1 — testo', type: 'text' },
+      { name: 'cred2_titolo', label: 'Credenziale 2 — etichetta', type: 'string' },
+      { name: 'cred2_valore', label: 'Credenziale 2 — testo', type: 'text' },
+      { name: 'cred3_titolo', label: 'Credenziale 3 — etichetta', type: 'string' },
+      { name: 'cred3_valore', label: 'Credenziale 3 — testo', type: 'text' },
+      { name: 'cred4_titolo', label: 'Credenziale 4 — etichetta', type: 'string' },
+      { name: 'cred4_valore', label: 'Credenziale 4 — testo', type: 'text', hint: 'Le quattro credenziali sono la colonna a destra di "Chi sono". Da aggiornare quando la specializzazione si conclude.' }
     ]
   },
   {
@@ -72,6 +89,7 @@ export const GROUPS = [
   {
     title: 'Servizi e tariffe',
     fields: [
+      { name: 'titolo_servizi', label: 'Titolo della sezione', type: 'string' },
       { name: 'servizi_intro', label: 'Introduzione', type: 'text' },
       { name: 'serv1_nome', label: 'Servizio 1 — nome', type: 'string' },
       { name: 'serv1_prezzo', label: 'Servizio 1 — prezzo', type: 'string' },

@@ -3,7 +3,7 @@
   "rec2_testo": "Grazie al suo supporto sono riuscito a vedere con maggiore chiarezza alcune situazioni personali e a sviluppare strumenti concreti per affrontarle.",
   "rec3_testo": "Professionista seria e attenta, capace di mettere a proprio agio fin dal primo contatto. Un punto di riferimento affidabile per chi cerca ascolto e supporto.",
   "recensioni_num": "16+",
-  "titolo_contatti": "Contatti",
+  "titolo_contatti": "Scrivimi",
   "titolo_recensioni": "Cosa dicono i pazienti",
   "contatti_intro": "",
   "area6_desc": "Collaboro con istituti scolastici, associazioni ed enti del territorio per la progettazione e realizzazione di interventi psicoeducativi, sportelli di ascolto, laboratori sulle emozioni e percorsi di formazione. Elaboro interventi su misura focalizzati sulle esigenze specifiche del gruppo o della comunità.",
@@ -47,5 +47,18 @@
   "pagamenti": "Contanti · Bonifico · PayPal · Satispay · Carta",
   "percorso_titolo": "Inizia il tuo percorso",
   "percorso_sedute": "Le sedute durano 45 minuti circa. La frequenza la stabiliamo insieme nei primi colloqui.\nPer le sedute online vi invierò via mail un link il giorno stesso della seduta. \nPer garantire la privacy dei pazienti io mi troverò sempre in uno spazio riservato senza che nessuno possa sentire e con l’utilizzo delle cuffie, per la libera espressione dei pensieri e delle emozioni consiglio anche ai pazienti di collegarsi alle videochiamate in un luogo in cui hanno privacy e la libertà di esprimere ci che provano e pensano senza sentirsi giudicati da altri.",
-  "percorso_consenso": "Cos'è il Consenso Informato e come funziona?\nIl Consenso Informato è il documento che tutela la tua privacy e definisce i dettagli del nostro lavoro insieme (riservatezza, costi, modalità di svolgimento).\nEcco come gestire la consegna prima di iniziare:\n•\tIn presenza: Ti invierò il modulo via email prima del primo incontro per poterlo leggere con calma; basterà portarne una copia firmata in studio.\n•\tPer le sedute online: Puoi rinviarmelo comodamente via email, firmato digitalmente o scansionato/fotografato in modo leggibile.\n•\tPer i minorenni: Trattandosi di prestazioni sanitarie per minori di 18 anni, il documento deve essere firmato da entrambi i genitori (o dai tutori legali)."
+  "percorso_consenso": "Cos'è il Consenso Informato e come funziona?\nIl Consenso Informato è il documento che tutela la tua privacy e definisce i dettagli del nostro lavoro insieme (riservatezza, costi, modalità di svolgimento).\nEcco come gestire la consegna prima di iniziare:\n•\tIn presenza: Ti invierò il modulo via email prima del primo incontro per poterlo leggere con calma; basterà portarne una copia firmata in studio.\n•\tPer le sedute online: Puoi rinviarmelo comodamente via email, firmato digitalmente o scansionato/fotografato in modo leggibile.\n•\tPer i minorenni: Trattandosi di prestazioni sanitarie per minori di 18 anni, il documento deve essere firmato da entrambi i genitori (o dai tutori legali).",
+  "hero_citazione": "\"Offro uno spazio di ascolto professionale e protetto, volto a trasformare la crisi in un'opportunità di rilancio evolutivo.\"",
+  "bio_p3": "Sono psicoterapeuta in formazione presso l'Istituto del Minotauro di Milano, con una competenza specifica nei Disturbi della Nutrizione e dell'Alimentazione (DNA), ambito perfezionato attraverso Master universitario e intensa pratica clinica.",
+  "approccio_titolo": "Approccio terapeutico",
+  "approccio_valore": "Psicologia clinica-dinamica",
+  "cred1_titolo": "Formazione",
+  "cred1_valore": "Scuola di Psicoterapia Adolescente e Giovane Adulto del Minotauro (2023 – in corso)",
+  "cred2_titolo": "Laurea Magistrale",
+  "cred2_valore": "Psicologia per il Benessere – Università Cattolica del Sacro Cuore, Milano (2021)",
+  "cred3_titolo": "Specializzazione",
+  "cred3_valore": "Master DCA – Disturbi del Comportamento Alimentare, Associazione Ananke (2021–2022)",
+  "cred4_titolo": "Esperienza Clinica",
+  "cred4_valore": "CPS Cassina Nuova – ambulatorio specialistico DNA (2024 – in corso)",
+  "titolo_servizi": "Quanto costa"
 }
