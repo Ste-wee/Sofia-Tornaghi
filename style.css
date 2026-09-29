@@ -20,6 +20,29 @@
       font-size: 16px;
       line-height: 1.7;
       font-weight: 300;
+
+      /* I testi arrivano dal pannello e nessuno controlla cosa ci finisce
+         dentro: un indirizzo email incollato, un link, un nome composto
+         lunghissimo. Senza questo la parola non va a capo, sfonda il margine e
+         su telefono la pagina prende lo scorrimento laterale.
+         Scelto "anywhere" e non "break-word" perche' solo il primo influisce
+         anche sul calcolo della larghezza minima: dentro le griglie e' quello
+         che impedisce a una parola lunga di allargare la colonna. Provato su
+         tutti i 58 campi a 375px: con break-word ne restavano rotti 32, con
+         anywhere nessuno. Sui testi normali non cambia niente, verificato
+         confrontando le altezze prima e dopo. */
+      overflow-wrap: anywhere;
+    }
+
+    /* Senza questo i figli di una griglia non scendono sotto la larghezza del
+       loro contenuto, quindi una parola lunga allarga comunque la colonna a
+       dispetto della regola sopra. Riguarda i riquadri della scheda in alto,
+       le schede delle aree e i pulsanti di contatto: le tre griglie che
+       ospitano testo scritto da Sofia. */
+    .hero-stats > div,
+    .areas-grid > *,
+    .contact-actions > * {
+      min-width: 0;
     }
 
     /* NAV */

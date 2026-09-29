@@ -10,7 +10,12 @@ export const GROUPS = [
     title: 'Home',
     fields: [
       { name: 'hero_sub', label: 'Frase sotto il nome', type: 'text', hint: 'La prima cosa che si legge entrando nel sito.' },
-      { name: 'recensioni_num', label: 'Numero recensioni', type: 'string', hint: 'Es. 16+' },
+      {
+        name: 'recensioni_num',
+        label: 'Numero recensioni',
+        type: 'string',
+        hint: 'Poche cifre, es. 16+. Finisce in un riquadro in evidenza accanto alla foto, disegnato per un numero e non per una frase.'
+      },
       {
         name: 'hero_citazione',
         label: 'Frase nel riquadro con la foto',
@@ -92,7 +97,12 @@ export const GROUPS = [
       { name: 'titolo_servizi', label: 'Titolo della sezione', type: 'string' },
       { name: 'servizi_intro', label: 'Introduzione', type: 'text' },
       { name: 'serv1_nome', label: 'Servizio 1 — nome', type: 'string' },
-      { name: 'serv1_prezzo', label: 'Servizio 1 — prezzo', type: 'string' },
+      {
+        name: 'serv1_prezzo',
+        label: 'Servizio 1 — prezzo',
+        type: 'string',
+        hint: 'Attenzione: questo prezzo compare anche nel riquadro in evidenza accanto alla foto, in cima al sito. Scrivi solo la cifra, es. 60 €, non una frase.'
+      },
       { name: 'serv2_nome', label: 'Servizio 2 — nome', type: 'string' },
       { name: 'serv2_prezzo', label: 'Servizio 2 — prezzo', type: 'string' },
       { name: 'serv3_nome', label: 'Servizio 3 — nome', type: 'string' },
