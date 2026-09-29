@@ -5,10 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dott.ssa Sofia Tornaghi — Psicologa a Milano</title>
   <meta name="description" content="Dott.ssa Sofia Tornaghi, psicologa a Milano. Supporto per adolescenza, giovane adultità e disturbi alimentari. Studio in Viale Gran Sasso 10, anche online." />
+
+  <!-- Il sito risponde anche su website-sofy.pages.dev, che Cloudflare tiene
+       comunque acceso. Questo dice ai motori di ricerca quale dei due conta,
+       cosi' non lo trattano come contenuto duplicato. -->
+  <link rel="canonical" href="https://sofiatornaghi.com/" />
+
   <meta property="og:title" content="Dott.ssa Sofia Tornaghi — Psicologa a Milano" />
   <meta property="og:description" content="Supporto psicologico per adolescenti, giovani adulti e disturbi alimentari. Studio a Milano, anche online." />
-  <meta property="og:image" content="foto-professionale.jpg" />
+  <!-- Gli indirizzi Open Graph devono essere assoluti: WhatsApp, Facebook e
+       LinkedIn leggono questi tag dai loro server, dove un percorso relativo
+       non significa niente. Prima l'anteprima restava senza foto. -->
+  <meta property="og:image" content="https://sofiatornaghi.com/foto-professionale.jpg" />
+  <meta property="og:url" content="https://sofiatornaghi.com/" />
   <meta property="og:type" content="website" />
+  <meta property="og:locale" content="it_IT" />
+  <meta property="og:site_name" content="Dott.ssa Sofia Tornaghi" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
