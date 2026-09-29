@@ -119,7 +119,7 @@ index.html          la pagina, con segnaposto data-content sui testi modificabil
 style.css           tutti gli stili
 script.js           navbar e menu mobile
 content-loader.js   carica i JSON nella pagina e costruisce i link di contatto
-content/site.json   49 testi e recapiti modificabili dal pannello
+content/site.json   62 testi e recapiti modificabili dal pannello
 content/foto.json   il nome del file della foto profilo
 admin/index.html    il pannello di gestione (login + editor)
 functions/api/      login, logout, content, upload — Cloudflare Pages Functions
@@ -198,6 +198,12 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   davvero variare — due blocchi di testo che si impilano, per dire. Su un
   contenuto di quattro elementi che vanno divisi in parti uguali, su schermo
   largo ne affianca tre e lascia il quarto spaiato.
+- **Testo che arriva dal pannello: `overflow-wrap: anywhere`, non
+  `break-word`.** Solo il primo influisce sul calcolo della larghezza minima,
+  che dentro una griglia e' cio' che impedisce a una parola lunga di allargare
+  la colonna. Confrontati il 29 settembre sugli stessi 58 campi: con
+  `break-word` ne restavano rotti 32, con `anywhere` nessuno. Serve anche
+  `min-width: 0` sui figli delle griglie, altrimenti la regola non basta.
 - I commenti nel codice spiegano *perché*, non *cosa*.
 - Sviluppo sul branch indicato dalla sessione, mai direttamente su `main`.
 
@@ -324,21 +330,56 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   **il periodo della Rate limiting rule si puo' impostare solo a 10 secondi** e
   **la durata del blocco pure** — gli intervalli piu' lunghi sono a pagamento.
 
+  Nella stessa giornata, rileggendo la pagina con i testi definitivi di Sofia:
+  **ventisette testi visibili non erano modificabili da lei**, e tre dicevano
+  gia' cose sbagliate o le avrebbero dette a breve.
+  - **La citazione accanto alla foto** conteneva ancora una vecchia versione
+    della biografia, rimasta indietro quando Sofia ha riscritto i testi il 24
+    agosto: in cima si leggeva una cosa, in "Chi sono" un'altra. Ora e' un
+    campo suo. ⚠️ **Il testo non e' stato toccato: tocca a lei riscriverlo.**
+  - **Il prezzo compariva due volte**, scritto a mano nella scheda in alto e
+    modificabile nelle tariffe. Ora la scheda legge la stessa tariffa, e
+    l'etichetta e' passata da "Seduta individuale" a "Primo colloquio" perche'
+    le tariffe **non sono tutte uguali** — la somministrazione test e' a 70 € —
+    e con l'etichetta generica il riquadro poteva mentire.
+  - **Le credenziali** dicevano "(2023 – in corso)" e "psicoterapeuta in
+    formazione". Sofia e' specializzanda: il giorno in cui si specializza
+    sbagliavano tutte insieme, proprio quando avrebbe voluto dirlo. Ora sono
+    sue, insieme al riquadro dell'approccio e al terzo paragrafo della bio.
+  - **Le sei sezioni** avevano tre intestazioni diverse. Ora tutte occhiello
+    piu' titolo: servizi prende "Quanto costa", contatti riprende l'occhiello e
+    il titolo diventa "Scrivimi".
+  I campi passano da 49 a 62. Tutti i valori nuovi sono quelli che la pagina
+  gia' mostrava: niente riscritto, solo reso modificabile.
+
+  Infine, **la pagina non reggeva testi imprevisti.** Provati tutti i 58
+  segnaposto uno alla volta, a 375px e 1440px: una parola lunga senza spazi —
+  un indirizzo email incollato, un link — faceva sfondare il margine in **40
+  campi su 58** su telefono, e i due numeri della scheda in alto si rompevano
+  anche con una frase normale. Risolto con `overflow-wrap: anywhere` sul body
+  piu' `min-width: 0` sui figli delle griglie che ospitano testo suo.
+
 ### In sospeso
 
-1. **Informativa privacy** — non più bloccante da quando il modulo non c'è più,
+1. **La citazione accanto alla foto va riscritta da Sofia.** Dal 29 settembre
+   e' un campo del pannello ("Frase nel riquadro con la foto"), ma dentro c'e'
+   ancora il testo vecchio: quello che lei aveva sostituito il 24 agosto nella
+   biografia e che qui era rimasto indietro. Finche' non la riscrive, il sito
+   dice due cose diverse su di lei. Non l'abbiamo cambiata noi perche' e' la
+   frase in cui si presenta.
+2. **Informativa privacy** — non più bloccante da quando il modulo non c'è più,
    ma resta opportuna.
-2. **Font Google** caricati da `fonts.googleapis.com`, che riceve l'IP di ogni
+3. **Font Google** caricati da `fonts.googleapis.com`, che riceve l'IP di ogni
    visitatore. Ospitarli sul sito chiuderebbe la questione. La CSP è già stata
    sistemata per accoglierli (`font-src 'self'`).
-3. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
+4. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
    scartato: meglio per i motori di ricerca. Da valutare quando il resto è in
    piedi.
-4. **Il dominio `.it`**, libero al 29 settembre 2026 e non preso. Non serve al
+5. **Il dominio `.it`**, libero al 29 settembre 2026 e non preso. Non serve al
    sito, ma chi sente il nome a voce tende a digitare `.it` e oggi non trova
    niente. Se preso, va solo fatto rimandare al `.com` — **non agganciato a
    Pages**, altrimenti si ricrea il contenuto duplicato.
-5. **Inoltro delle email** (Cloudflare Email Routing, gratuito). Oggi la posta
+6. **Inoltro delle email** (Cloudflare Email Routing, gratuito). Oggi la posta
    verso `@sofiatornaghi.com` rimbalza: un paziente che tirasse a indovinare
    `info@sofiatornaghi.com` non riceverebbe risposta e non se ne accorgerebbe.
    Valutato il 29 settembre e rimandato. Attivarlo cambia il record SPF.
@@ -375,6 +416,14 @@ conseguenza.
 ## Come verificare le modifiche
 
 Non ci sono test automatici nel repository. Le verifiche si fanno così:
+
+**Dopo aver cambiato il CSS o aggiunto campi, provare i testi imprevisti.**
+Riempire ogni segnaposto, uno alla volta, con una frase lunga e con una parola
+senza spazi, e guardare se `document.scrollWidth` supera la larghezza della
+finestra. **Va fatto a 375px**: da PC quasi tutto regge comunque, e il 29
+settembre erano 2 campi rotti da PC contro 40 su telefono. Il segnale da
+guardare e' solo lo scorrimento orizzontale della pagina: la giostra delle
+recensioni sfora di proposito e falsa ogni altro controllo.
 
 **Dopo aver tolto pezzi di pagina, confrontare i segnaposto con lo schema.**
 È il controllo che ha scoperto il campo `indirizzo` rimasto orfano, e non si
