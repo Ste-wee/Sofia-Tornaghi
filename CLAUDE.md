@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **17 settembre 2026** — pulizie e riordino della pagina
+> Ultimo aggiornamento: **29 settembre 2026** — dominio proprio e messa in sicurezza
 
 ---
 
@@ -24,8 +24,13 @@ foto da sola.
 
 - **Repository: `Ste-wee/Sofia-Tornaghi`, pubblico.** Conta: qui non deve mai
   finire nulla di riservato, in particolare nessun messaggio di pazienti.
-- **Hosting: Cloudflare Pages**, progetto `website-sofy`, su
-  `https://website-sofy.pages.dev/`. Collegato al repository, si ricostruisce a
+- **Indirizzo pubblico: `https://sofiatornaghi.com`**, registrato il 29
+  settembre 2026 su Cloudflare Registrar e intestato a Sofia. `www` rimanda al
+  dominio nudo con un redirect 301 che conserva percorso e query, e `http`
+  passa a `https` da solo. Il `.it` **non e' stato preso**, ed era libero al 29
+  settembre.
+- **Hosting: Cloudflare Pages**, progetto `website-sofy`, raggiungibile anche
+  su `https://website-sofy.pages.dev/`. Collegato al repository, si ricostruisce a
   ogni push su `main`. È l'unica delle piattaforme provate che esegue
   `functions/api/`, quindi **il pannello funziona solo qui**.
   Verificato il 24 agosto 2026: login, lettura da GitHub e salvataggio
@@ -37,17 +42,24 @@ foto da sola.
   variabili comprese.
 - **Nessuna copia di troppo**, verificato con `curl` il 17 settembre 2026:
   GitHub Pages spento (404 dall'origine, non dalla cache) e Netlify cancellato.
-  `website-sofy.pages.dev` è l'unico indirizzo vivo.
+  Restano vivi il dominio e `website-sofy.pages.dev`, che Cloudflare tiene
+  acceso e **non si puo' spegnere**: a dire ai motori di ricerca quale dei due
+  conta ci pensa il `canonical` in `index.html`.
   ⚠️ Spegnendo GitHub Pages la CDN continua a servire il sito per una decina
   di minuti: un 200 subito dopo non vuol dire che l'operazione sia fallita. Si
   distingue dall'intestazione: `X-Cache: HIT` con `Age` basso è cache
   residua, `X-Cache: MISS` è la risposta vera dell'origine.
-- Non esiste ancora un dominio proprio: l'indirizzo pubblico è quello
-  `pages.dev`. **Conseguenza concreta:** la Rate limiting rule su `/api/login`
-  non è configurabile, perché il WAF di Cloudflare funziona solo sui domini
-  gestiti dall'account. Finché è così il pannello è protetto dalla sola
-  password, che quindi **deve restare quella generata a caso** e non una
-  memorizzabile.
+- **La Rate limiting rule su `/api/login` è attiva** dal 29 settembre, resa
+  possibile dal dominio: il WAF funziona solo sui domini gestiti dall'account.
+  Valori e verifica nel punto 4 di `SETUP.md`.
+  ⚠️ Sul piano gratuito i valori sono i minimi concessi — 5 richieste ogni 10
+  secondi, blocco di 10 secondi — quindi rallenta un attacco di tre ordini di
+  grandezza ma non lo ferma. **La password di Sofia deve restare quella
+  generata a caso**: è lei la difesa vera, la regola è la seconda linea.
+- **Le email sono protette dallo spoofing** con tre record TXT (SPF, DMARC,
+  DKIM vuoto): nessuno può scrivere fingendosi Sofia. Dettagli nel punto 6 di
+  `SETUP.md`. ⚠️ Quei record **impediscono anche a lei di inviare** dal dominio,
+  se un domani volesse un indirizzo suo.
 - Il Worker `sofia-tornaghi` e la GitHub OAuth App, avanzi dell'impianto OAuth
   scartato, sono stati **cancellati** il 17 settembre 2026.
 - Dominio di prenotazione esterno: MioDottore.
@@ -293,25 +305,43 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
     messa in piedi la mattina, quindi non e' costato codice nuovo e non pone
     un limite al numero di studi — a differenza di un campo "indirizzo2".
 
+- **29 settembre 2026** — **il sito ha il suo dominio ed è messo in sicurezza.**
+  `sofiatornaghi.com` registrato su Cloudflare Registrar e intestato a Sofia,
+  agganciato al progetto Pages, con `www` che rimanda al dominio nudo
+  conservando percorso e query.
+  Chiusi di conseguenza due punti in sospeso da agosto:
+  - **`canonical` e `og:url`**, che aspettavano l'indirizzo definitivo per
+    poter essere scritti. Con l'occasione corretto `og:image`, che puntava a un
+    percorso relativo: chi condivideva il link su WhatsApp vedeva un'anteprima
+    **senza foto**, perché quei tag li leggono i server di Meta, dove un
+    percorso relativo non significa niente.
+  - **La Rate limiting rule** su `/api/login`, provata davvero e non solo
+    configurata: quindici richieste di fila, le prime sei passano, dalla settima
+    Cloudflare risponde 429. Verificato anche che il blocco si sciolga da solo,
+    perché uno che restasse attaccato chiuderebbe fuori Sofia.
+  Aggiunti tre record TXT contro lo spoofing delle email.
+  Due limiti del piano gratuito, scoperti sul campo e da mettere in conto:
+  **il periodo della Rate limiting rule si puo' impostare solo a 10 secondi** e
+  **la durata del blocco pure** — gli intervalli piu' lunghi sono a pagamento.
+
 ### In sospeso
 
-1. **Registrare un dominio proprio**, da scegliere insieme a Sofia. Due motivi:
-   l'indirizzo attuale contiene il nome utente GitHub di Stefano e non il suo,
-   e **senza un dominio gestito dall'account non è configurabile la Rate
-   limiting rule** su `/api/login` (punto 4 di `SETUP.md`), che è l'unica
-   difesa contro i tentativi di password in parallelo.
-   ⚠️ Finché il dominio non c'è, la password di Sofia **deve restare quella
-   generata a caso**: è ciò che tiene in piedi la sicurezza del pannello al
-   posto della regola mancante.
-2. Mancano `canonical` e `og:url`.
-3. **Informativa privacy** — non più bloccante da quando il modulo non c'è più,
+1. **Informativa privacy** — non più bloccante da quando il modulo non c'è più,
    ma resta opportuna.
-4. **Font Google** caricati da `fonts.googleapis.com`, che riceve l'IP di ogni
+2. **Font Google** caricati da `fonts.googleapis.com`, che riceve l'IP di ogni
    visitatore. Ospitarli sul sito chiuderebbe la questione. La CSP è già stata
    sistemata per accoglierli (`font-src 'self'`).
-5. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
+3. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
    scartato: meglio per i motori di ricerca. Da valutare quando il resto è in
    piedi.
+4. **Il dominio `.it`**, libero al 29 settembre 2026 e non preso. Non serve al
+   sito, ma chi sente il nome a voce tende a digitare `.it` e oggi non trova
+   niente. Se preso, va solo fatto rimandare al `.com` — **non agganciato a
+   Pages**, altrimenti si ricrea il contenuto duplicato.
+5. **Inoltro delle email** (Cloudflare Email Routing, gratuito). Oggi la posta
+   verso `@sofiatornaghi.com` rimbalza: un paziente che tirasse a indovinare
+   `info@sofiatornaghi.com` non riceverebbe risposta e non se ne accorgerebbe.
+   Valutato il 29 settembre e rimandato. Attivarlo cambia il record SPF.
 
 ### Decisioni prese, da non rimettere in discussione senza motivo
 

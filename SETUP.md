@@ -1,166 +1,206 @@
-# Configurazione del sito
+# Configurazione del sito
+
+Il sito è statico e gira su **Cloudflare Pages**. Sopra ci sono due cose che
+richiedono una configurazione iniziale:
+
+- i **contatti**, cioè i pulsanti che aprono WhatsApp, l'email o il telefono;
+- il **pannello di gestione** su `/admin`, con cui Sofia modifica i testi e la
+  foto senza toccare il codice e senza bisogno di un account GitHub.
+
+Tutto quello che segue si fa una volta sola.
+
+---
+
+## 1. Recapiti per i contatti
+
+Il sito non ha un modulo da compilare: nella sezione Contatti ci sono pulsanti
+che aprono direttamente WhatsApp, il programma di posta o il telefono del
+visitatore. Non passa nessun dato da server di terze parti, perché il sito non
+raccoglie niente: mette solo in comunicazione due persone.
+
+I recapiti si impostano dal pannello `/admin`, sezione **Come farsi
+contattare**:
+
+- **Indirizzo email** — attiva il pulsante "Scrivimi una email".
+- **Numero WhatsApp** — con prefisso internazionale, es. `+39 335 166 5278`.
+  Se lo lasci vuoto e il campo *Telefono* contiene un cellulare italiano,
+  WhatsApp usa automaticamente quel numero.
+- **Messaggio precompilato** — il testo che il visitatore si ritrova già
+  scritto su WhatsApp e può modificare prima di inviare.
+
+**Ogni pulsante compare solo se il recapito è configurato.** Un campo vuoto
+non produce un pulsante che non porta da nessuna parte. Il pulsante di
+prenotazione su MioDottore è invece sempre presente.
+
+Gli indirizzi non sono scritti nell'HTML: arrivano da `content/site.json`
+tramite JavaScript, il che li rende meno facili da raccogliere per i robot
+che cercano email da spammare.
+
+---
+
+## 2. Token GitHub per il pannello
+
+Il pannello salva le modifiche facendo un commit sul repository. Serve un token
+con il permesso minimo per farlo.
+
+1. GitHub → Settings → Developer settings → **Personal access tokens** →
+   *Fine-grained tokens* → **Generate new token**
+2. **Repository access**: solo `Ste-wee/Sofia-Tornaghi`
+3. **Permissions** → Repository permissions → **Contents: Read and write**
+   (nient'altro)
+4. Imposta una scadenza e segnati in agenda di rigenerarlo prima che scada:
+   quando scade, il pannello smette di salvare.
+
+---
+
+## 3. Variabili su Cloudflare Pages
+
+Cloudflare Dashboard → il progetto Pages → **Settings** → **Environment
+variables** → aggiungile per l'ambiente *Production* (e *Preview*, se usi le
+anteprime).
+
+| Nome | Tipo | Valore |
+|---|---|---|
+| `ADMIN_PASSWORD` | **Secret** | La password con cui Sofia entra in `/admin` |
+| `SESSION_SECRET` | **Secret** | Una stringa casuale lunga, serve solo al server |
+| `GITHUB_TOKEN` | **Secret** | Il token del punto 2 |
+| `GITHUB_OWNER` | Testo | `Ste-wee` |
+| `GITHUB_REPO` | Testo | `Sofia-Tornaghi` |
+| `GITHUB_BRANCH` | Testo | `main` (facoltativa, è già il valore predefinito) |
+
+Le prime tre vanno inserite come **Secret** (crittografate, non più
+rileggibili dal pannello Cloudflare), non come variabili di testo.
+
+Per generare `SESSION_SECRET` e una buona `ADMIN_PASSWORD`:
+
+```bash
+openssl rand -base64 32
+```
+
+Dopo aver salvato le variabili serve un **nuovo deploy** perché vengano
+applicate (Deployments → Retry deployment).
+
+---
+
+## 4. Limite ai tentativi di login
+
+**Fatto il 29 settembre 2026 e verificato.** Quella password è l'unica cosa che protegge
+l'accesso in scrittura al repository. Il codice rallenta di 0,7 secondi ogni
+tentativo sbagliato, ma è una difesa debole: chi prova le password *in
+parallelo* non viene rallentato affatto, perché ogni richiesta aspetta per
+conto suo. A fermarlo può essere solo Cloudflare, che vede tutte le richieste
+insieme.
+
+Cloudflare Dashboard → il dominio → **Security** → **WAF** → *Rate limiting
+rules* → **Create rule**:
+
+- **Se** `URI Path` è uguale a `/api/login`
+- **Allora** blocca oltre **5 richieste ogni 10 secondi** per indirizzo IP
+- Durata del blocco: **10 secondi**
+
+⚠️ **I valori sono quelli massimi che il piano gratuito concede**, non quelli
+ideali: il periodo si puo' impostare solo a 10 secondi (1 minuto, 5 minuti e
+1 ora sono riservati ai piani a pagamento), e anche la durata del blocco e'
+limitata a 10 secondi. In pratica la regola abbassa il ritmo di un attacco da
+migliaia di tentativi al secondo a una trentina al minuto: un rallentamento di
+tre ordini di grandezza, non un muro.
+
+**Verificata davvero**, non solo configurata: quindici richieste consecutive a
+`/api/login`, le prime sei ricevono 401 dal pannello, dalla settima in poi
+Cloudflare risponde 429 senza far arrivare la richiesta. Dopo l'attesa il
+blocco si scioglie da solo e il pannello torna a rispondere — controllato,
+perche' un blocco che restasse attaccato chiuderebbe fuori Sofia.
+
+---
+
+## 5. Come si usa il pannello
+
+Sofia apre **https://sofiatornaghi.com/admin**, inserisce la password ed è dentro.
+
+- I testi sono raggruppati per sezione del sito. Si modificano e si preme
+  **Salva le modifiche**.
+- La foto si carica dalla sezione in cima: parte subito, senza premere Salva.
+- Ogni salvataggio è un commit sul repository, quindi resta lo storico ed è
+  sempre possibile tornare indietro.
+- Il sito pubblico si aggiorna dopo la ricostruzione automatica di Cloudflare,
+  circa un minuto.
+- La sessione dura 8 ore, poi va rifatto il login.
+
+---
+
+## 6. Email: protezione dallo spoofing
 
-Il sito è statico e gira su **Cloudflare Pages**. Sopra ci sono due cose che
-richiedono una configurazione iniziale:
+Fatto il 29 settembre 2026. Il dominio **non invia e non riceve posta** — Sofia
+usa il suo indirizzo Gmail — quindi tre record TXT dichiarano che nessuna email
+da `@sofiatornaghi.com` e' legittima. Senza, chiunque potrebbe scrivere ai
+pazienti fingendosi lei.
 
-- i **contatti**, cioè i pulsanti che aprono WhatsApp, l'email o il telefono;
-- il **pannello di gestione** su `/admin`, con cui Sofia modifica i testi e la
-  foto senza toccare il codice e senza bisogno di un account GitHub.
-
-Tutto quello che segue si fa una volta sola.
-
----
-
-## 1. Recapiti per i contatti
-
-Il sito non ha un modulo da compilare: nella sezione Contatti ci sono pulsanti
-che aprono direttamente WhatsApp, il programma di posta o il telefono del
-visitatore. Non passa nessun dato da server di terze parti, perché il sito non
-raccoglie niente: mette solo in comunicazione due persone.
-
-I recapiti si impostano dal pannello `/admin`, sezione **Come farsi
-contattare**:
-
-- **Indirizzo email** — attiva il pulsante "Scrivimi una email".
-- **Numero WhatsApp** — con prefisso internazionale, es. `+39 335 166 5278`.
-  Se lo lasci vuoto e il campo *Telefono* contiene un cellulare italiano,
-  WhatsApp usa automaticamente quel numero.
-- **Messaggio precompilato** — il testo che il visitatore si ritrova già
-  scritto su WhatsApp e può modificare prima di inviare.
-
-**Ogni pulsante compare solo se il recapito è configurato.** Un campo vuoto
-non produce un pulsante che non porta da nessuna parte. Il pulsante di
-prenotazione su MioDottore è invece sempre presente.
-
-Gli indirizzi non sono scritti nell'HTML: arrivano da `content/site.json`
-tramite JavaScript, il che li rende meno facili da raccogliere per i robot
-che cercano email da spammare.
-
----
-
-## 2. Token GitHub per il pannello
-
-Il pannello salva le modifiche facendo un commit sul repository. Serve un token
-con il permesso minimo per farlo.
-
-1. GitHub → Settings → Developer settings → **Personal access tokens** →
-   *Fine-grained tokens* → **Generate new token**
-2. **Repository access**: solo `Ste-wee/Sofia-Tornaghi`
-3. **Permissions** → Repository permissions → **Contents: Read and write**
-   (nient'altro)
-4. Imposta una scadenza e segnati in agenda di rigenerarlo prima che scada:
-   quando scade, il pannello smette di salvare.
-
----
-
-## 3. Variabili su Cloudflare Pages
-
-Cloudflare Dashboard → il progetto Pages → **Settings** → **Environment
-variables** → aggiungile per l'ambiente *Production* (e *Preview*, se usi le
-anteprime).
-
-| Nome | Tipo | Valore |
+| Nome | Contenuto | Cosa dice |
 |---|---|---|
-| `ADMIN_PASSWORD` | **Secret** | La password con cui Sofia entra in `/admin` |
-| `SESSION_SECRET` | **Secret** | Una stringa casuale lunga, serve solo al server |
-| `GITHUB_TOKEN` | **Secret** | Il token del punto 2 |
-| `GITHUB_OWNER` | Testo | `Ste-wee` |
-| `GITHUB_REPO` | Testo | `Sofia-Tornaghi` |
-| `GITHUB_BRANCH` | Testo | `main` (facoltativa, è già il valore predefinito) |
+| `@` | `v=spf1 -all` | nessun server al mondo puo' inviare con questo dominio |
+| `_dmarc` | `v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s` | le email che falliscono vanno **rifiutate**, non messe nello spam; vale anche per i sottodomini |
+| `*._domainkey` | `v=DKIM1; p=` | non esiste nessuna chiave di firma, quindi ogni firma e' falsa |
 
-Le prime tre vanno inserite come **Secret** (crittografate, non più
-rileggibili dal pannello Cloudflare), non come variabili di testo.
+⚠️ **Se un domani Sofia volesse un indirizzo sul dominio** — per esempio
+`sofia@sofiatornaghi.com` da cui *inviare* — **questi record glielo
+impediscono** finche' non vengono cambiati. E' il tipo di cosa che fra due anni
+fa perdere mezza giornata a qualcuno che non sa che esistono.
 
-Per generare `SESSION_SECRET` e una buona `ADMIN_PASSWORD`:
-
-```bash
-openssl rand -base64 32
-```
-
-Dopo aver salvato le variabili serve un **nuovo deploy** perché vengano
-applicate (Deployments → Retry deployment).
-
----
-
-## 4. Limite ai tentativi di login
-
-**Da fare, non è facoltativo.** Quella password è l'unica cosa che protegge
-l'accesso in scrittura al repository. Il codice rallenta di 0,7 secondi ogni
-tentativo sbagliato, ma è una difesa debole: chi prova le password *in
-parallelo* non viene rallentato affatto, perché ogni richiesta aspetta per
-conto suo. A fermarlo può essere solo Cloudflare, che vede tutte le richieste
-insieme.
-
-Cloudflare Dashboard → il dominio → **Security** → **WAF** → *Rate limiting
-rules* → **Create rule**:
-
-- **Se** `URI Path` è uguale a `/api/login`
-- **Allora** blocca oltre **10 richieste al minuto** per indirizzo IP
-- Durata del blocco: 10 minuti
-
----
-
-## 5. Come si usa il pannello
-
-Sofia apre `https://<il-dominio>/admin`, inserisce la password ed è dentro.
-
-- I testi sono raggruppati per sezione del sito. Si modificano e si preme
-  **Salva le modifiche**.
-- La foto si carica dalla sezione in cima: parte subito, senza premere Salva.
-- Ogni salvataggio è un commit sul repository, quindi resta lo storico ed è
-  sempre possibile tornare indietro.
-- Il sito pubblico si aggiorna dopo la ricostruzione automatica di Cloudflare,
-  circa un minuto.
-- La sessione dura 8 ore, poi va rifatto il login.
-
----
-
-## Note di sicurezza
-
-- Il token GitHub sta **solo lato server**, nelle variabili di Cloudflare. Chi
-  usa il pannello non lo vede e non può estrarlo.
-- Il pannello accetta in scrittura **solo i campi previsti** in
-  `functions/_lib/schema.js`: non è possibile usarlo per scrivere altri file
-  del repository.
-- Le immagini vengono accettate solo se i primi byte del file corrispondono
-  davvero a un JPG, PNG o WebP, con un limite di 3 MB. Il nome del file lo
-  decide il server.
-- Il cookie di sessione è `HttpOnly`, `Secure` e `SameSite=Strict`.
-- I tentativi di login sbagliati vengono rallentati, ma la protezione che
-  conta è la Rate limiting rule del punto 4.
-- **Cambiare `ADMIN_PASSWORD` non chiude le sessioni già aperte**, perché il
-  cookie è firmato con `SESSION_SECRET` e non con la password. Se una sessione
-  va chiusa subito — un computer smarrito, una password finita nelle mani
-  sbagliate — bisogna cambiare **anche `SESSION_SECRET`**: da quel momento
-  tutti i cookie in circolazione smettono di valere. Altrimenti la vecchia
-  sessione resta valida fino alla sua scadenza naturale, al massimo 8 ore.
-- Il repository è **pubblico**: nessun messaggio dei pazienti passa o viene
-  salvato qui. Con i contatti diretti i messaggi viaggiano da WhatsApp o dal
-  programma di posta del visitatore alla casella di Sofia, senza toccare né
-  il sito né il repository.
-
----
-
-## Note pratiche sui contatti diretti
-
-- **WhatsApp è di Meta.** Il primo contatto va benissimo, ma è bene che lo
-  scambio resti sul piano organizzativo (disponibilità, appuntamenti) e che i
-  contenuti clinici si affrontino in seduta. Per questo il messaggio
-  precompilato è volutamente generico.
-- **Numero dedicato.** Se il numero del sito è lo stesso personale, vale la
-  pena valutare una seconda utenza o WhatsApp Business, così i contatti di
-  lavoro restano separati.
-- **Su computer** il pulsante email apre il programma di posta predefinito.
-  Chi non ne ha uno configurato vede comunque l'indirizzo scritto sotto al
-  pulsante e può copiarlo.
-
----
-
-## In sospeso
-
-- **Informativa privacy.** Con i contatti diretti il sito non raccoglie più
-  dati, quindi non serve più una casella di consenso. Resta comunque
-  opportuna una breve pagina di informativa, dato che Sofia tratta i dati dei
-  pazienti nella sua attività.
-- **Font Google.** Sono caricati da `fonts.googleapis.com`, che riceve l'IP di
+Per **ricevere** invece basterebbe attivare Cloudflare Email Routing, gratuito,
+che inoltra tutto sulla casella Gmail di Sofia. Valutato il 29 settembre e
+rimandato: oggi la posta indirizzata al dominio rimbalza, quindi un paziente
+che tirasse a indovinare `info@sofiatornaghi.com` non riceverebbe risposta e
+non se ne accorgerebbe. Attivarlo in seguito non richiede di disfare nulla, ma
+cambia il record SPF, che deve autorizzare i server di inoltro di Cloudflare.
+
+---
+
+## Note di sicurezza
+
+- Il token GitHub sta **solo lato server**, nelle variabili di Cloudflare. Chi
+  usa il pannello non lo vede e non può estrarlo.
+- Il pannello accetta in scrittura **solo i campi previsti** in
+  `functions/_lib/schema.js`: non è possibile usarlo per scrivere altri file
+  del repository.
+- Le immagini vengono accettate solo se i primi byte del file corrispondono
+  davvero a un JPG, PNG o WebP, con un limite di 3 MB. Il nome del file lo
+  decide il server.
+- Il cookie di sessione è `HttpOnly`, `Secure` e `SameSite=Strict`.
+- I tentativi di login sbagliati vengono rallentati, ma la protezione che
+  conta è la Rate limiting rule del punto 4.
+- **Cambiare `ADMIN_PASSWORD` non chiude le sessioni già aperte**, perché il
+  cookie è firmato con `SESSION_SECRET` e non con la password. Se una sessione
+  va chiusa subito — un computer smarrito, una password finita nelle mani
+  sbagliate — bisogna cambiare **anche `SESSION_SECRET`**: da quel momento
+  tutti i cookie in circolazione smettono di valere. Altrimenti la vecchia
+  sessione resta valida fino alla sua scadenza naturale, al massimo 8 ore.
+- Il repository è **pubblico**: nessun messaggio dei pazienti passa o viene
+  salvato qui. Con i contatti diretti i messaggi viaggiano da WhatsApp o dal
+  programma di posta del visitatore alla casella di Sofia, senza toccare né
+  il sito né il repository.
+
+---
+
+## Note pratiche sui contatti diretti
+
+- **WhatsApp è di Meta.** Il primo contatto va benissimo, ma è bene che lo
+  scambio resti sul piano organizzativo (disponibilità, appuntamenti) e che i
+  contenuti clinici si affrontino in seduta. Per questo il messaggio
+  precompilato è volutamente generico.
+- **Numero dedicato.** Se il numero del sito è lo stesso personale, vale la
+  pena valutare una seconda utenza o WhatsApp Business, così i contatti di
+  lavoro restano separati.
+- **Su computer** il pulsante email apre il programma di posta predefinito.
+  Chi non ne ha uno configurato vede comunque l'indirizzo scritto sotto al
+  pulsante e può copiarlo.
+
+---
+
+## In sospeso
+
+- **Informativa privacy.** Con i contatti diretti il sito non raccoglie più
+  dati, quindi non serve più una casella di consenso. Resta comunque
+  opportuna una breve pagina di informativa, dato che Sofia tratta i dati dei
+  pazienti nella sua attività.
+- **Font Google.** Sono caricati da `fonts.googleapis.com`, che riceve l'IP di
   ogni visitatore. Ospitarli direttamente sul sito eliminerebbe il problema.
