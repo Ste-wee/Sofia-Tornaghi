@@ -22,9 +22,12 @@
   <meta property="og:locale" content="it_IT" />
   <meta property="og:site_name" content="Dott.ssa Sofia Tornaghi" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&amp;family=Inter:wght@300;400;500&amp;display=swap" rel="stylesheet" />
+  <!-- I font stanno in fonts/ e le regole @font-face sono in cima a style.css.
+       Qui c'erano tre collegamenti a Google: due preconnect e il foglio di
+       stile. Erano l'unica cosa che faceva uscire dati dal browser del
+       visitatore. -->
+  <link rel="preload" href="fonts/inter-300-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/cormorant-garamond-300-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
