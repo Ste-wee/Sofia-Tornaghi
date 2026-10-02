@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **29 settembre 2026** — dominio proprio e messa in sicurezza
+> Ultimo aggiornamento: **2 ottobre 2026** — font in casa, nessuna richiesta esterna
 
 ---
 
@@ -62,6 +62,15 @@ foto da sola.
   se un domani volesse un indirizzo suo.
 - Il Worker `sofia-tornaghi` e la GitHub OAuth App, avanzi dell'impianto OAuth
   scartato, sono stati **cancellati** il 17 settembre 2026.
+- **Il sito non contatta nessuno.** Verificato il 2 ottobre 2026 sul sito
+  live: zero richieste verso domini esterni, nessun cookie, nessun
+  localStorage, nessun tracciatore, nessun modulo. I font stanno in `fonts/` e
+  non si prendono piu' da Google. La CSP non autorizza piu' nessuna origine
+  esterna: `style-src` e `font-src` sono tornati a `'self'`.
+- **Quanto resta in cache**, verificato il 2 ottobre: `/` e
+  `content/site.json` hanno `max-age=0`, quindi **le modifiche di Sofia si
+  vedono subito**. CSS, JS e font hanno `max-age=14400`, quattro ore: le
+  modifiche al codice arrivano con ritardo a chi e' gia' passato.
 - Dominio di prenotazione esterno: MioDottore.
 
 ---
@@ -121,6 +130,7 @@ script.js           navbar e menu mobile
 content-loader.js   carica i JSON nella pagina e costruisce i link di contatto
 content/site.json   62 testi e recapiti modificabili dal pannello
 content/foto.json   il nome del file della foto profilo
+fonts/              i due caratteri del sito, ospitati qui e non presi da Google
 admin/index.html    il pannello di gestione (login + editor)
 functions/api/      login, logout, content, upload — Cloudflare Pages Functions
 functions/_lib/     auth, github, schema — codice condiviso fra le API
@@ -359,6 +369,25 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   anche con una frase normale. Risolto con `overflow-wrap: anywhere` sul body
   piu' `min-width: 0` sui figli delle griglie che ospitano testo suo.
 
+- **2 ottobre 2026** — **i font sono ospitati sul sito: adesso non esce piu'
+  niente dal browser di chi visita.**
+  Partiti da una domanda di Stefano — a cosa e' agganciato il sito, serve
+  un'informativa? — e verificato invece di rispondere a memoria: nessun
+  cookie, nessun localStorage, nessun tracciatore, nessun modulo. **Una sola
+  richiesta esterna**, a `fonts.googleapis.com`, che tirava dentro quattro file
+  da `fonts.gstatic.com` e consegnava a Google l'indirizzo IP di ogni
+  visitatore. Era l'unico aggancio a un terzo, e l'unico motivo per cui
+  l'informativa avrebbe dovuto parlare di trasferimenti a societa' esterne.
+  Scaricati solo i pesi davvero in uso, **contati sulla pagina renderizzata**:
+  cinque, non otto. Cormorant 500 e il corsivo 400 venivano scaricati da sempre
+  e non comparivano da nessuna parte. Tenuti gli `unicode-range` originali,
+  quindi il file latin-ext si scarica solo se serve: per una pagina italiana il
+  browser prende circa 197 KB, gli stessi di prima, ma dalla stessa connessione
+  del sito invece che da due domini Google.
+  Verificato sul sito live che tutti e cinque i caratteri vengano davvero usati
+  e non sostituiti da ripieghi di sistema, misurando la larghezza di una stessa
+  frase e confrontandola con quella di un font inesistente.
+
 ### In sospeso
 
 1. **La citazione accanto alla foto va riscritta da Sofia.** Dal 29 settembre
@@ -367,19 +396,23 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
    biografia e che qui era rimasto indietro. Finche' non la riscrive, il sito
    dice due cose diverse su di lei. Non l'abbiamo cambiata noi perche' e' la
    frase in cui si presenta.
-2. **Informativa privacy** — non più bloccante da quando il modulo non c'è più,
-   ma resta opportuna.
-3. **Font Google** caricati da `fonts.googleapis.com`, che riceve l'IP di ogni
-   visitatore. Ospitarli sul sito chiuderebbe la questione. La CSP è già stata
-   sistemata per accoglierli (`font-src 'self'`).
-4. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
+2. **Informativa privacy.** Dal 2 ottobre il sito **non contatta piu' nessuno**
+   e non raccoglie niente, quindi l'informativa deve descrivere un'assenza, non
+   un rapporto con terzi: molto piu' semplice da far scrivere e da mantenere
+   vera. Resta comunque opportuna, perche' il sito e' la vetrina di un'attivita'
+   sanitaria e Sofia e' titolare del trattamento per i dati dei suoi pazienti.
+   ⚠️ **Non e' una valutazione tecnica: serve qualcuno di competente.** Sofia
+   ha gia' un'informativa per lo studio — nel sito parla del consenso informato
+   che manda ai pazienti — quindi conviene far derivare quella del sito dalla
+   stessa persona che ha preparato l'altra.
+3. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
    scartato: meglio per i motori di ricerca. Da valutare quando il resto è in
    piedi.
-5. **Il dominio `.it`**, libero al 29 settembre 2026 e non preso. Non serve al
+4. **Il dominio `.it`**, libero al 29 settembre 2026 e non preso. Non serve al
    sito, ma chi sente il nome a voce tende a digitare `.it` e oggi non trova
    niente. Se preso, va solo fatto rimandare al `.com` — **non agganciato a
    Pages**, altrimenti si ricrea il contenuto duplicato.
-6. **Inoltro delle email** (Cloudflare Email Routing, gratuito). Oggi la posta
+5. **Inoltro delle email** (Cloudflare Email Routing, gratuito). Oggi la posta
    verso `@sofiatornaghi.com` rimbalza: un paziente che tirasse a indovinare
    `info@sofiatornaghi.com` non riceverebbe risposta e non se ne accorgerebbe.
    Valutato il 29 settembre e rimandato. Attivarlo cambia il record SPF.
@@ -416,6 +449,14 @@ conseguenza.
 ## Come verificare le modifiche
 
 Non ci sono test automatici nel repository. Le verifiche si fanno così:
+
+**Prima di dire che un deploy e' fallito, chiedere al server cosa serve
+davvero.** Il 2 ottobre i font sembravano rotti — il browser non vedeva
+nessuna regola `@font-face` — e invece il server serviva il file giusto: era
+la cache del browser, `max-age=14400`, che teneva il CSS vecchio per quattro
+ore. Un `curl` sul file lo avrebbe detto subito. E' la seconda volta che una
+cache fa sembrare rotta una cosa che funziona: la prima fu GitHub Pages a
+settembre. **Lo stato della propria finestra non e' lo stato del sito.**
 
 **Dopo aver cambiato il CSS o aggiunto campi, provare i testi imprevisti.**
 Riempire ogni segnaposto, uno alla volta, con una frase lunga e con una parola
