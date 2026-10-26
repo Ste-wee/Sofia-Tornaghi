@@ -1169,6 +1169,10 @@
       /* PERCORSO — una colonna, il titolo torna a scorrere col resto */
       .percorso-layout { grid-template-columns: 1fr; gap: 1.5rem; }
       .percorso-intro { position: static; }
+      /* Su telefono c'e' gia' il pulsante WhatsApp fisso: un secondo invito
+         a tutta larghezza, subito sopra le tappe, era di troppo. Sul tablet
+         resta, perche' li' il pulsante fisso non compare. */
+      .percorso-intro .btn-primary { display: none; }
       .passo { padding-left: 3.2rem; }
       .passo-titolo { font-size: 1.3rem; }
 
