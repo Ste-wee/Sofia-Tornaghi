@@ -65,13 +65,15 @@ export const GROUPS = [
     title: 'Inizia il tuo percorso',
     fields: [
       { name: 'percorso_titolo', label: 'Titolo della sezione', type: 'string' },
-      { name: 'tappa1_titolo', label: 'Tappa 1 — titolo', type: 'string', hint: 'Il percorso ha quattro tappe numerate, unite da una linea, in questo stesso ordine. Il titolo e facoltativo: se lo lasci vuoto la tappa mostra solo il testo.' },
-      { name: 'tappa1_testo', label: 'Tappa 1 — testo', type: 'text' },
-      { name: 'tappa2_titolo', label: 'Tappa 2 — titolo', type: 'string' },
-      { name: 'tappa2_testo', label: 'Tappa 2 — testo', type: 'text', hint: 'Puoi andare a capo: gli a capo vengono rispettati sul sito.' },
-      { name: 'tappa3_titolo', label: 'Tappa 3 — titolo', type: 'string' },
+      { name: 'tappa1_testo', label: 'Tappa 1 — testo', type: 'text', hint: 'Il percorso ha quattro tappe numerate, unite da una linea, in questo stesso ordine. Puoi andare a capo: gli a capo vengono rispettati sul sito.' },
+      { name: 'tappa2_testo', label: 'Tappa 2 — testo', type: 'text', hint: 'La frase che introduce i tre casi qui sotto.' },
+      { name: 'consegna1_etichetta', label: 'Tappa 2, caso 1 — etichetta', type: 'string', hint: 'I tre riquadri della tappa 2, ognuno con la sua icona: studio, schermo, persone. L\'etichetta e la scritta in evidenza, es. In presenza.' },
+      { name: 'consegna1_testo', label: 'Tappa 2, caso 1 — testo', type: 'text' },
+      { name: 'consegna2_etichetta', label: 'Tappa 2, caso 2 — etichetta', type: 'string' },
+      { name: 'consegna2_testo', label: 'Tappa 2, caso 2 — testo', type: 'text' },
+      { name: 'consegna3_etichetta', label: 'Tappa 2, caso 3 — etichetta', type: 'string' },
+      { name: 'consegna3_testo', label: 'Tappa 2, caso 3 — testo', type: 'text' },
       { name: 'tappa3_testo', label: 'Tappa 3 — testo', type: 'text' },
-      { name: 'tappa4_titolo', label: 'Tappa 4 — titolo', type: 'string' },
       { name: 'tappa4_testo', label: 'Tappa 4 — testo', type: 'text' }
     ]
   },

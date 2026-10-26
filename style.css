@@ -945,24 +945,8 @@
       font-size: 1.2rem;
       color: var(--sage);
     }
-    /* Interlinea normale, con un piccolo spazio sopra che mette la prima
-       riga all'altezza del numero: con un'interlinea pari al cerchio i
-       titoli su due righe, frequenti su telefono, si allargavano troppo. */
-    .passo-titolo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      font-weight: 400;
-      line-height: 1.3;
-      padding-top: 0.3rem;
-      color: var(--sage);
-      margin-bottom: 0.5rem;
-    }
-    .passo-titolo:empty { display: none; }
-
-    /* Senza titolo il testo comincia accanto al cerchio: il piccolo spazio
-       in alto mette la prima riga all'altezza del numero. Con il titolo
-       sopra non serve. */
-    .passo-titolo:not(:empty) + .passo-testo { padding-top: 0; }
+    /* Il testo comincia accanto al cerchio: il piccolo spazio in alto mette
+       la prima riga all'altezza del numero. */
     .passo-testo {
       color: var(--text-muted);
       font-size: 1rem;
@@ -971,6 +955,45 @@
       padding-top: 0.25rem;
     }
     .passo-onda { display: none; }
+
+    /* I tre casi della consegna del consenso: riquadri leggeri, sul grigio
+       della palette, perche' la sezione e' avorio. */
+    .consegna {
+      list-style: none;
+      margin: 1rem 0 0;
+      padding: 0;
+      display: grid;
+      gap: 0.7rem;
+      max-width: 62ch;
+    }
+    .consegna-caso {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      column-gap: 0.8rem;
+      align-items: start;
+      background: var(--fog);
+      border-radius: 3px;
+      padding: 0.9rem 1rem;
+    }
+    .consegna-icona {
+      grid-row: 1 / span 2;
+      width: 22px;
+      height: 22px;
+      color: var(--sage);
+      margin-top: 0.1rem;
+    }
+    .consegna-etichetta {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 0.25rem;
+    }
+    .consegna-testo {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
 
     /* SCHERMO LARGO — le tappe in fila lungo un'onda.
        Soglia propria e non i 768px del resto del sito: sotto i 1100px ogni
@@ -1022,7 +1045,6 @@
          stirata in larghezza molto piu' che in altezza. */
       .passo-onda path { vector-effect: non-scaling-stroke; }
 
-      .passo-titolo { padding-top: 0; margin-bottom: 0.6rem; }
       .passo-testo { padding-top: 0; font-size: 0.95rem; }
     }
 

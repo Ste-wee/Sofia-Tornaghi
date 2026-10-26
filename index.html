@@ -344,10 +344,8 @@ Se senti che questo è il momento giusto, puoi iniziare da qui...</p>
   <section id="percorso">
     <!-- Un percorso a tappe fatto solo dei testi di Sofia: i suoi due testi
          sul consenso informato e sulle sedute, divisi alle righe dove lei
-         andava gia' a capo, senza una parola aggiunta. Le prime due tappe
-         hanno per titolo una riga sua; la terza e la quarta non ne avevano,
-         e il titolo vuoto sparisce (CSS :empty). Il consenso viene prima
-         perche' lei lo manda prima del primo incontro.
+         andava gia' a capo, senza una parola aggiunta e senza titoli. Il
+         consenso viene prima perche' lei lo manda prima del primo incontro.
          Su schermo largo le tappe si affiancano lungo un'onda, come quella
          che separa le sezioni; sotto i 1100px tornano in colonna. -->
     <div class="percorso-layout">
@@ -360,26 +358,41 @@ Se senti che questo è il momento giusto, puoi iniziare da qui...</p>
         <li class="passo">
           <svg class="passo-onda" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0 C50 0 50 10 100 10"/></svg>
           <span class="passo-numero" aria-hidden="true">1</span>
-          <h3 class="passo-titolo" data-content="tappa1_titolo" data-facoltativo>Cos'è il Consenso Informato e come funziona?</h3>
-          <p class="passo-testo" data-content="tappa1_testo">Il Consenso Informato è il documento che tutela la tua privacy e definisce i dettagli del nostro lavoro insieme (riservatezza, costi, modalità di svolgimento).</p>
+          <p class="passo-testo testo-a-capo" data-content="tappa1_testo">Cos'è il Consenso Informato e come funziona?
+Il Consenso Informato è il documento che tutela la tua privacy e definisce i dettagli del nostro lavoro insieme (riservatezza, costi, modalità di svolgimento).</p>
         </li>
         <li class="passo">
           <svg class="passo-onda" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 10 C50 10 50 0 100 0"/></svg>
           <span class="passo-numero" aria-hidden="true">2</span>
-          <h3 class="passo-titolo" data-content="tappa2_titolo" data-facoltativo>Ecco come gestire la consegna prima di iniziare:</h3>
-          <p class="passo-testo testo-a-capo" data-content="tappa2_testo">•	In presenza: Ti invierò il modulo via email prima del primo incontro per poterlo leggere con calma; basterà portarne una copia firmata in studio.
-•	Per le sedute online: Puoi rinviarmelo comodamente via email, firmato digitalmente o scansionato/fotografato in modo leggibile.
-•	Per i minorenni: Trattandosi di prestazioni sanitarie per minori di 18 anni, il documento deve essere firmato da entrambi i genitori (o dai tutori legali).</p>
+          <p class="passo-testo" data-content="tappa2_testo">Ecco come gestire la consegna prima di iniziare:</p>
+          <!-- I tre casi della consegna, che Sofia aveva scritto come elenco
+               puntato: le icone servono solo a riconoscerli a colpo d'occhio,
+               e sono legate alla posizione, non al testo. -->
+          <ul class="consegna">
+            <li class="consegna-caso">
+              <svg class="consegna-icona" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><path d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+              <span class="consegna-etichetta" data-content="consegna1_etichetta">In presenza</span>
+              <p class="consegna-testo" data-content="consegna1_testo">Ti invierò il modulo via email prima del primo incontro per poterlo leggere con calma; basterà portarne una copia firmata in studio.</p>
+            </li>
+            <li class="consegna-caso">
+              <svg class="consegna-icona" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><path d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"/></svg>
+              <span class="consegna-etichetta" data-content="consegna2_etichetta">Per le sedute online</span>
+              <p class="consegna-testo" data-content="consegna2_testo">Puoi rinviarmelo comodamente via email, firmato digitalmente o scansionato/fotografato in modo leggibile.</p>
+            </li>
+            <li class="consegna-caso">
+              <svg class="consegna-icona" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><path d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
+              <span class="consegna-etichetta" data-content="consegna3_etichetta">Per i minorenni</span>
+              <p class="consegna-testo" data-content="consegna3_testo">Trattandosi di prestazioni sanitarie per minori di 18 anni, il documento deve essere firmato da entrambi i genitori (o dai tutori legali).</p>
+            </li>
+          </ul>
         </li>
         <li class="passo">
           <svg class="passo-onda" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0 C50 0 50 10 100 10"/></svg>
           <span class="passo-numero" aria-hidden="true">3</span>
-          <h3 class="passo-titolo" data-content="tappa3_titolo" data-facoltativo></h3>
           <p class="passo-testo" data-content="tappa3_testo">Le sedute durano 45 minuti circa. La frequenza la stabiliamo insieme nei primi colloqui.</p>
         </li>
         <li class="passo">
           <span class="passo-numero" aria-hidden="true">4</span>
-          <h3 class="passo-titolo" data-content="tappa4_titolo" data-facoltativo></h3>
           <p class="passo-testo testo-a-capo" data-content="tappa4_testo">Per le sedute online vi invierò via mail un link il giorno stesso della seduta. 
 Per garantire la privacy dei pazienti io mi troverò sempre in uno spazio riservato senza che nessuno possa sentire e con l’utilizzo delle cuffie, per la libera espressione dei pensieri e delle emozioni consiglio anche ai pazienti di collegarsi alle videochiamate in un luogo in cui hanno privacy e la libertà di esprimere ciò che provano e pensano senza sentirsi giudicati da altri.</p>
         </li>
