@@ -1122,13 +1122,18 @@
       font-size: 0.78rem;
       letter-spacing: 0.05em;
     }
-    /* Albo e partita IVA: obbligatori, ma non devono
+    /* Albo, partita IVA, codice deontologico: obbligatori, ma non devono
        contendere l'attenzione al nome. */
     .footer-legale {
       margin-top: 0.4rem;
       font-size: 0.72rem;
       color: rgba(250,250,247,0.55);
     }
+    .footer-legale a {
+      color: inherit;
+      text-underline-offset: 2px;
+    }
+    .footer-legale a:hover { color: var(--ivory); }
 
     .footer-links {
       display: flex;

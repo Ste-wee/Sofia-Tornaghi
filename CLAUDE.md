@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **26 ottobre 2026** — Albo e partita IVA sul sito; demo in anteprima
+> Ultimo aggiornamento: **26 ottobre 2026** — pubblicate le idee prese dai siti delle colleghe
 
 ---
 
@@ -147,9 +147,9 @@ Il branch `fix/audit-codice-e-ui` **può essere chiuso**: l'impianto scelto è s
 index.html          la pagina, con segnaposto data-content sui testi modificabili
 privacy.html        l'informativa, servita su /privacy (Pages toglie il .html)
 style.css           tutti gli stili
-script.js           navbar e menu mobile
+script.js           navbar, menu mobile, aree apribili, WhatsApp fisso
 content-loader.js   carica i JSON nella pagina e costruisce i link di contatto
-content/site.json   62 testi e recapiti modificabili dal pannello
+content/site.json   83 testi e recapiti modificabili dal pannello
 content/foto.json   il nome del file della foto profilo
 fonts/              i due caratteri del sito, ospitati qui e non presi da Google
 admin/index.html    il pannello di gestione (login + editor)
@@ -162,7 +162,11 @@ SETUP.md            configurazione: variabili Cloudflare, token, recapiti
 **Ordine delle sezioni nella pagina**, rivisto il 26 ottobre 2026:
 
 > Chi sono → Aree di specializzazione → **Recensioni** →
-> **Inizia il tuo percorso** → Servizi e tariffe → Contatti
+> **Inizia il tuo percorso** → Servizi e tariffe → **Domande frequenti** →
+> Contatti
+
+Le domande frequenti, aggiunte il 26 ottobre, stanno dopo le tariffe perche'
+molte nascono li': come si paga, se si detrae, quanto dura.
 
 Letto di seguito: chi sono, cosa tratto, cosa dicono i pazienti, come
 funziona, quanto costa, come scrivermi. Chi si riconosce in un'area sente
@@ -279,6 +283,14 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   anti-spam (vedi "Dove gira"). Vale anche per i testi di ripiego dentro i
   segnaposto, che sono quelli che Cloudflare vede: il valore che arriva dal
   pannello lo mette il JavaScript e Cloudflare non lo tocca.
+- **Un campo che Sofia puo' lasciare vuoto porta `data-facoltativo` sul
+  segnaposto.** Di norma un campo vuoto tiene il testo di ripiego; da quando
+  il pannello scrive l'HTML, il ripiego puo' essere il valore che lei ha
+  appena cancellato, che quindi resterebbe in pagina. Con l'attributo, sia
+  `content-loader.js` sia `pagina.js` svuotano davvero. Oggi ce l'ha solo
+  `contatti_intro`.
+- **Soglie diverse dai 768px solo con un motivo scritto.** Il percorso a
+  tappe usa 1100px: sotto, quattro colonne scenderebbero sotto i 200px.
 - I commenti nel codice spiegano *perché*, non *cosa*.
 - Sviluppo sul branch indicato dalla sessione, mai direttamente su `main`.
 
@@ -528,41 +540,58 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   ⚠️ **Sono scritti a mano e non stanno nel pannello**, apposta: non cambiano,
   e un campo svuotato per sbaglio farebbe sparire un obbligo di legge. Il
   giorno in cui Sofia si specializza cambia il titolo, e va cambiato qui.
-  ⚠️ **Il collegamento al Codice deontologico e' stato tolto poco dopo**, per
-  scelta di Stefano. L'art. 7 lo chiede insieme agli altri dati ("il
-  riferimento alle norme professionali ... e le modalita' di consultazione"),
-  ma che la norma valga per un sito vetrina e' discusso e il rischio e' stato
-  giudicato basso. Se un domani l'Ordine o un consulente lo chiedessero, e'
-  una riga nel piè di pagina: la pagina del CNOP e'
-  `https://www.psy.it/codice-deontologico-degli-psicologi-italiani/`, che
-  risponde 403 a `curl` ma nel browser si apre.
+  Il collegamento al Codice deontologico e' stato tolto e poi **rimesso** in
+  giornata, su decisione di Stefano. La pagina del CNOP risponde 403 a
+  `curl`: e' una protezione contro le richieste automatiche, nel browser si
+  apre.
   Corretto anche un refuso nel testo di Sofia sulle sedute, *"ci che"* →
   *"ciò che"*, su richiesta di Stefano.
 
+  Per finire, **pubblicata la demo nata guardando i siti di cinque colleghe**
+  (Amandolesi, Funaro, Menescalchi, Venturi, Calzi), costruita sul ramo
+  `demo/spunti-colleghe` e provata su un'anteprima di Cloudflare Pages prima
+  di unirla:
+  - **Domande frequenti**, sezione nuova dopo le tariffe: sei domande in
+    `<details>`, che si aprono senza JavaScript e stanno tutte nell'HTML.
+    ⚠️ **Testi scritti da Stefano e Claude, pubblicati senza che Sofia li
+    abbia letti**: vedi le cose in sospeso.
+  - **"Inizia il tuo percorso" diventa un percorso a quattro tappe**, fatto
+    solo dei due testi di Sofia sul consenso e sulle sedute, divisi alle righe
+    dove lei andava a capo e senza titoli. I tre casi della consegna (in
+    presenza, online, minorenni) sono riquadri con icona, divisi ai due punti.
+    Controllato con un programma che ricomposti diano il testo di partenza
+    carattere per carattere. Da 1100px le tappe si affiancano lungo un'onda
+    tratteggiata; sotto, in colonna con la linea a sinistra. Erano state
+    provate anche quattro tappe con titoli e testi scritti da noi, e il
+    carosello come le recensioni: scartati, i primi perche' inventati, il
+    secondo perche' nasconde le tappe pratiche.
+  - **Aree di lavoro su telefono come le domande frequenti**: sei titoli con
+    icona, il testo si apre toccandoli. Su schermo largo restano aperte.
+  - **L'indirizzo apre Google Maps**, nella scheda in alto e nel piè di
+    pagina: un link e non una mappa incorporata, che caricherebbe Google a
+    ogni visita. L'informativa lo elenca fra i pulsanti.
+  - **Pulsante WhatsApp fisso su telefono**, che si nasconde quando si vedono
+    i pulsanti in cima, le tariffe (copriva i prezzi), il WhatsApp dei
+    contatti e il piè di pagina.
+  - **Dati strutturati per Google** (`application/ld+json` in testa a
+    `index.html`): scritti a mano come la `meta description`, senza telefono.
+  - Il pulsante "Prenota un primo colloquio" accanto al titolo del percorso
+    c'e' da PC e tablet, non su telefono dove c'e' gia' quello fisso.
+  - **I campi passano da 62 a 83.** `percorso_consenso` e `percorso_sedute`
+    non esistono piu': al loro posto `tappa1_testo` ... `tappa4_testo` e
+    `consegna1_etichetta`/`consegna1_testo` ... `consegna3_*`.
+  Lungo la strada corretto un difetto del riempimento dell'HTML fatto la
+  mattina: un campo facoltativo svuotato avrebbe lasciato in pagina il valore
+  vecchio. Ora esiste `data-facoltativo` (vedi le convenzioni).
+
 ### In sospeso
 
-1. **Pubblicare la demo del ramo `demo/spunti-colleghe`**, in anteprima su
-   `https://demo-spunti-colleghe.website-sofy.pages.dev/`. Nata confrontando il
-   sito con quelli di cinque colleghe: domande frequenti, "Inizia il tuo
-   percorso" come percorso a tappe (onda orizzontale da 1100px, verticale
-   sotto), aree che su telefono si aprono toccandole, indirizzo che apre
-   Google Maps, pulsante WhatsApp fisso su telefono, dati strutturati per
-   Google. Prima di unire:
-   - **Sofia deve leggere i testi scritti da Stefano e Claude**: le sei
-     domande frequenti, in particolare fattura e detrazione al 19% e la
-     frase "psicologa e psicoterapeuta in formazione";
-   - **`content/site.json` andra' in conflitto**: nella demo i campi
-     `percorso_consenso` e `percorso_sedute` sono divisi in dieci, alle
-     righe dove Sofia andava a capo: `tappa1_testo` (le prime due righe del
-     consenso), `tappa2_testo` (la terza), i tre casi della consegna in
-     `consegna1_etichetta`/`consegna1_testo` ... `consegna3_*` (ogni riga
-     col punto elenco, divisa ai due punti), `tappa3_testo` e
-     `tappa4_testo` (le sedute). Gia' riunito una volta con `main` il 26
-     ottobre senza perdite. Se nel frattempo lei li ha modificati, va
-     ripresa la sua versione e divisa allo stesso modo, controllando che
-     ricomposta dia il testo di partenza carattere per carattere;
-   - il ramo non va mai unito senza aver riletto questo punto: cambia i nomi
-     dei campi, e un'unione distratta riporterebbe in pagina i testi vecchi.
+1. **Far leggere a Sofia i testi della demo che non ha scritto lei**, e che
+   sono online dal 26 ottobre: le sei domande frequenti. In particolare
+   *"Per ogni seduta ricevi la fattura"* e la detrazione al 19% con
+   pagamento tracciabile, e *"io sono psicologa e psicoterapeuta in
+   formazione"* nella differenza fra le due figure, su cui l'Ordine e'
+   attento. Si correggono dal pannello, gruppo "Domande frequenti".
 2. **Far confermare a Sofia l'informativa**, in particolare la frase sui
    messaggi di chi non inizia un percorso, che promette di cancellarli. E'
    l'unica parte scritta senza sapere come lavora davvero. ⚠️ **La forma
