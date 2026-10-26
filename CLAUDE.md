@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **26 ottobre 2026** — informativa privacy pubblicata e collegata
+> Ultimo aggiornamento: **26 ottobre 2026** — il pannello aggiorna anche l'HTML delle pagine
 
 ---
 
@@ -132,10 +132,11 @@ lettori di schermo, stato del menu annunciato, foto in cima caricata subito),
 il numero di recensioni non più scritto a mano nell'HTML, e un refuso nei
 testi pubblicati (*"ceh"* → *"che"* in `area5_desc`).
 
-**Non ancora recuperato, ma valido:** l'idea di generare `index.html` dai
-contenuti alla build invece di popolarlo nel browser. I testi finirebbero
-dentro la pagina, il che è meglio per i motori di ricerca e per chi ha una
-connessione lenta. Applicabile in seguito senza rifare nulla.
+**Recuperata il 26 ottobre, in altra forma:** l'idea di avere i testi veri
+dentro `index.html` invece che solo nel browser. Il ramo scartato la
+realizzava con un passo di build; qui la fa il pannello a ogni salvataggio,
+cosi' la regola "niente build" resta in piedi. Dettagli in "Come funziona il
+pannello".
 
 Il branch `fix/audit-codice-e-ui` **può essere chiuso**: l'impianto scelto è su
 `main` dall'8 agosto e quel che valeva la pena tenere è già stato portato via.
@@ -153,7 +154,7 @@ content/foto.json   il nome del file della foto profilo
 fonts/              i due caratteri del sito, ospitati qui e non presi da Google
 admin/index.html    il pannello di gestione (login + editor)
 functions/api/      login, logout, content, upload — Cloudflare Pages Functions
-functions/_lib/     auth, github, schema — codice condiviso fra le API
+functions/_lib/     auth, github, schema, pagina — codice condiviso fra le API
 _headers            CSP e intestazioni di sicurezza
 SETUP.md            configurazione: variabili Cloudflare, token, recapiti
 ```
@@ -193,6 +194,36 @@ modifiche sono online dopo circa un minuto.
   costruisce il modulo da lì e il salvataggio accetta *solo* quelle chiavi. Per
   aggiungere un campo modificabile: aggiungerlo allo schema e mettere il
   segnaposto `data-content="nome_campo"` nell'HTML.
+- **Il salvataggio aggiorna anche l'HTML delle pagine.** Dopo `site.json`,
+  `functions/_lib/pagina.js` riscrive il testo dentro ogni segnaposto di
+  `index.html` e `privacy.html` con il valore del pannello, compresa la
+  classe `.testo-a-capo`. Prima quel testo restava quello scritto a mano: il
+  26 ottobre **25 segnaposto su 60** dicevano ancora le versioni vecchie, fra
+  cui la citazione accanto alla foto e tutti i titoli delle aree, e li vedeva
+  chiunque leggesse la pagina senza eseguire il JavaScript — parte dei motori
+  di ricerca, gli strumenti che fanno anteprime, chi ha una connessione lenta
+  per il primo istante. `content-loader.js` resta, come rete di sicurezza.
+  Cose da sapere:
+  - **un salvataggio fa fino a tre commit**, uno per file, e quindi fino a tre
+    ricostruzioni su Cloudflare. Se un file non cambia, il commit non si fa;
+  - **se l'aggiornamento dell'HTML fallisce, Sofia riceve comunque "salvato"**:
+    i suoi testi sono gia' in `site.json` e il sito li mostra. L'errore finisce
+    nei log della funzione su Cloudflare, e il salvataggio successivo ripara,
+    perche' riparte da tutti i valori;
+  - **il testo dentro un segnaposto non va piu' scritto a mano**: al primo
+    salvataggio verrebbe sostituito. Si cambia dal pannello;
+  - **un segnaposto con altri tag dentro viene lasciato com'e'**, per non
+    cancellare pezzi di pagina. Oggi non ce ne sono;
+  - **prima di toccare `index.html` in locale, `git pull`**: ogni salvataggio
+    di Sofia ora lo modifica sul remoto.
+  Provato il 26 ottobre con node, con un GitHub simulato in memoria:
+  salvataggio normale, salvataggio identico (nessun commit), GitHub che
+  rifiuta la pagina, GitHub che rifiuta `site.json` (pagine non toccate),
+  conflitto con una modifica arrivata nel frattempo (rifatto sui dati riletti,
+  nessuna delle due persa). La pagina generata, aperta senza JavaScript,
+  mostra 59 testi su 59 identici a quelli che mette il browser; il sessantesimo
+  e' `contatti_intro`, vuoto nel pannello, che tiene il testo di ripiego come
+  nel browser.
 
 ## Contatti
 
@@ -481,6 +512,12 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   sono i commenti che Cloudflare riconosce per non aggiungere il suo script
   anti-spam, che era l'unica cosa estranea comparsa sulla pagina.
 
+  Infine, **i testi veri finiscono dentro l'HTML**: il pannello, quando Sofia
+  salva, aggiorna anche i segnaposto di `index.html` e `privacy.html`. Era il
+  punto "generazione alla build" delle cose in sospeso, risolto senza passo
+  di build. Riallineati subito anche i 26 segnaposto rimasti indietro, senza
+  aspettare il prossimo salvataggio. Dettagli in "Come funziona il pannello".
+
 ### In sospeso
 
 1. **Numero d'Albo e partita IVA nel piè di pagina.** Non c'entrano con la
@@ -506,9 +543,13 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
    giuridica non e' stata validata da nessuno di competente**: se c'e' chi
    ha preparato l'informativa dello studio, conviene farla vedere a quella
    persona.
-3. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
-   scartato: meglio per i motori di ricerca. Da valutare quando il resto è in
-   piedi.
+3. **Verificare il primo salvataggio vero di Sofia** dopo il 26 ottobre: nella
+   storia di GitHub devono comparire, oltre a "Aggiorna i testi del sito dal
+   pannello", i commit "Allinea index.html ai testi del pannello" e, se
+   cambia l'indirizzo o l'email, quello di `privacy.html`. Le prove sono
+   state fatte con un GitHub simulato: il token vero non e' mai stato usato
+   per scrivere `index.html`, e se non avesse il permesso su quel file
+   l'errore sarebbe solo nei log.
 
 ### Decisioni prese, da non rimettere in discussione senza motivo
 

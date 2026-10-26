@@ -103,13 +103,22 @@ export function parseJsonObject(text) {
 // una volta sola e riprovare col solo sha nuovo significherebbe cancellare
 // la modifica dell'altro, che è esattamente quello che si vuole evitare.
 export async function writeJsonFile(env, path, buildValue, message) {
+  return writeTextFile(env, path, function (text) {
+    return JSON.stringify(buildValue(parseJsonObject(text)), null, 2) + '\n';
+  }, message);
+}
+
+// Lo stesso ciclo di rilettura per un file di testo qualsiasi. `buildText`
+// riceve il testo attuale e restituisce quello nuovo; se restituisce lo
+// stesso testo non si fa nessun commit, che sarebbe vuoto.
+export async function writeTextFile(env, path, buildText, message) {
   for (let attempt = 0; attempt < 2; attempt++) {
     const current = await readFile(env, path);
-    const value = buildValue(parseJsonObject(current.text));
-    const base64 = textToBase64(JSON.stringify(value, null, 2) + '\n');
+    const text = buildText(current.text);
+    if (text === current.text) return null;
 
     try {
-      return await writeFile(env, path, base64, message, current.sha);
+      return await writeFile(env, path, textToBase64(text), message, current.sha);
     } catch (error) {
       if (error.status !== 409 || attempt === 1) throw error;
     }
