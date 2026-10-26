@@ -1165,6 +1165,7 @@
       text-underline-offset: 2px;
     }
     .footer-legale a:hover { color: var(--ivory); }
+    .footer-legale a { white-space: nowrap; }
 
     .footer-links {
       display: flex;
@@ -1319,9 +1320,20 @@
         padding: 2rem 1.2rem;
         gap: 1.5rem;
       }
+      /* Un dato legale per riga: in riga unica andavano a capo a meta',
+         staccando "sez." da "A" e spezzando "Codice deontologico". */
+      .footer-legale > span:not(.footer-sep),
+      .footer-legale > a { display: block; }
+      .footer-legale > a { margin-top: 0.15rem; }
+      .footer-sep { display: none; }
+
+      /* Due colonne invece di una: cinque voci in colonna occupavano mezzo
+         schermo, e tre ripetono il menu in alto. */
       .footer-links {
-        flex-direction: column;
-        gap: 0.8rem;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.9rem 2rem;
+        width: 100%;
       }
     }
 
