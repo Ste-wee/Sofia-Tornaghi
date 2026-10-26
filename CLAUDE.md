@@ -431,17 +431,30 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
 ### In sospeso
 
 1. **Completare l'informativa privacy.** La bozza e' su `/privacy` dal 26
-   ottobre, ma ha **tre buchi**, segnati nella pagina con riquadri
-   `.da-completare`:
+   ottobre, ma ha **due buchi**, segnati nella pagina con riquadri
+   `.da-completare`, ed entrambi aspettano dati che ha solo Sofia:
    - numero di iscrizione all'Albo degli Psicologi della Lombardia e codice
      fiscale o partita IVA di Sofia. ⚠️ Il numero d'Albo stava in `bio_p1`
      fino a ottobre ed e' uscito quando lei ha riscritto i testi, quindi non
-     si puo' ripescare da li';
-   - i riferimenti dell'accordo con Cloudflare e le garanzie sul trasferimento
-     extra UE, piu' il tempo di conservazione dei registri di connessione;
+     si puo' ripescare da li'. Probabilmente vanno mostrati sul sito
+     **comunque**, informativa o no: P.IVA in home page (art. 35 DPR
+     633/72) e Albo per chi offre servizi online (D.Lgs. 70/2003). Da
+     confermare con chi segue Sofia;
    - per quanto tempo si conservano i messaggi di chi scrive senza poi
      iniziare un percorso, con il rimando all'informativa che Sofia gia'
      consegna ai pazienti.
+
+   Il terzo, **Cloudflare, e' chiuso** dal 26 ottobre con le fonti ufficiali,
+   citate in un commento nella pagina: accordo sul trattamento richiamato
+   dalle condizioni self-serve, quindi valido anche sul piano gratuito;
+   trasferimento negli USA col Data Privacy Framework, con le clausole
+   standard UE di riserva. ⚠️ **Cloudflare non pubblica un termine di
+   conservazione dei registri**, e la pagina lo dice cosi' invece di
+   inventarne uno.
+   Valutato anche se l'informativa si potesse saltare, visto che il sito non
+   salva niente: no, perche' l'IP registrato da Cloudflare e' un dato
+   personale di cui Sofia e' titolare. Il rischio di non averla e' basso, ma
+   il lavoro per averla era quasi tutto fatto.
    ⚠️ **Il collegamento dal piè di pagina e' stato tolto** lo stesso giorno:
    la pagina e' pubblica e i riquadri "Da completare" sarebbero stati visibili
    ai pazienti, che su un sito professionale si legge come lavoro lasciato a
