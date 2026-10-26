@@ -198,6 +198,4 @@ cambia il record SPF, che deve autorizzare i server di inoltro di Cloudflare.
 
 ## In sospeso
 
-- **Numero d'Albo e partita IVA nel piè di pagina.** Li chiedono l'art. 7
-  del D.Lgs. 70/2003 e la norma IVA sulla home page, indipendentemente dalla
-  privacy. Servono i due numeri da Sofia. Dettagli in `CLAUDE.md`.
+Niente di aperto qui: le cose in sospeso stanno in `CLAUDE.md`.
