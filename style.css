@@ -118,6 +118,9 @@
       --fog: #F0EDE8;
       --text: #2A2A25;
       --text-muted: #7A7A72;
+      /* Solo per le stelle delle recensioni. Un oro spento, non brillante:
+         deve farsi notare fra i toni smorzati del sito senza stonarci. */
+      --oro: #C9A227;
     }
 
     html { scroll-behavior: smooth; }
@@ -705,7 +708,7 @@
     }
 
     .stars {
-      color: var(--sand);
+      color: var(--oro);
       font-size: 0.85rem;
       letter-spacing: 2px;
       margin-bottom: 0.5rem;
