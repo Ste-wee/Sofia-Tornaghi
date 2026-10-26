@@ -669,7 +669,12 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
    `demo/spunti-colleghe`, `demo/chi-sono`, `demo/piede-mobile`,
    `claude/dove-siamo-rimasti-nrsh36`, `claude/memoria-progetto`. Tutti
    interamente dentro `main`. Claude non ha il permesso di cancellare rami
-   remoti: va fatto da Stefano con `git push origin --delete <ramo>`.
+   remoti, quindi tocca a Stefano, **dal sito di GitHub** (pagina
+   *Branches* del repository, icona del cestino) con l'accesso come
+   `Ste-wee`. ⚠️ Da terminale non e' detto che funzioni: il 26 ottobre il
+   PowerShell di Stefano si e' presentato a GitHub come `stefanomerlini-gif`,
+   un altro suo account senza permessi di scrittura qui, e ha ricevuto 403.
+   Le sessioni di Claude invece passano da GitHub CLI, collegato a `Ste-wee`.
    Le anteprime vecchie confondono: il 26 ottobre ne e' stata aperta una
    credendola quella nuova.
 
