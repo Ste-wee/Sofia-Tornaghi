@@ -89,7 +89,22 @@ foto da sola.
 - **Quanto resta in cache**, verificato il 2 ottobre: `/` e
   `content/site.json` hanno `max-age=0`, quindi **le modifiche di Sofia si
   vedono subito**. CSS, JS e font hanno `max-age=14400`, quattro ore: le
-  modifiche al codice arrivano con ritardo a chi e' gia' passato.
+  modifiche al codice arriverebbero con ritardo a chi e' gia' passato, ed e'
+  per questo che dal 26 ottobre i collegamenti a stile e script portano un
+  `?v=` da cambiare a ogni modifica (vedi le convenzioni).
+- **Ogni ramo diverso da `main` ha un'anteprima sua**, che Cloudflare Pages
+  costruisce da sola a ogni push: `https://<ramo>.website-sofy.pages.dev/`, con
+  le barre del nome trasformate in trattini (`demo/chi-sono` →
+  `demo-chi-sono`). E' il "sito di test" su cui far vedere le modifiche prima
+  di pubblicarle. Verificato il 26 ottobre:
+  - **arriva con `X-Robots-Tag: noindex`**, messo da Cloudflare, quindi non
+    finisce su Google come doppione;
+  - **il pannello li' non funziona**, e va bene cosi': le cinque variabili
+    esistono solo per la produzione, e se ci fossero un salvataggio fatto
+    sull'anteprima scriverebbe su `main`, cioe' sul sito vero;
+  - **i testi sono quelli del ramo**: se Sofia salva sul sito vero, l'anteprima
+    non lo vede finche' non si riunisce `main` nel ramo;
+  - **resta accesa finche' il ramo esiste**, anche dopo averlo unito.
 - Dominio di prenotazione esterno: MioDottore.
 
 ---
@@ -719,7 +734,31 @@ immutabile. Si scopre il giorno in cui serve cambiarlo.
 python3 -m http.server 8899     # poi aprire http://localhost:8899
 ```
 
+⚠️ Sul PC di Stefano (Windows) `python` e' solo il segnaposto del Microsoft
+Store ed esce con errore 49. Il 26 ottobre si e' usato un server di poche
+righe in node; ancora meglio, per far vedere una modifica a qualcuno, un ramo
+con la sua anteprima su Cloudflare (vedi "Dove gira").
+
 Chromium e Playwright sono disponibili nell'ambiente remoto per controllare in
 un browser vero che i link di contatto si costruiscano bene e che il pannello
 si comporti come deve. Le API si provano simulando `fetch` verso GitHub, senza
-toccare il repository reale.
+toccare il repository reale: il 26 ottobre si e' fatto con un GitHub finto in
+memoria al posto di `fetch`, importando `functions/api/content.js` da node,
+con un cookie di sessione creato da `createSessionToken`.
+
+**Per una modifica che divide o sposta testi di Sofia, controllare che
+ricomposti diano il testo di partenza carattere per carattere.** E' cosi' che
+sono stati divisi il percorso a tappe e "Chi sono": con un programma che
+rimette insieme i pezzi e si ferma se anche un solo carattere e' diverso.
+Sofia ha chiesto di non aggiungere parole sue: e' il solo modo di
+dimostrarlo.
+
+**Il browser integrato di Claude Code inganna in due modi**, scoperti il 26
+ottobre:
+- **quando il suo pannello e' nascosto, la pagina non viene ridisegnata**, e
+  con lei si fermano `IntersectionObserver` e i timer legati al disegno: il
+  pulsante WhatsApp fisso sembrava non sparire mai. Fare uno scatto della
+  pagina a ogni passo la costringe a ridisegnarsi;
+- **gli scatti a larghezza telefono possono tagliare il bordo destro**: i
+  prezzi sembravano spariti. Le misure prese con `getBoundingClientRect`
+  dicono il vero, lo scatto no.
