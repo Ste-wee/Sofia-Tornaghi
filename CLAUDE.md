@@ -63,10 +63,29 @@ foto da sola.
 - Il Worker `sofia-tornaghi` e la GitHub OAuth App, avanzi dell'impianto OAuth
   scartato, sono stati **cancellati** il 17 settembre 2026.
 - **Il sito non contatta nessuno.** Verificato il 2 ottobre 2026 sul sito
-  live: zero richieste verso domini esterni, nessun cookie, nessun
-  localStorage, nessun tracciatore, nessun modulo. I font stanno in `fonts/` e
-  non si prendono piu' da Google. La CSP non autorizza piu' nessuna origine
-  esterna: `style-src` e `font-src` sono tornati a `'self'`.
+  live e **di nuovo il 26 ottobre**, su home, `/privacy` e `/admin`, nel
+  browser e con `curl` sulle intestazioni: zero richieste verso domini
+  esterni, nessun cookie nemmeno lato server, niente storage, niente iframe,
+  nessun tracciatore, nessun modulo, Cloudflare Web Analytics spento. I font
+  stanno in `fonts/` e non si prendono piu' da Google. La CSP non autorizza
+  nessuna origine esterna: `style-src` e `font-src` sono tornati a `'self'`.
+  **L'informativa su `/privacy` dice proprio questo**: se un domani si
+  aggiunge qualcosa che contatta terzi, va aggiornata anche lei.
+  Due cose le mette Cloudflare da sola, e vanno sapute:
+  - **lo script anti-spam per le email** (Email Address Obfuscation, acceso
+    sul dominio): se trova un indirizzo email scritto nell'HTML lo
+    sostituisce e aggiunge alla pagina uno script suo. Il 26 ottobre
+    compariva su `/privacy`. Neutralizzato con i commenti `email_off`, vedi
+    le convenzioni. Si puo' anche spegnere dal pannello Cloudflare del
+    dominio; e' un'impostazione dell'account, quindi la tocca Stefano;
+  - **l'intestazione NEL**, che chiede al browser di segnalare a Cloudflare i
+    caricamenti falliti, mai quelli riusciti. Non risulta spegnibile sul piano
+    gratuito, e comunque i dati vanno a Cloudflare, che li ha gia'.
+- **Non c'e' una pagina 404.** Senza `404.html` Cloudflare Pages tratta il
+  sito come un'applicazione a pagina singola e a ogni indirizzo che non esiste
+  risponde 200 servendo la home. Il `canonical` evita il contenuto duplicato.
+  Valutata il 26 ottobre e lasciata perdere: era nata per `/privacy`, che poi
+  e' tornata.
 - **Quanto resta in cache**, verificato il 2 ottobre: `/` e
   `content/site.json` hanno `max-age=0`, quindi **le modifiche di Sofia si
   vedono subito**. CSS, JS e font hanno `max-age=14400`, quattro ore: le
@@ -224,6 +243,11 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   sola home non si notava; con la seconda pagina e' venuto fuori due volte, nel
   collegamento del piè di pagina e — piu' serio — nel `canonical`, che
   dichiarava un indirizzo che reindirizza.
+- **Un indirizzo email scritto nell'HTML va fra `<!--email_off-->` e
+  `<!--/email_off-->`**, altrimenti Cloudflare lo sostituisce col suo script
+  anti-spam (vedi "Dove gira"). Vale anche per i testi di ripiego dentro i
+  segnaposto, che sono quelli che Cloudflare vede: il valore che arriva dal
+  pannello lo mette il JavaScript e Cloudflare non lo tocca.
 - I commenti nel codice spiegano *perché*, non *cosa*.
 - Sviluppo sul branch indicato dalla sessione, mai direttamente su `main`.
 
@@ -480,7 +504,8 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
    messaggi di chi non inizia un percorso, che promette di cancellarli. E'
    l'unica parte scritta senza sapere come lavora davvero. ⚠️ **La forma
    giuridica non e' stata validata da nessuno di competente**: se c'e' chi
-   ha preparato l'informativa dello studio, conviene farla vedere a lui.
+   ha preparato l'informativa dello studio, conviene farla vedere a quella
+   persona.
 3. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
    scartato: meglio per i motori di ricerca. Da valutare quando il resto è in
    piedi.
@@ -535,9 +560,12 @@ Non ci sono test automatici nel repository. Le verifiche si fanno così:
 davvero.** Il 2 ottobre i font sembravano rotti — il browser non vedeva
 nessuna regola `@font-face` — e invece il server serviva il file giusto: era
 la cache del browser, `max-age=14400`, che teneva il CSS vecchio per quattro
-ore. Un `curl` sul file lo avrebbe detto subito. E' la seconda volta che una
-cache fa sembrare rotta una cosa che funziona: la prima fu GitHub Pages a
-settembre. **Lo stato della propria finestra non e' lo stato del sito.**
+ore. Un `curl` sul file lo avrebbe detto subito. E' successo **tre volte**
+che una cache facesse sembrare rotta una cosa che funziona: GitHub Pages a
+settembre, i font il 2 ottobre, lo stile di `/privacy` il 26 ottobre.
+**Lo stato della propria finestra non e' lo stato del sito.** Nel browser si
+forza la versione nuova cambiando l'indirizzo del foglio di stile con un
+`?v=` qualunque.
 
 **Dopo aver cambiato il CSS o aggiunto campi, provare i testi imprevisti.**
 Riempire ogni segnaposto, uno alla volta, con una frase lunga e con una parola
