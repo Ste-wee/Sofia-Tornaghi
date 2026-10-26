@@ -76,7 +76,13 @@ export const GROUPS = [
         label: 'Il consenso informato',
         type: 'text',
         hint: 'Colonna di destra. Su schermi stretti finisce sotto l\'altra invece che di fianco. Se lasci vuoto, resta una colonna sola.'
-      }
+      },
+      { name: 'passo1_titolo', label: 'Passo 1 — titolo', type: 'string', hint: 'I tre passi numerati in cima alla sezione, prima delle due colonne.' },
+      { name: 'passo1_testo', label: 'Passo 1 — testo', type: 'text' },
+      { name: 'passo2_titolo', label: 'Passo 2 — titolo', type: 'string' },
+      { name: 'passo2_testo', label: 'Passo 2 — testo', type: 'text' },
+      { name: 'passo3_titolo', label: 'Passo 3 — titolo', type: 'string' },
+      { name: 'passo3_testo', label: 'Passo 3 — testo', type: 'text' }
     ]
   },
   {
@@ -119,6 +125,24 @@ export const GROUPS = [
         type: 'string',
         hint: 'Compaiono sotto le tariffe. Separali con il punto centrale · , es. Contanti · Bonifico · PayPal. Se lasci vuoto, resta l\'elenco scritto nella pagina.'
       }
+    ]
+  },
+  {
+    title: 'Domande frequenti',
+    fields: [
+      { name: 'titolo_faq', label: 'Titolo della sezione', type: 'string' },
+      { name: 'faq1_domanda', label: 'Domanda 1', type: 'string', hint: 'La domanda si legge sempre; la risposta si apre toccandola.' },
+      { name: 'faq1_risposta', label: 'Risposta 1', type: 'text' },
+      { name: 'faq2_domanda', label: 'Domanda 2', type: 'string' },
+      { name: 'faq2_risposta', label: 'Risposta 2', type: 'text' },
+      { name: 'faq3_domanda', label: 'Domanda 3', type: 'string' },
+      { name: 'faq3_risposta', label: 'Risposta 3', type: 'text' },
+      { name: 'faq4_domanda', label: 'Domanda 4', type: 'string' },
+      { name: 'faq4_risposta', label: 'Risposta 4', type: 'text' },
+      { name: 'faq5_domanda', label: 'Domanda 5', type: 'string' },
+      { name: 'faq5_risposta', label: 'Risposta 5', type: 'text' },
+      { name: 'faq6_domanda', label: 'Domanda 6', type: 'string' },
+      { name: 'faq6_risposta', label: 'Risposta 6', type: 'text' }
     ]
   },
   {

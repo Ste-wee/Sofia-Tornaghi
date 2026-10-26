@@ -60,16 +60,20 @@
     return /^(\+|00)/.test(written) ? '+39 ' + grouped : grouped;
   }
 
-  function activate(element, href, noteText) {
-    element.setAttribute('href', href);
-    element.removeAttribute('hidden');
+  // Lo stesso recapito puo' avere piu' pulsanti: WhatsApp ne ha uno fra i
+  // contatti e uno fisso in basso sul telefono.
+  function activate(elements, href, noteText) {
+    elements.forEach(function (element) {
+      element.setAttribute('href', href);
+      element.removeAttribute('hidden');
 
-    var note = element.querySelector('[data-contact-action-value]');
-    if (note && noteText) note.textContent = noteText;
+      var note = element.querySelector('[data-contact-action-value]');
+      if (note && noteText) note.textContent = noteText;
+    });
   }
 
   function find(action) {
-    return document.querySelector('[data-contact-action="' + action + '"]');
+    return Array.prototype.slice.call(document.querySelectorAll('[data-contact-action="' + action + '"]'));
   }
 
   // Ogni pulsante compare solo se il recapito corrispondente è configurato:
@@ -80,10 +84,10 @@
     var whatsappRaw = typeof data.whatsapp === 'string' ? data.whatsapp.trim() : '';
 
     // EMAIL
-    var emailButton = find('email');
-    if (emailButton && looksLikeEmail(email)) {
+    var emailButtons = find('email');
+    if (looksLikeEmail(email)) {
       activate(
-        emailButton,
+        emailButtons,
         'mailto:' + email + '?subject=' + encodeURIComponent('Richiesta di informazioni dal sito'),
         email
       );
@@ -91,9 +95,9 @@
 
     // TELEFONO
     var phone = toInternational(phoneRaw);
-    var phoneButton = find('telefono');
-    if (phoneButton && looksLikePhoneNumber(phone)) {
-      activate(phoneButton, 'tel:+' + phone, phoneForDisplay(phoneRaw, phone));
+    var phoneButtons = find('telefono');
+    if (looksLikePhoneNumber(phone)) {
+      activate(phoneButtons, 'tel:+' + phone, phoneForDisplay(phoneRaw, phone));
     }
 
     // WHATSAPP — se non è indicato un numero dedicato si riusa quello di
@@ -102,13 +106,42 @@
     var whatsapp = toInternational(whatsappRaw);
     if (!whatsapp && /^393/.test(phone)) whatsapp = phone;
 
-    var whatsappButton = find('whatsapp');
-    if (whatsappButton && looksLikePhoneNumber(whatsapp)) {
+    var whatsappButtons = find('whatsapp');
+    if (looksLikePhoneNumber(whatsapp)) {
       var testo = typeof data.whatsapp_messaggio === 'string' ? data.whatsapp_messaggio.trim() : '';
       var href = 'https://wa.me/' + whatsapp;
       if (testo) href += '?text=' + encodeURIComponent(testo);
-      activate(whatsappButton, href, null);
+      activate(whatsappButtons, href, null);
     }
+  }
+
+  // --- INDIRIZZO CHE APRE LE MAPPE ---
+
+  // Ogni riga dell'indirizzo diventa un collegamento a Google Maps: con piu'
+  // studi, uno per riga, ognuno porta al suo. E' un semplice link e non una
+  // mappa incorporata: una mappa caricherebbe Google a ogni visita, il link
+  // lo contatta solo se qualcuno ci clicca.
+  function linkMappe(element) {
+    var righe = element.textContent.split('\n').map(function (r) { return r.trim(); })
+      .filter(function (r) { return r !== ''; });
+    if (righe.length === 0) return;
+
+    element.textContent = '';
+    righe.forEach(function (riga, i) {
+      if (i > 0) element.appendChild(document.createTextNode('\n'));
+      var link = document.createElement('a');
+      link.className = 'link-mappa';
+      link.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(riga);
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.title = 'Apri in Google Maps';
+      link.textContent = riga;
+      element.appendChild(link);
+    });
+  }
+
+  function attivaMappe() {
+    document.querySelectorAll('[data-mappa]').forEach(linkMappe);
   }
 
   // --- TESTI ---
@@ -140,9 +173,12 @@
       });
 
       buildContactActions(data);
+      attivaMappe();
     })
     .catch(function () {
-      // Silenzioso: restano i testi statici della pagina
+      // Silenzioso: restano i testi statici della pagina, che dal 26 ottobre
+      // sono quelli veri, quindi l'indirizzo puo' diventare un link lo stesso.
+      attivaMappe();
     });
 
   // --- FOTO ---

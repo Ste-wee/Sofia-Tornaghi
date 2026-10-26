@@ -10,6 +10,27 @@ if (nav) {
   });
 }
 
+// Pulsante WhatsApp fisso: si fa da parte quando sarebbe di troppo, cioe'
+// quando si vedono i pulsanti in cima, quello WhatsApp dei contatti o il piè
+// di pagina, che coprirebbe. Si guardano i pulsanti e non le sezioni intere:
+// osservando tutta la sezione contatti spariva gia' a meta' delle domande
+// frequenti, proprio dove nasce la voglia di scrivere.
+const whatsappFisso = document.querySelector('.whatsapp-fisso');
+if (whatsappFisso && 'IntersectionObserver' in window) {
+  const zone = ['.hero-actions', '#contatti .contact-action.is-whatsapp', 'footer']
+    .map((selettore) => document.querySelector(selettore))
+    .filter(Boolean);
+  const inVista = new Set();
+  const osservatore = new IntersectionObserver((voci) => {
+    voci.forEach((voce) => {
+      if (voce.isIntersecting) inVista.add(voce.target);
+      else inVista.delete(voce.target);
+    });
+    whatsappFisso.classList.toggle('fuori-scena', inVista.size > 0);
+  });
+  zone.forEach((zona) => osservatore.observe(zona));
+}
+
 // Menu a comparsa su mobile
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');

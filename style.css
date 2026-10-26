@@ -895,6 +895,99 @@
       color: var(--sand);
     }
 
+    /* I TRE PASSI — in cima a "Inizia il tuo percorso". Tre elementi da
+       dividere in parti uguali, quindi repeat(3) e non auto-fit, che su uno
+       schermo medio ne lascerebbe uno spaiato sotto gli altri due. */
+    .passi {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin: 2rem 0 3rem;
+    }
+    .passi > * { min-width: 0; }
+    .passo {
+      border-top: 1px solid var(--sand-light);
+      padding-top: 1.2rem;
+    }
+    .passo-numero {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      border: 1px solid var(--sand);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--sage);
+      margin-bottom: 0.8rem;
+    }
+    .passo-titolo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--sage);
+      margin-bottom: 0.4rem;
+    }
+    .passo-testo {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.75;
+    }
+
+    /* DOMANDE FREQUENTI — <details> nativo: si apre senza JavaScript e si
+       usa anche da tastiera. */
+    .faq {
+      max-width: 760px;
+      margin-top: 2rem;
+      border-top: 1px solid var(--sand-light);
+    }
+    .faq-voce { border-bottom: 1px solid var(--sand-light); }
+    .faq-voce summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 1.2rem 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      color: var(--sage);
+    }
+    .faq-voce summary::-webkit-details-marker { display: none; }
+    .faq-voce summary::after {
+      content: '+';
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      color: var(--sand);
+      flex-shrink: 0;
+    }
+    .faq-voce[open] summary::after { content: '−'; }
+    .faq-voce summary:focus-visible { outline: 2px solid var(--sage-light); outline-offset: 4px; }
+    .faq-voce p {
+      color: var(--text-muted);
+      line-height: 1.85;
+      padding-bottom: 1.4rem;
+      max-width: 62ch;
+    }
+
+    /* INDIRIZZO CHE APRE LE MAPPE — si riconosce come link senza gridarlo:
+       sottolineatura leggera, il colore resta quello del testo intorno. */
+    .link-mappa {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-color: currentColor;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+      text-decoration-style: dotted;
+    }
+    .link-mappa:hover { text-decoration-style: solid; }
+
+    /* WHATSAPP FISSO — solo su telefono, vedi il blocco mobile. */
+    .whatsapp-fisso { display: none; }
+
     /* FOOTER */
     footer {
       background: var(--sage);
@@ -1003,6 +1096,36 @@
       /* CONTATTI — su mobile la sezione da' gia' i suoi margini laterali */
       .contact-form-block { padding: 0; }
       .contact-actions { grid-template-columns: 1fr; }
+
+      /* PASSI — uno sotto l'altro */
+      .passi { grid-template-columns: 1fr; gap: 1.2rem; margin-bottom: 2.5rem; }
+
+      .faq-voce summary { font-size: 1.15rem; }
+
+      /* WHATSAPP FISSO — sotto la barra di navigazione e il menu (z-index 100
+         e 99), cosi' aprendo il menu non resta sopra le voci. */
+      .whatsapp-fisso:not([hidden]) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        right: 1rem;
+        bottom: 1rem;
+        width: 3.4rem;
+        height: 3.4rem;
+        border-radius: 50%;
+        background: var(--sage);
+        color: var(--ivory);
+        box-shadow: 0 4px 14px rgba(42, 42, 37, 0.25);
+        z-index: 90;
+        transition: opacity 0.25s, transform 0.25s;
+      }
+      .whatsapp-fisso.fuori-scena {
+        opacity: 0;
+        transform: translateY(1rem);
+        pointer-events: none;
+      }
+      .whatsapp-fisso-icona { width: 1.7rem; height: 1.7rem; }
 
       /* FOOTER */
       footer {
