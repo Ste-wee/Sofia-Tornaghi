@@ -950,6 +950,60 @@
       line-height: 1.85;
       max-width: 62ch;
     }
+    .passo-onda { display: none; }
+
+    /* SCHERMO LARGO — le tappe in fila lungo un'onda.
+       Soglia propria e non i 768px del resto del sito: sotto i 1100px ogni
+       colonna scenderebbe sotto i 200px, troppo poco per i testi lunghi del
+       consenso e delle sedute.
+       Il trucco dell'onda: le colonne non hanno spazio fra loro (gap 0,
+       la distanza la fa il padding a destra), quindi un tratto largo il 100%
+       della colonna, che parte dal centro di un cerchio, arriva esattamente
+       al centro del cerchio successivo. I cerchi pari stanno piu' in basso
+       di 2.6rem, che e' l'altezza del tratto. */
+    @media (min-width: 1100px) {
+      .percorso-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .percorso-intro {
+        position: static;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        column-gap: 2rem;
+      }
+      .percorso-intro .section-eyebrow,
+      .percorso-intro .section-title { grid-column: 1; }
+      .percorso-intro .btn-primary {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        align-self: center;
+        margin-top: 0;
+      }
+
+      .passi { display: grid; grid-template-columns: repeat(4, 1fr); }
+      .passo { padding: 4rem 2rem 0 0; }
+      .passo:nth-child(even) { padding-top: 6.6rem; }
+      .passo:nth-child(even) .passo-numero { top: 2.6rem; }
+      .passo::before { display: none; }
+
+      .passo-onda {
+        display: block;
+        position: absolute;
+        left: 1.2rem;
+        top: 1.2rem;
+        width: 100%;
+        height: 2.6rem;
+        overflow: visible;
+        fill: none;
+        stroke: var(--sand);
+        stroke-width: 1;
+        stroke-dasharray: 4 5;
+      }
+      /* Senza questo il tratteggio si deformerebbe con l'onda, che viene
+         stirata in larghezza molto piu' che in altezza. */
+      .passo-onda path { vector-effect: non-scaling-stroke; }
+
+      .passo-titolo { line-height: 1.3; margin-bottom: 0.6rem; }
+      .passo-testo { font-size: 0.95rem; }
+    }
 
     /* DOMANDE FREQUENTI — <details> nativo: si apre senza JavaScript e si
        usa anche da tastiera. */
