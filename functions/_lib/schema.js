@@ -65,24 +65,24 @@ export const GROUPS = [
     title: 'Inizia il tuo percorso',
     fields: [
       { name: 'percorso_titolo', label: 'Titolo della sezione', type: 'string' },
-      {
-        name: 'percorso_sedute',
-        label: 'Come funzionano le sedute',
-        type: 'text',
-        hint: 'Colonna di sinistra: durata, frequenza, incontri online, privacy. Puoi andare a capo: gli a capo vengono rispettati sul sito.'
-      },
+      { name: 'passo1_titolo', label: 'Tappa 1 — titolo', type: 'string', hint: 'Le quattro tappe numerate, unite da una linea. Sul sito compaiono in questo stesso ordine.' },
+      { name: 'passo1_testo', label: 'Tappa 1 — testo', type: 'text' },
+      { name: 'passo2_titolo', label: 'Tappa 2 — titolo', type: 'string' },
       {
         name: 'percorso_consenso',
-        label: 'Il consenso informato',
+        label: 'Tappa 2 — testo (il consenso informato)',
         type: 'text',
-        hint: 'Colonna di destra. Su schermi stretti finisce sotto l\'altra invece che di fianco. Se lasci vuoto, resta una colonna sola.'
+        hint: 'Puoi andare a capo: gli a capo vengono rispettati sul sito.'
       },
-      { name: 'passo1_titolo', label: 'Passo 1 — titolo', type: 'string', hint: 'I tre passi numerati in cima alla sezione, prima delle due colonne.' },
-      { name: 'passo1_testo', label: 'Passo 1 — testo', type: 'text' },
-      { name: 'passo2_titolo', label: 'Passo 2 — titolo', type: 'string' },
-      { name: 'passo2_testo', label: 'Passo 2 — testo', type: 'text' },
-      { name: 'passo3_titolo', label: 'Passo 3 — titolo', type: 'string' },
-      { name: 'passo3_testo', label: 'Passo 3 — testo', type: 'text' }
+      { name: 'passo3_titolo', label: 'Tappa 3 — titolo', type: 'string' },
+      { name: 'passo3_testo', label: 'Tappa 3 — testo', type: 'text' },
+      { name: 'passo4_titolo', label: 'Tappa 4 — titolo', type: 'string' },
+      {
+        name: 'percorso_sedute',
+        label: 'Tappa 4 — testo (come funzionano le sedute)',
+        type: 'text',
+        hint: 'Durata, frequenza, incontri online, privacy. Puoi andare a capo: gli a capo vengono rispettati sul sito.'
+      }
     ]
   },
   {
