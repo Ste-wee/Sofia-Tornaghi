@@ -624,6 +624,16 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   che Sofia aveva lasciato: nascono `bio_intro` e `bio_invito`, e i campi
   passano da 83 a 85. Ricomposti danno il testo di partenza.
 
+  E infine **il piè di pagina su telefono**, dal ramo `demo/piede-mobile`: i
+  dati legali andavano a capo a meta' ("sez." da una parte, "A, n. 26648"
+  dall'altra, "Codice deontologico" spezzato) e i cinque collegamenti in
+  colonna prendevano mezzo schermo. Ora ogni dato e' un elemento suo: da PC
+  restano in riga coi puntini, su telefono uno per riga, e gli spazi
+  indivisibili (`&nbsp;`) tengono insieme "sez. A", "n. 26648" e la partita
+  IVA. I collegamenti su telefono stanno su due colonne.
+  ⚠️ Visto che le anteprime restano accese, Stefano ne ha aperta una vecchia
+  credendola nuova: un motivo in piu' per cancellare i rami gia' uniti.
+
 ### In sospeso
 
 1. **Far leggere a Sofia i testi della demo che non ha scritto lei**, e che
@@ -647,10 +657,12 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
    l'errore sarebbe solo nei log.
 4. **Cancellare i rami gia' uniti**, che restano sul remoto con la loro
    anteprima accesa (con `noindex`, quindi innocua):
-   `demo/spunti-colleghe`, `demo/chi-sono`, `claude/dove-siamo-rimasti-nrsh36`,
-   `claude/memoria-progetto`. Tutti interamente dentro `main`. Claude non ha
-   il permesso di cancellare rami remoti: va fatto da Stefano con
-   `git push origin --delete <ramo>`.
+   `demo/spunti-colleghe`, `demo/chi-sono`, `demo/piede-mobile`,
+   `claude/dove-siamo-rimasti-nrsh36`, `claude/memoria-progetto`. Tutti
+   interamente dentro `main`. Claude non ha il permesso di cancellare rami
+   remoti: va fatto da Stefano con `git push origin --delete <ramo>`.
+   Le anteprime vecchie confondono: il 26 ottobre ne e' stata aperta una
+   credendola quella nuova.
 
 ### Decisioni prese, da non rimettere in discussione senza motivo
 
