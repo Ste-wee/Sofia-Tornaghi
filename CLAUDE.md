@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **26 ottobre 2026** — pubblicate le idee prese dai siti delle colleghe
+> Ultimo aggiornamento: **26 ottobre 2026** — idee dai siti delle colleghe e "Chi sono" riordinata
 
 ---
 
@@ -149,7 +149,7 @@ privacy.html        l'informativa, servita su /privacy (Pages toglie il .html)
 style.css           tutti gli stili
 script.js           navbar, menu mobile, aree apribili, WhatsApp fisso
 content-loader.js   carica i JSON nella pagina e costruisce i link di contatto
-content/site.json   83 testi e recapiti modificabili dal pannello
+content/site.json   85 testi e recapiti modificabili dal pannello
 content/foto.json   il nome del file della foto profilo
 fonts/              i due caratteri del sito, ospitati qui e non presi da Google
 admin/index.html    il pannello di gestione (login + editor)
@@ -592,6 +592,23 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   mattina: un campo facoltativo svuotato avrebbe lasciato in pagina il valore
   vecchio. Ora esiste `data-facoltativo` (vedi le convenzioni).
 
+  Ultima della giornata, **"Chi sono" riordinata**, sempre senza aggiungere
+  parole e provata prima sull'anteprima del ramo `demo/chi-sono`:
+  - **la frase d'apertura di Sofia in evidenza** ("Ciao, sono la dott.ssa…"),
+    nel carattere dei titoli: i sei paragrafi grigi tutti uguali erano un
+    muro;
+  - **"Se senti che questo è il momento giusto, puoi iniziare da qui..."
+    diventa un collegamento** alla sezione "Inizia il tuo percorso": diceva
+    "da qui" senza portare da nessuna parte;
+  - **l'approccio passa a destra** come quinta scheda sotto le credenziali,
+    con il bordo verde: prima era grigio su grigio. Da PC la colonna di
+    destra segue la lettura (`position: sticky`) finche' il testo a sinistra
+    non finisce; prima le credenziali si fermavano a 499px contro 981px di
+    testo, ora 626 contro 890.
+  Per l'apertura e l'invito, `bio_p1` e `bio_p3` sono divisi alla riga vuota
+  che Sofia aveva lasciato: nascono `bio_intro` e `bio_invito`, e i campi
+  passano da 83 a 85. Ricomposti danno il testo di partenza.
+
 ### In sospeso
 
 1. **Far leggere a Sofia i testi della demo che non ha scritto lei**, e che
@@ -613,6 +630,12 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
    state fatte con un GitHub simulato: il token vero non e' mai stato usato
    per scrivere `index.html`, e se non avesse il permesso su quel file
    l'errore sarebbe solo nei log.
+4. **Cancellare i rami gia' uniti**, che restano sul remoto con la loro
+   anteprima accesa (con `noindex`, quindi innocua):
+   `demo/spunti-colleghe`, `demo/chi-sono`, `claude/dove-siamo-rimasti-nrsh36`,
+   `claude/memoria-progetto`. Tutti interamente dentro `main`. Claude non ha
+   il permesso di cancellare rami remoti: va fatto da Stefano con
+   `git push origin --delete <ramo>`.
 
 ### Decisioni prese, da non rimettere in discussione senza motivo
 
