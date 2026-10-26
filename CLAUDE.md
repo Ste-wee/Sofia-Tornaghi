@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **26 ottobre 2026** — recensioni spostate, stelle dorate
+> Ultimo aggiornamento: **26 ottobre 2026** — informativa privacy, bozza pubblicata
 
 ---
 
@@ -125,6 +125,7 @@ Il branch `fix/audit-codice-e-ui` **può essere chiuso**: l'impianto scelto è s
 
 ```
 index.html          la pagina, con segnaposto data-content sui testi modificabili
+privacy.html        l'informativa, servita su /privacy (Pages toglie il .html)
 style.css           tutti gli stili
 script.js           navbar e menu mobile
 content-loader.js   carica i JSON nella pagina e costruisce i link di contatto
@@ -218,6 +219,11 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   la colonna. Confrontati il 29 settembre sugli stessi 58 campi: con
   `break-word` ne restavano rotti 32, con `anywhere` nessuno. Serve anche
   `min-width: 0` sui figli delle griglie, altrimenti la regola non basta.
+- **I collegamenti interni si scrivono senza `.html`.** Cloudflare Pages serve
+  `/privacy` e fa rispondere `/privacy.html` con un 308 verso di esso. Con la
+  sola home non si notava; con la seconda pagina e' venuto fuori due volte, nel
+  collegamento del piè di pagina e — piu' serio — nel `canonical`, che
+  dichiarava un indirizzo che reindirizza.
 - I commenti nel codice spiegano *perché*, non *cosa*.
 - Sviluppo sul branch indicato dalla sessione, mai direttamente su `main`.
 
@@ -408,17 +414,44 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   Le stelle delle recensioni passano da `--sand` a **`--oro` #C9A227**, messo
   fra i colori della palette invece che scritto dentro la regola.
 
+  Poi, **scritta la bozza dell'informativa privacy**: nuova pagina
+  `privacy.html`, servita su `/privacy`. Riusa la
+  grafica del sito e carica `content-loader.js`, quindi indirizzo ed email
+  arrivano dal pannello: se Sofia cambia studio l'informativa si aggiorna con
+  il resto invece di restare indietro a dire il falso.
+  Il contenuto si appoggia a cio' che era stato verificato il 2 ottobre —
+  nessun cookie, nessun tracciatore, nessuna richiesta esterna — e dichiara
+  anche cio' che le informative "non raccogliamo niente" spesso tacciono: il
+  server registra comunque i dati tecnici di connessione, indirizzo IP
+  compreso, perche' senza non potrebbe consegnare le pagine.
+  ⚠️ **E' una bozza, non un documento validato.** Tre punti restano da
+  riempire e sono marcati con `.da-completare`, un riquadro volutamente
+  vistoso. Vedi le cose in sospeso.
+
 ### In sospeso
 
-1. **Informativa privacy.** Dal 2 ottobre il sito **non contatta piu' nessuno**
-   e non raccoglie niente, quindi l'informativa deve descrivere un'assenza, non
-   un rapporto con terzi: molto piu' semplice da far scrivere e da mantenere
-   vera. Resta comunque opportuna, perche' il sito e' la vetrina di un'attivita'
-   sanitaria e Sofia e' titolare del trattamento per i dati dei suoi pazienti.
-   ⚠️ **Non e' una valutazione tecnica: serve qualcuno di competente.** Sofia
-   ha gia' un'informativa per lo studio — nel sito parla del consenso informato
-   che manda ai pazienti — quindi conviene far derivare quella del sito dalla
-   stessa persona che ha preparato l'altra.
+1. **Completare l'informativa privacy.** La bozza e' su `/privacy` dal 26
+   ottobre, ma ha **tre buchi**, segnati nella pagina con riquadri
+   `.da-completare`:
+   - numero di iscrizione all'Albo degli Psicologi della Lombardia e codice
+     fiscale o partita IVA di Sofia. ⚠️ Il numero d'Albo stava in `bio_p1`
+     fino a ottobre ed e' uscito quando lei ha riscritto i testi, quindi non
+     si puo' ripescare da li';
+   - i riferimenti dell'accordo con Cloudflare e le garanzie sul trasferimento
+     extra UE, piu' il tempo di conservazione dei registri di connessione;
+   - per quanto tempo si conservano i messaggi di chi scrive senza poi
+     iniziare un percorso, con il rimando all'informativa che Sofia gia'
+     consegna ai pazienti.
+   ⚠️ **Il collegamento dal piè di pagina e' stato tolto** lo stesso giorno:
+   la pagina e' pubblica e i riquadri "Da completare" sarebbero stati visibili
+   ai pazienti, che su un sito professionale si legge come lavoro lasciato a
+   meta'. Resta raggiungibile su `/privacy` da chi ha l'indirizzo.
+   **Quando i buchi saranno riempiti va rimesso**, una riga nel `footer-links`
+   di `index.html` — altrimenti l'informativa esiste e nessuno la trova, che e'
+   il motivo opposto per cui la si scrive.
+   ⚠️ **La forma giuridica non e' stata validata da nessuno di competente.**
+   Sofia ha gia' un'informativa per lo studio: conviene far rivedere questa
+   dalla stessa persona che ha preparato l'altra.
 2. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
    scartato: meglio per i motori di ricerca. Da valutare quando il resto è in
    piedi.
