@@ -15,9 +15,11 @@ if (nav) {
 // di pagina, che coprirebbe. Si guardano i pulsanti e non le sezioni intere:
 // osservando tutta la sezione contatti spariva gia' a meta' delle domande
 // frequenti, proprio dove nasce la voglia di scrivere.
+// Sparisce anche sulle tariffe: su telefono i prezzi sono allineati a destra,
+// esattamente sotto il pulsante, che copriva proprio la cifra cercata.
 const whatsappFisso = document.querySelector('.whatsapp-fisso');
 if (whatsappFisso && 'IntersectionObserver' in window) {
-  const zone = ['.hero-actions', '#contatti .contact-action.is-whatsapp', 'footer']
+  const zone = ['.hero-actions', '.services-list', '#contatti .contact-action.is-whatsapp', 'footer']
     .map((selettore) => document.querySelector(selettore))
     .filter(Boolean);
   const inVista = new Set();
