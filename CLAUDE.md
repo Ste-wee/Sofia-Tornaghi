@@ -546,10 +546,15 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
      domande frequenti, in particolare fattura e detrazione al 19% e la
      frase "psicologa e psicoterapeuta in formazione";
    - **`content/site.json` andra' in conflitto**: nella demo i campi
-     `percorso_consenso` e `percorso_sedute` sono divisi in otto
-     (`tappa1_titolo` ... `tappa4_testo`) alle righe dove Sofia andava a
-     capo. Se nel frattempo lei li ha modificati, va ripresa la sua versione
-     e divisa allo stesso modo;
+     `percorso_consenso` e `percorso_sedute` sono divisi in dieci, alle
+     righe dove Sofia andava a capo: `tappa1_testo` (le prime due righe del
+     consenso), `tappa2_testo` (la terza), i tre casi della consegna in
+     `consegna1_etichetta`/`consegna1_testo` ... `consegna3_*` (ogni riga
+     col punto elenco, divisa ai due punti), `tappa3_testo` e
+     `tappa4_testo` (le sedute). Gia' riunito una volta con `main` il 26
+     ottobre senza perdite. Se nel frattempo lei li ha modificati, va
+     ripresa la sua versione e divisa allo stesso modo, controllando che
+     ricomposta dia il testo di partenza carattere per carattere;
    - il ramo non va mai unito senza aver riletto questo punto: cambia i nomi
      dei campi, e un'unione distratta riporterebbe in pagina i testi vecchi.
 2. **Far confermare a Sofia l'informativa**, in particolare la frase sui
