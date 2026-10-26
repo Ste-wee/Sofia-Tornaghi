@@ -528,8 +528,14 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   ⚠️ **Sono scritti a mano e non stanno nel pannello**, apposta: non cambiano,
   e un campo svuotato per sbaglio farebbe sparire un obbligo di legge. Il
   giorno in cui Sofia si specializza cambia il titolo, e va cambiato qui.
-  ⚠️ Il sito del CNOP risponde 403 a `curl`: e' una protezione contro le
-  richieste automatiche, la pagina c'e' e nel browser si apre.
+  ⚠️ **Il collegamento al Codice deontologico e' stato tolto poco dopo**, per
+  scelta di Stefano. L'art. 7 lo chiede insieme agli altri dati ("il
+  riferimento alle norme professionali ... e le modalita' di consultazione"),
+  ma che la norma valga per un sito vetrina e' discusso e il rischio e' stato
+  giudicato basso. Se un domani l'Ordine o un consulente lo chiedessero, e'
+  una riga nel piè di pagina: la pagina del CNOP e'
+  `https://www.psy.it/codice-deontologico-degli-psicologi-italiani/`, che
+  risponde 403 a `curl` ma nel browser si apre.
   Corretto anche un refuso nel testo di Sofia sulle sedute, *"ci che"* →
   *"ciò che"*, su richiesta di Stefano.
 
