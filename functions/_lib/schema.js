@@ -65,18 +65,14 @@ export const GROUPS = [
     title: 'Inizia il tuo percorso',
     fields: [
       { name: 'percorso_titolo', label: 'Titolo della sezione', type: 'string' },
-      {
-        name: 'percorso_consenso',
-        label: 'Prima tappa — il consenso informato',
-        type: 'text',
-        hint: 'Il percorso ha due tappe numerate, unite da una linea. Questa e la prima. Puoi andare a capo: gli a capo vengono rispettati sul sito.'
-      },
-      {
-        name: 'percorso_sedute',
-        label: 'Seconda tappa — come funzionano le sedute',
-        type: 'text',
-        hint: 'Durata, frequenza, incontri online, privacy. Puoi andare a capo: gli a capo vengono rispettati sul sito.'
-      }
+      { name: 'tappa1_titolo', label: 'Tappa 1 — titolo', type: 'string', hint: 'Il percorso ha quattro tappe numerate, unite da una linea, in questo stesso ordine. Il titolo e facoltativo: se lo lasci vuoto la tappa mostra solo il testo.' },
+      { name: 'tappa1_testo', label: 'Tappa 1 — testo', type: 'text' },
+      { name: 'tappa2_titolo', label: 'Tappa 2 — titolo', type: 'string' },
+      { name: 'tappa2_testo', label: 'Tappa 2 — testo', type: 'text', hint: 'Puoi andare a capo: gli a capo vengono rispettati sul sito.' },
+      { name: 'tappa3_titolo', label: 'Tappa 3 — titolo', type: 'string' },
+      { name: 'tappa3_testo', label: 'Tappa 3 — testo', type: 'text' },
+      { name: 'tappa4_titolo', label: 'Tappa 4 — titolo', type: 'string' },
+      { name: 'tappa4_testo', label: 'Tappa 4 — testo', type: 'text' }
     ]
   },
   {

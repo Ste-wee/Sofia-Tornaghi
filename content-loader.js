@@ -169,6 +169,12 @@
           if (data[key].indexOf('\n') !== -1) {
             el.classList.add('testo-a-capo');
           }
+        } else if (data[key] === '' && el.hasAttribute('data-facoltativo')) {
+          // Un campo facoltativo lasciato vuoto va svuotato davvero. Di norma
+          // un campo vuoto tiene il testo di ripiego, ma qui il ripiego puo'
+          // essere un vecchio valore che il pannello aveva scritto nell'HTML.
+          el.textContent = '';
+          el.classList.remove('testo-a-capo');
         }
       });
 

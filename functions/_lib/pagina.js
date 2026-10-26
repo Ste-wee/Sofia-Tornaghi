@@ -50,9 +50,19 @@ export function riempiPagina(html, valori) {
   const risultato = html.replace(
     /(<(\w+)\b[^>]*\bdata-content="([^"]+)"[^>]*>)([\s\S]*?)(<\/\2>)/g,
     function (intero, apertura, tag, chiave, dentro, chiusura) {
-      // Come nel browser: un campo vuoto lascia il testo di ripiego.
-      if (typeof valori[chiave] !== 'string' || valori[chiave] === '') return intero;
+      if (typeof valori[chiave] !== 'string') return intero;
       if (dentro.indexOf('<') !== -1) return intero;
+
+      // Come nel browser: un campo vuoto lascia il testo di ripiego, tranne
+      // quelli segnati come facoltativi, che vanno svuotati. Senza questa
+      // eccezione un titolo scritto e poi cancellato resterebbe in pagina,
+      // perche' il ripiego e' proprio il valore scritto qui l'ultima volta.
+      if (valori[chiave] === '') {
+        if (!/\sdata-facoltativo[\s>=]/.test(apertura)) return intero;
+        const svuotato = aggiornaClasse(apertura, false) + chiusura;
+        if (svuotato !== intero) cambiati++;
+        return svuotato;
+      }
 
       const valore = valori[chiave].replace(/\r\n/g, '\n');
       const testo = escapeHtml(valore).replace(/\n/g, aCapoDelFile);

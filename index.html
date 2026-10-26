@@ -341,10 +341,12 @@ Se senti che questo è il momento giusto, puoi iniziare da qui...</p>
        funziona?". In fondo, mescolato ai recapiti, era dettaglio operativo per
        chi aveva gia' deciso, messo davanti a chi stava ancora decidendo. -->
   <section id="percorso">
-    <!-- Un percorso a tappe fatto solo dei testi di Sofia, senza titoli: il
-         consenso informato prima, perche' lei lo manda prima del primo
-         incontro, e poi come funzionano le sedute. La prima riga del testo
-         sul consenso, che e' una domanda, fa gia' da titolo.
+    <!-- Un percorso a tappe fatto solo dei testi di Sofia: i suoi due testi
+         sul consenso informato e sulle sedute, divisi alle righe dove lei
+         andava gia' a capo, senza una parola aggiunta. Le prime due tappe
+         hanno per titolo una riga sua; la terza e la quarta non ne avevano,
+         e il titolo vuoto sparisce (CSS :empty). Il consenso viene prima
+         perche' lei lo manda prima del primo incontro.
          Su schermo largo le tappe si affiancano lungo un'onda, come quella
          che separa le sezioni; sotto i 1100px tornano in colonna. -->
     <div class="percorso-layout">
@@ -357,17 +359,27 @@ Se senti che questo è il momento giusto, puoi iniziare da qui...</p>
         <li class="passo">
           <svg class="passo-onda" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0 C50 0 50 10 100 10"/></svg>
           <span class="passo-numero" aria-hidden="true">1</span>
-          <p class="passo-testo testo-a-capo" data-content="percorso_consenso">Cos'è il Consenso Informato e come funziona?
-Il Consenso Informato è il documento che tutela la tua privacy e definisce i dettagli del nostro lavoro insieme (riservatezza, costi, modalità di svolgimento).
-Ecco come gestire la consegna prima di iniziare:
-•	In presenza: Ti invierò il modulo via email prima del primo incontro per poterlo leggere con calma; basterà portarne una copia firmata in studio.
+          <h3 class="passo-titolo" data-content="tappa1_titolo" data-facoltativo>Cos'è il Consenso Informato e come funziona?</h3>
+          <p class="passo-testo" data-content="tappa1_testo">Il Consenso Informato è il documento che tutela la tua privacy e definisce i dettagli del nostro lavoro insieme (riservatezza, costi, modalità di svolgimento).</p>
+        </li>
+        <li class="passo">
+          <svg class="passo-onda" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 10 C50 10 50 0 100 0"/></svg>
+          <span class="passo-numero" aria-hidden="true">2</span>
+          <h3 class="passo-titolo" data-content="tappa2_titolo" data-facoltativo>Ecco come gestire la consegna prima di iniziare:</h3>
+          <p class="passo-testo testo-a-capo" data-content="tappa2_testo">•	In presenza: Ti invierò il modulo via email prima del primo incontro per poterlo leggere con calma; basterà portarne una copia firmata in studio.
 •	Per le sedute online: Puoi rinviarmelo comodamente via email, firmato digitalmente o scansionato/fotografato in modo leggibile.
 •	Per i minorenni: Trattandosi di prestazioni sanitarie per minori di 18 anni, il documento deve essere firmato da entrambi i genitori (o dai tutori legali).</p>
         </li>
         <li class="passo">
-          <span class="passo-numero" aria-hidden="true">2</span>
-          <p class="passo-testo testo-a-capo" data-content="percorso_sedute">Le sedute durano 45 minuti circa. La frequenza la stabiliamo insieme nei primi colloqui.
-Per le sedute online vi invierò via mail un link il giorno stesso della seduta. 
+          <svg class="passo-onda" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0 C50 0 50 10 100 10"/></svg>
+          <span class="passo-numero" aria-hidden="true">3</span>
+          <h3 class="passo-titolo" data-content="tappa3_titolo" data-facoltativo></h3>
+          <p class="passo-testo" data-content="tappa3_testo">Le sedute durano 45 minuti circa. La frequenza la stabiliamo insieme nei primi colloqui.</p>
+        </li>
+        <li class="passo">
+          <span class="passo-numero" aria-hidden="true">4</span>
+          <h3 class="passo-titolo" data-content="tappa4_titolo" data-facoltativo></h3>
+          <p class="passo-testo testo-a-capo" data-content="tappa4_testo">Per le sedute online vi invierò via mail un link il giorno stesso della seduta. 
 Per garantire la privacy dei pazienti io mi troverò sempre in uno spazio riservato senza che nessuno possa sentire e con l’utilizzo delle cuffie, per la libera espressione dei pensieri e delle emozioni consiglio anche ai pazienti di collegarsi alle videochiamate in un luogo in cui hanno privacy e la libertà di esprimere ci che provano e pensano senza sentirsi giudicati da altri.</p>
         </li>
       </ol>
@@ -461,7 +473,7 @@ Per garantire la privacy dei pazienti io mi troverò sempre in uno spazio riserv
         <h2 class="section-title" data-content="titolo_contatti">Scrivimi</h2>
         <!-- Vuoto di proposito: se Sofia scrive qualcosa dal pannello compare
              qui sopra i pulsanti, altrimenti la riga sparisce (CSS :empty). -->
-        <p class="section-body" data-content="contatti_intro"></p>
+        <p class="section-body" data-content="contatti_intro" data-facoltativo></p>
         <p class="form-note">Scegli il modo che preferisci. Rispondo io personalmente, di norma in giornata.</p>
 
         <!-- I recapiti arrivano da content/site.json: content-loader.js costruisce
