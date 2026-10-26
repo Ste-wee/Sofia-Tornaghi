@@ -65,7 +65,7 @@
        subito la versione nuova. Senza, chi era gia' passato vedeva per ore la
        pagina nuova con lo stile vecchio. Va cambiato a ogni modifica di
        style.css, script.js o content-loader.js, in tutte e due le pagine. -->
-  <link rel="stylesheet" href="style.css?v=20261026" />
+  <link rel="stylesheet" href="style.css?v=20261026b" />
 </head>
 <body>
 
@@ -154,27 +154,27 @@ Esperta nel trattamento dei Disturbi della Nutrizione e dell'Alimentazione, prea
         <p class="section-eyebrow">Chi sono</p>
         <h2 class="section-title">Una professionista<br>al tuo fianco</h2>
 
-        <div class="bio-block">
-          <p data-content="bio_p1" class="testo-a-capo">Ciao, sono la dott.ssa Sofia Tornaghi, psicologa e psicoterapeuta in formazione presso la scuola del Centro Clinico Il Minotauro di Milano.
+        <!-- Apertura e invito sono righe di Sofia, staccate dai paragrafi alla
+             riga vuota che lei stessa aveva lasciato: la prima fa da attacco,
+             l'ultima ("puoi iniziare da qui") porta davvero alla sezione che
+             si chiama "Inizia il tuo percorso". Nessuna parola aggiunta. -->
+        <p class="bio-intro" data-content="bio_intro">Ciao, sono la dott.ssa Sofia Tornaghi, psicologa e psicoterapeuta in formazione presso la scuola del Centro Clinico Il Minotauro di Milano.</p>
 
-Accolgo le persone in uno spazio sicuro e rispettoso, dove poter portare liberamente ciò che stanno vivendo, senza giudizio. Lavoro sia online sia in presenza, adattandomi ai ritmi della vita quotidiana e accompagnando chi si trova in momenti di difficoltà, cambiamento o transizione.</p>
+        <div class="bio-block">
+          <p data-content="bio_p1">Accolgo le persone in uno spazio sicuro e rispettoso, dove poter portare liberamente ciò che stanno vivendo, senza giudizio. Lavoro sia online sia in presenza, adattandomi ai ritmi della vita quotidiana e accompagnando chi si trova in momenti di difficoltà, cambiamento o transizione.</p>
           <p data-content="bio_p2" class="testo-a-capo">Nel mio lavoro con giovani adulti e adulti (online e in presenza) e con adolescenti e preadolescenti (esclusivamente in presenza), offro uno spazio in cui fermarsi, ascoltarsi e ritrovare equilibrio, affrontando insieme ansia, stress, irritabilità, difficoltà relazionali e le sfide emotive che possono emergere nel corso della vita.
 
 Ho conseguito un Master in DNA ed ho arricchito la mia formazione con diversi tirocini clinici, tra cui l'esperienza triennale presso l'ambulatorio DNA del CPS. Integrando esperienza clinica e lavoro di gruppo, metto le mie competenze al servizio del benessere della persona.</p>
         </div>
 
-        <div class="approccio">
-          <div class="approccio-etichetta" data-content="approccio_titolo">Approccio terapeutico</div>
-          <div class="approccio-valore" data-content="approccio_valore">Psicologia clinica-dinamica</div>
-        </div>
-
         <div class="bio-block">
-          <p data-content="bio_p3" class="testo-a-capo">Il mio impegno è offrirti un luogo a portata di mano, dove poterti conoscere meglio, attraversare i momenti complessi e riscoprire le tue risorse.
-
-Se senti che questo è il momento giusto, puoi iniziare da qui...</p>
+          <p data-content="bio_p3">Il mio impegno è offrirti un luogo a portata di mano, dove poterti conoscere meglio, attraversare i momenti complessi e riscoprire le tue risorse.</p>
+          <a class="bio-invito" href="#percorso" data-content="bio_invito">Se senti che questo è il momento giusto, puoi iniziare da qui...</a>
         </div>
       </div>
 
+      <!-- Credenziali e approccio insieme: sono i fatti, il testo a sinistra e'
+           il racconto. Da PC la colonna resta ferma mentre si legge. -->
       <div class="about-right">
         <div class="credentials">
 
@@ -219,6 +219,10 @@ Se senti che questo è il momento giusto, puoi iniziare da qui...</p>
             </div>
           </div>
 
+        </div>
+        <div class="approccio">
+          <div class="approccio-etichetta" data-content="approccio_titolo">Approccio terapeutico</div>
+          <div class="approccio-valore" data-content="approccio_valore">Psicologia clinica-dinamica</div>
         </div>
       </div>
     </div>
@@ -579,8 +583,8 @@ Per garantire la privacy dei pazienti io mi troverò sempre in uno spazio riserv
               </svg>
   </a>
 
-    <script src="script.js?v=20261026"></script>
-  <script src="content-loader.js?v=20261026"></script>
+    <script src="script.js?v=20261026b"></script>
+  <script src="content-loader.js?v=20261026b"></script>
 
 </body>
 </html>

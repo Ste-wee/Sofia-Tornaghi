@@ -27,9 +27,11 @@ export const GROUPS = [
   {
     title: 'Chi sono',
     fields: [
+      { name: 'bio_intro', label: 'Frase di apertura', type: 'text', hint: 'La prima riga, piu grande delle altre.' },
       { name: 'bio_p1', label: 'Primo paragrafo', type: 'text' },
       { name: 'bio_p2', label: 'Secondo paragrafo', type: 'text' },
-      { name: 'bio_p3', label: 'Terzo paragrafo', type: 'text', hint: 'Quello sotto il riquadro dell approccio.' },
+      { name: 'bio_p3', label: 'Terzo paragrafo', type: 'text' },
+      { name: 'bio_invito', label: 'Invito finale', type: 'string', hint: 'L ultima riga: e un collegamento che porta alla sezione Inizia il tuo percorso.' },
       { name: 'approccio_titolo', label: 'Approccio — etichetta', type: 'string', hint: 'La scritta piccola sopra, in maiuscoletto.' },
       { name: 'approccio_valore', label: 'Approccio — testo', type: 'string', hint: 'La riga grande nel riquadro in evidenza.' },
       { name: 'cred1_titolo', label: 'Credenziale 1 — etichetta', type: 'string' },
