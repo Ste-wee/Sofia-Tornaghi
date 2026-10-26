@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **26 ottobre 2026** — idee dai siti delle colleghe e "Chi sono" riordinata
+> Ultimo aggiornamento: **26 ottobre 2026**, sera — tutto online; restano i punti di Sofia e i rami da cancellare
 
 ---
 
@@ -495,7 +495,16 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   ora c'e' *"Se continui a fare la stessa cosa, vivrai sempre la stessa
   storia"*. E' la prova che l'impianto funziona per chi doveva usarlo.
 
-- **26 ottobre 2026** — **le recensioni passano prima di "Inizia il tuo
+- **26 ottobre 2026** — la giornata piu' lunga finora. In breve, nell'ordine:
+  recensioni prima del percorso e stelle dorate; informativa privacy scritta,
+  tolta e rimessa; il pannello che scrive i testi anche dentro l'HTML; numero
+  d'Albo, partita IVA e Codice deontologico nel piè di pagina; domande
+  frequenti, percorso a tappe, aree apribili, mappe, WhatsApp fisso e dati
+  per Google, presi guardando i siti di cinque colleghe; "Chi sono"
+  riordinata; piè di pagina su telefono; `?v=` contro la cache. Tutto online
+  alla sera, ultimo commit `9910848`. Il dettaglio segue.
+
+  **Le recensioni passano prima di "Inizia il tuo
   percorso"**, su richiesta di Stefano. Risistemata l'alternanza degli sfondi
   come sempre quando si tocca l'ordine, e verificato che non restino due
   sezioni adiacenti dello stesso colore. Aggiornato anche il commento sopra la
