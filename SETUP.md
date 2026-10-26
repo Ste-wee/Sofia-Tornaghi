@@ -196,11 +196,8 @@ cambia il record SPF, che deve autorizzare i server di inoltro di Cloudflare.
 
 ---
 
-## In sospeso
-
-- **Informativa privacy.** Con i contatti diretti il sito non raccoglie più
-  dati, quindi non serve più una casella di consenso. Resta comunque
-  opportuna una breve pagina di informativa, dato che Sofia tratta i dati dei
-  pazienti nella sua attività.
-- **Font Google.** Sono caricati da `fonts.googleapis.com`, che riceve l'IP di
-  ogni visitatore. Ospitarli direttamente sul sito eliminerebbe il problema.
+## In sospeso
+
+- **Numero d'Albo e partita IVA nel piè di pagina.** Li chiedono l'art. 7
+  del D.Lgs. 70/2003 e la norma IVA sulla home page, indipendentemente dalla
+  privacy. Servono i due numeri da Sofia. Dettagli in `CLAUDE.md`.

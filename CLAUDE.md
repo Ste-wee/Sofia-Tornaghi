@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **26 ottobre 2026** — informativa privacy, bozza pubblicata
+> Ultimo aggiornamento: **26 ottobre 2026** — informativa privacy tolta, per scelta
 
 ---
 
@@ -125,7 +125,6 @@ Il branch `fix/audit-codice-e-ui` **può essere chiuso**: l'impianto scelto è s
 
 ```
 index.html          la pagina, con segnaposto data-content sui testi modificabili
-privacy.html        l'informativa, servita su /privacy (Pages toglie il .html)
 style.css           tutti gli stili
 script.js           navbar e menu mobile
 content-loader.js   carica i JSON nella pagina e costruisce i link di contatto
@@ -428,43 +427,39 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   riempire e sono marcati con `.da-completare`, un riquadro volutamente
   vistoso. Vedi le cose in sospeso.
 
+  In serata, **l'informativa e' stata tolta**, per scelta di Stefano. Prima
+  di decidere si e' ricontrollato tutto il sito pubblicato, nel browser e con
+  `curl` sulle intestazioni: nessuna richiesta a domini esterni, nessun
+  cookie nemmeno lato server, niente storage, niente iframe, niente moduli,
+  Cloudflare Web Analytics spento. Le uniche due aggiunte di Cloudflare
+  erano lo script anti-spam per le email, che compariva **solo** su
+  `/privacy` perche' li' l'email era scritta nell'HTML, e l'intestazione
+  NEL, che fa segnalare a Cloudflare solo i caricamenti falliti. Con la
+  pagina se ne va anche lo script.
+  Prima ancora era stato chiuso il riquadro su Cloudflare con le fonti
+  ufficiali (accordo sul trattamento richiamato dalle condizioni self-serve,
+  Data Privacy Framework, nessun termine di conservazione pubblicato): il
+  testo e' nel commit `e693eb9`, da cui si riparte se si torna indietro.
+
 ### In sospeso
 
-1. **Completare l'informativa privacy.** La bozza e' su `/privacy` dal 26
-   ottobre, ma ha **due buchi**, segnati nella pagina con riquadri
-   `.da-completare`, ed entrambi aspettano dati che ha solo Sofia:
-   - numero di iscrizione all'Albo degli Psicologi della Lombardia e codice
-     fiscale o partita IVA di Sofia. ⚠️ Il numero d'Albo stava in `bio_p1`
-     fino a ottobre ed e' uscito quando lei ha riscritto i testi, quindi non
-     si puo' ripescare da li'. Probabilmente vanno mostrati sul sito
-     **comunque**, informativa o no: P.IVA in home page (art. 35 DPR
-     633/72) e Albo per chi offre servizi online (D.Lgs. 70/2003). Da
-     confermare con chi segue Sofia;
-   - per quanto tempo si conservano i messaggi di chi scrive senza poi
-     iniziare un percorso, con il rimando all'informativa che Sofia gia'
-     consegna ai pazienti.
-
-   Il terzo, **Cloudflare, e' chiuso** dal 26 ottobre con le fonti ufficiali,
-   citate in un commento nella pagina: accordo sul trattamento richiamato
-   dalle condizioni self-serve, quindi valido anche sul piano gratuito;
-   trasferimento negli USA col Data Privacy Framework, con le clausole
-   standard UE di riserva. ⚠️ **Cloudflare non pubblica un termine di
-   conservazione dei registri**, e la pagina lo dice cosi' invece di
-   inventarne uno.
-   Valutato anche se l'informativa si potesse saltare, visto che il sito non
-   salva niente: no, perche' l'IP registrato da Cloudflare e' un dato
-   personale di cui Sofia e' titolare. Il rischio di non averla e' basso, ma
-   il lavoro per averla era quasi tutto fatto.
-   ⚠️ **Il collegamento dal piè di pagina e' stato tolto** lo stesso giorno:
-   la pagina e' pubblica e i riquadri "Da completare" sarebbero stati visibili
-   ai pazienti, che su un sito professionale si legge come lavoro lasciato a
-   meta'. Resta raggiungibile su `/privacy` da chi ha l'indirizzo.
-   **Quando i buchi saranno riempiti va rimesso**, una riga nel `footer-links`
-   di `index.html` — altrimenti l'informativa esiste e nessuno la trova, che e'
-   il motivo opposto per cui la si scrive.
-   ⚠️ **La forma giuridica non e' stata validata da nessuno di competente.**
-   Sofia ha gia' un'informativa per lo studio: conviene far rivedere questa
-   dalla stessa persona che ha preparato l'altra.
+1. **Numero d'Albo e partita IVA nel piè di pagina.** Non c'entrano con la
+   privacy e restano dovuti anche senza informativa. Oggi il sito non mostra
+   nessuno dei due: verificato il 26 ottobre cercando nella pagina e nei
+   contenuti.
+   - **D.Lgs. 70/2003, art. 7**, letto su Normattiva: per le professioni
+     regolamentate chiede l'ordine e il numero di iscrizione, il titolo
+     professionale, il riferimento al codice deontologico e dove
+     consultarlo, e la partita IVA se l'attivita' e' soggetta a imposta. Se
+     valga anche per un sito vetrina e' discusso, ma la prassi degli Ordini
+     sanitari dice di si'.
+   - **Partita IVA in home page**: art. 35 DPR 633/72, che dal 1° gennaio
+     2027 passa nel Testo unico IVA (D.Lgs. 10/2026) con la stessa formula.
+     Sanzione indicata dalle fonti fra circa 250 e 2.000 €; sistemarlo prima
+     di un controllo la evita.
+   Servono da Sofia il **numero d'Albo** e la **partita IVA**. ⚠️ Il numero
+   d'Albo stava in `bio_p1` fino a ottobre ed e' uscito quando lei ha
+   riscritto i testi, quindi non si puo' ripescare da li'.
 2. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
    scartato: meglio per i motori di ricerca. Da valutare quando il resto è in
    piedi.
@@ -477,6 +472,15 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
 - **Niente modulo di contatto.** Scelta di agosto 2026: meno attrito per chi
   scrive e nessun dato sanitario che transita da terzi.
 - **Nessun dato di pazienti nel repository**, che è pubblico.
+- **Niente informativa privacy sul sito.** Deciso da Stefano il 26 ottobre
+  2026, sapendo che in senso stretto sarebbe dovuta: l'IP che Cloudflare
+  registra a ogni visita e' un dato personale, Sofia ne e' titolare, e l'art.
+  13 GDPR non ha eccezioni per i dati scarsi o non consultati. Il rischio e'
+  stato giudicato basso perche' il sito non ha cookie, moduli, tracciatori
+  ne' richieste esterne. ⚠️ **Se si aggiunge una qualunque di queste cose —
+  statistiche, un modulo, un video incorporato, un font o uno script preso da
+  fuori — la valutazione cade e l'informativa va fatta.** La bozza completa a
+  meta' e' nel commit `e693eb9`.
 - **Niente dominio `.it`.** Deciso da Stefano il 26 ottobre 2026, dopo averlo
   valutato due volte. Era libero e sarebbe servito solo a due cose: intercettare
   chi sente il nome a voce e digita `.it` per istinto, e impedire che qualcun

@@ -863,58 +863,6 @@
     .contact-action.is-whatsapp .contact-action-label { color: var(--ivory); }
     .contact-action.is-whatsapp .contact-action-note { color: rgba(250,250,247,0.75); }
 
-    /* INFORMATIVA PRIVACY — la seconda pagina del sito, privacy.html.
-       Riusa nav, section, titoli e footer; qui c'e' solo cio' che serve a
-       un testo lungo da leggere tutto. */
-    .testo-legale {
-      max-width: 62ch;
-      color: var(--text-muted);
-      font-size: 1rem;
-      line-height: 1.85;
-      margin-top: 2rem;
-    }
-    .testo-legale p { margin-bottom: 1.1rem; }
-    .testo-legale strong { color: var(--text); font-weight: 400; }
-
-    .testo-legale h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      font-weight: 400;
-      color: var(--sage);
-      margin-top: 2.6rem;
-      margin-bottom: 0.8rem;
-    }
-
-    .testo-legale ul { margin: 0 0 1.1rem 1.2rem; }
-    .testo-legale li { margin-bottom: 0.5rem; }
-
-    .aggiornamento {
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--sand);
-    }
-
-    /* I punti che solo Sofia o un consulente possono riempire. Volutamente
-       vistosi: devono essere impossibili da pubblicare per distrazione. */
-    .da-completare {
-      background: var(--fog);
-      border-left: 3px solid var(--oro);
-      border-radius: 0 3px 3px 0;
-      padding: 0.9rem 1.1rem;
-      font-size: 0.9rem;
-      color: var(--text);
-    }
-    .da-completare::before {
-      content: 'Da completare';
-      display: block;
-      font-size: 0.68rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--oro);
-      margin-bottom: 0.3rem;
-    }
-
     /* FOOTER */
     footer {
       background: var(--sage);
