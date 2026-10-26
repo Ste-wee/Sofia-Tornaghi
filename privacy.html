@@ -14,7 +14,12 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preload" href="fonts/inter-300-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="fonts/cormorant-garamond-300-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="style.css" />
+  <!-- Il ?v= dice al browser che il file e' cambiato: CSS e JS restano in
+       cache quattro ore, la pagina no, quindi un numero nuovo qui fa arrivare
+       subito la versione nuova. Senza, chi era gia' passato vedeva per ore la
+       pagina nuova con lo stile vecchio. Va cambiato a ogni modifica di
+       style.css, script.js o content-loader.js, in tutte e due le pagine. -->
+  <link rel="stylesheet" href="style.css?v=20261026" />
 </head>
 <body>
 
@@ -166,7 +171,7 @@
     </div>
   </footer>
 
-  <script src="content-loader.js"></script>
+  <script src="content-loader.js?v=20261026"></script>
 
 </body>
 </html>

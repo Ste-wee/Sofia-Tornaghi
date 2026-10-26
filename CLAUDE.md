@@ -289,6 +289,14 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   appena cancellato, che quindi resterebbe in pagina. Con l'attributo, sia
   `content-loader.js` sia `pagina.js` svuotano davvero. Oggi ce l'ha solo
   `contatti_intro`.
+- **Cambiando `style.css`, `script.js` o `content-loader.js`, cambiare il
+  `?v=` nei loro collegamenti**, in `index.html` e `privacy.html`. Quei file
+  restano in cache quattro ore, la pagina no: il 26 ottobre, appena
+  pubblicata la demo, un browser che era gia' passato mostrava la pagina nuova
+  con script vecchi (pulsante WhatsApp fisso spento, aree che non si
+  chiudevano), e con lo stile vecchio sarebbe stato peggio, onde e icone a
+  piena grandezza. Il numero e' la data, piu' una lettera se nello stesso
+  giorno si cambia due volte.
 - **Soglie diverse dai 768px solo con un motivo scritto.** Il percorso a
   tappe usa 1100px: sotto, quattro colonne scenderebbero sotto i 200px.
 - I commenti nel codice spiegano *perché*, non *cosa*.
