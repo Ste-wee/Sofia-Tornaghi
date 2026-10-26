@@ -455,11 +455,7 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
 2. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
    scartato: meglio per i motori di ricerca. Da valutare quando il resto è in
    piedi.
-3. **Il dominio `.it`**, libero al 29 settembre 2026 e non preso. Non serve al
-   sito, ma chi sente il nome a voce tende a digitare `.it` e oggi non trova
-   niente. Se preso, va solo fatto rimandare al `.com` — **non agganciato a
-   Pages**, altrimenti si ricrea il contenuto duplicato.
-4. **Inoltro delle email** (Cloudflare Email Routing, gratuito). Oggi la posta
+3. **Inoltro delle email** (Cloudflare Email Routing, gratuito). Oggi la posta
    verso `@sofiatornaghi.com` rimbalza: un paziente che tirasse a indovinare
    `info@sofiatornaghi.com` non riceverebbe risposta e non se ne accorgerebbe.
    Valutato il 29 settembre e rimandato. Attivarlo cambia il record SPF.
@@ -472,6 +468,11 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
 - **Niente modulo di contatto.** Scelta di agosto 2026: meno attrito per chi
   scrive e nessun dato sanitario che transita da terzi.
 - **Nessun dato di pazienti nel repository**, che è pubblico.
+- **Niente dominio `.it`.** Deciso da Stefano il 26 ottobre 2026, dopo averlo
+  valutato due volte. Era libero e sarebbe servito solo a due cose: intercettare
+  chi sente il nome a voce e digita `.it` per istinto, e impedire che qualcun
+  altro registri il nome di Sofia. Nessuna delle due e' stata ritenuta
+  sufficiente. Il sito su `.com` funziona ed e' quello che va dato in giro.
 
 ## Prima di iniziare a lavorare
 
