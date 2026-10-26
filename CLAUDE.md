@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **2 ottobre 2026** — font in casa, nessuna richiesta esterna
+> Ultimo aggiornamento: **26 ottobre 2026** — recensioni spostate, stelle dorate
 
 ---
 
@@ -138,16 +138,20 @@ _headers            CSP e intestazioni di sicurezza
 SETUP.md            configurazione: variabili Cloudflare, token, recapiti
 ```
 
-**Ordine delle sezioni nella pagina**, deciso il 17 settembre 2026:
+**Ordine delle sezioni nella pagina**, rivisto il 26 ottobre 2026:
 
-> Chi sono → Aree di specializzazione → **Inizia il tuo percorso** →
-> Recensioni → Servizi e tariffe → Contatti
+> Chi sono → Aree di specializzazione → **Recensioni** →
+> **Inizia il tuo percorso** → Servizi e tariffe → Contatti
 
-Letto di seguito: chi sono, cosa tratto, come funziona, cosa dicono i
-pazienti, quanto costa, come scrivermi. "Inizia il tuo percorso" sta li'
-perche' risponde alla domanda che nasce subito dopo le aree — *mi ci
-riconosco, e adesso come funziona?* — e non in fondo, dove arrivava a chi
-aveva gia' deciso.
+Letto di seguito: chi sono, cosa tratto, cosa dicono i pazienti, come
+funziona, quanto costa, come scrivermi. Chi si riconosce in un'area sente
+subito le recensioni, e solo dopo arrivano i dettagli operativi su sedute e
+consenso informato, che interessano chi si e' gia' convinto.
+
+"Inizia il tuo percorso" resta comunque **prima** delle tariffe e dei
+contatti, dove era stato spostato il 17 settembre: in fondo alla pagina era
+dettaglio per chi aveva gia' deciso, messo davanti a chi stava ancora
+decidendo.
 
 Le sezioni alternano sfondo avorio e grigio (`section.alt`). **Inserendone o
 togliendone una va risistemata l'alternanza su tutte quelle che seguono**,
@@ -388,15 +392,25 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   e non sostituiti da ripieghi di sistema, misurando la larghezza di una stessa
   frase e confrontandola con quella di un font inesistente.
 
+- **12, 16 e 21 ottobre 2026** — **Sofia ha usato il pannello da sola**, sette
+  salvataggi in tre giornate, senza che nessuno la aiutasse. Ha riscritto i
+  tre paragrafi della biografia e soprattutto **la citazione accanto alla
+  foto**, che era il punto 1 delle cose in sospeso: al posto del vecchio testo
+  ora c'e' *"Se continui a fare la stessa cosa, vivrai sempre la stessa
+  storia"*. E' la prova che l'impianto funziona per chi doveva usarlo.
+
+- **26 ottobre 2026** — **le recensioni passano prima di "Inizia il tuo
+  percorso"**, su richiesta di Stefano. Risistemata l'alternanza degli sfondi
+  come sempre quando si tocca l'ordine, e verificato che non restino due
+  sezioni adiacenti dello stesso colore. Aggiornato anche il commento sopra la
+  sezione, che spiegava la sua posizione dicendo "subito dopo le aree": adesso
+  in mezzo ci sono le recensioni.
+  Le stelle delle recensioni passano da `--sand` a **`--oro` #C9A227**, messo
+  fra i colori della palette invece che scritto dentro la regola.
+
 ### In sospeso
 
-1. **La citazione accanto alla foto va riscritta da Sofia.** Dal 29 settembre
-   e' un campo del pannello ("Frase nel riquadro con la foto"), ma dentro c'e'
-   ancora il testo vecchio: quello che lei aveva sostituito il 24 agosto nella
-   biografia e che qui era rimasto indietro. Finche' non la riscrive, il sito
-   dice due cose diverse su di lei. Non l'abbiamo cambiata noi perche' e' la
-   frase in cui si presenta.
-2. **Informativa privacy.** Dal 2 ottobre il sito **non contatta piu' nessuno**
+1. **Informativa privacy.** Dal 2 ottobre il sito **non contatta piu' nessuno**
    e non raccoglie niente, quindi l'informativa deve descrivere un'assenza, non
    un rapporto con terzi: molto piu' semplice da far scrivere e da mantenere
    vera. Resta comunque opportuna, perche' il sito e' la vetrina di un'attivita'
@@ -405,14 +419,14 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
    ha gia' un'informativa per lo studio — nel sito parla del consenso informato
    che manda ai pazienti — quindi conviene far derivare quella del sito dalla
    stessa persona che ha preparato l'altra.
-3. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
+2. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
    scartato: meglio per i motori di ricerca. Da valutare quando il resto è in
    piedi.
-4. **Il dominio `.it`**, libero al 29 settembre 2026 e non preso. Non serve al
+3. **Il dominio `.it`**, libero al 29 settembre 2026 e non preso. Non serve al
    sito, ma chi sente il nome a voce tende a digitare `.it` e oggi non trova
    niente. Se preso, va solo fatto rimandare al `.com` — **non agganciato a
    Pages**, altrimenti si ricrea il contenuto duplicato.
-5. **Inoltro delle email** (Cloudflare Email Routing, gratuito). Oggi la posta
+4. **Inoltro delle email** (Cloudflare Email Routing, gratuito). Oggi la posta
    verso `@sofiatornaghi.com` rimbalza: un paziente che tirasse a indovinare
    `info@sofiatornaghi.com` non riceverebbe risposta e non se ne accorgerebbe.
    Valutato il 29 settembre e rimandato. Attivarlo cambia il record SPF.
