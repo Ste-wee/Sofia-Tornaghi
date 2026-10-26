@@ -585,6 +585,15 @@
       margin-bottom: 1.2rem;
     }
 
+    /* Il titolo della scheda e' il <summary>: su schermo largo non si apre ne'
+       chiude niente, quindi niente cursore a manina e niente segno + . */
+    .area-testa {
+      display: block;
+      list-style: none;
+      cursor: default;
+    }
+    .area-testa::-webkit-details-marker { display: none; }
+
     .area-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.25rem;
@@ -1137,9 +1146,30 @@
       .approach-layout,
       .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
 
-      /* AREE DI LAVORO — 2 colonne su mobile medio, 1 su piccolo */
-      .areas-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-      .area-card { padding: 1.4rem 1rem; }
+      /* AREE DI LAVORO — un elenco di titoli che si aprono, come le domande
+         frequenti. Una colonna sola: in due, aprendo una scheda si sarebbe
+         allungata anche quella accanto, rimasta chiusa. */
+      .areas-grid { grid-template-columns: 1fr; gap: 0.6rem; margin-top: 2rem; }
+      .area-card { padding: 1rem 1.1rem; }
+      .area-card:hover { transform: none; }
+      .area-testa {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        cursor: pointer;
+      }
+      .area-testa::after {
+        content: '+';
+        margin-left: auto;
+        font-weight: 300;
+        color: var(--sand);
+        flex-shrink: 0;
+      }
+      .area-card[open] .area-testa::after { content: '−'; }
+      .area-testa:focus-visible { outline: 2px solid var(--sage-light); outline-offset: 4px; }
+      .area-icon { width: 28px; height: 28px; margin-bottom: 0; flex-shrink: 0; }
+      .area-title { margin-bottom: 0; min-width: 0; }
+      .area-desc { margin-top: 0.9rem; }
 
       /* RECENSIONI — slider orizzontale */
       .reviews-grid {
@@ -1218,7 +1248,6 @@
 
     /* Schermi molto piccoli (≤ 400px) */
     @media (max-width: 400px) {
-      .areas-grid { grid-template-columns: 1fr; }
       .hero-photo { width: 120px; height: 120px; }
       .hero-card { padding: 1.4rem 1rem; }
     }

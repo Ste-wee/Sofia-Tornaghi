@@ -33,6 +33,28 @@ if (whatsappFisso && 'IntersectionObserver' in window) {
   zone.forEach((zona) => osservatore.observe(zona));
 }
 
+// Aree di lavoro: aperte su schermo largo, chiuse su telefono, dove si aprono
+// toccando il titolo. Si riallineano se la finestra cambia misura, per
+// esempio girando un tablet.
+const aree = document.querySelectorAll('.area-card');
+if (aree.length && window.matchMedia) {
+  const telefono = window.matchMedia('(max-width: 768px)');
+  const adatta = () => aree.forEach((area) => { area.open = !telefono.matches; });
+  adatta();
+  telefono.addEventListener('change', adatta);
+
+  // Su schermo largo un clic sul titolo chiuderebbe la scheda, e li' non c'e'
+  // un segno che dica come riaprirla.
+  aree.forEach((area) => {
+    const titolo = area.querySelector('summary');
+    if (titolo) {
+      titolo.addEventListener('click', (evento) => {
+        if (!telefono.matches) evento.preventDefault();
+      });
+    }
+  });
+}
+
 // Menu a comparsa su mobile
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
