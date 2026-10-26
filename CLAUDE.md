@@ -455,10 +455,6 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
 2. **Generazione alla build** dei testi dentro `index.html`, ripresa dal branch
    scartato: meglio per i motori di ricerca. Da valutare quando il resto è in
    piedi.
-3. **Inoltro delle email** (Cloudflare Email Routing, gratuito). Oggi la posta
-   verso `@sofiatornaghi.com` rimbalza: un paziente che tirasse a indovinare
-   `info@sofiatornaghi.com` non riceverebbe risposta e non se ne accorgerebbe.
-   Valutato il 29 settembre e rimandato. Attivarlo cambia il record SPF.
 
 ### Decisioni prese, da non rimettere in discussione senza motivo
 
