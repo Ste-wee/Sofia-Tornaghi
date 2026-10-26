@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **26 ottobre 2026** — il pannello aggiorna anche l'HTML delle pagine
+> Ultimo aggiornamento: **26 ottobre 2026** — Albo e partita IVA sul sito; demo in anteprima
 
 ---
 
@@ -518,25 +518,40 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   di build. Riallineati subito anche i 26 segnaposto rimasti indietro, senza
   aspettare il prossimo salvataggio. Dettagli in "Come funziona il pannello".
 
+  In serata, **numero d'Albo e partita IVA sul sito**, nel piè di pagina della
+  home e dell'informativa, insieme al collegamento al Codice deontologico sul
+  sito del CNOP: sono i dati che chiedono l'art. 7 del D.Lgs. 70/2003 (ordine e
+  numero di iscrizione, titolo, norme professionali e dove consultarle) e la
+  norma IVA sulla home page, letti su Normattiva. Sezione A, n. 26648, P.IVA
+  14520970964, controllata con la cifra di controllo prima di pubblicarla.
+  Nell'informativa compaiono anche fra i dati del titolare.
+  ⚠️ **Sono scritti a mano e non stanno nel pannello**, apposta: non cambiano,
+  e un campo svuotato per sbaglio farebbe sparire un obbligo di legge. Il
+  giorno in cui Sofia si specializza cambia il titolo, e va cambiato qui.
+  ⚠️ Il sito del CNOP risponde 403 a `curl`: e' una protezione contro le
+  richieste automatiche, la pagina c'e' e nel browser si apre.
+  Corretto anche un refuso nel testo di Sofia sulle sedute, *"ci che"* →
+  *"ciò che"*, su richiesta di Stefano.
+
 ### In sospeso
 
-1. **Numero d'Albo e partita IVA nel piè di pagina.** Non c'entrano con la
-   privacy e restano dovuti anche senza informativa. Oggi il sito non mostra
-   nessuno dei due: verificato il 26 ottobre cercando nella pagina e nei
-   contenuti.
-   - **D.Lgs. 70/2003, art. 7**, letto su Normattiva: per le professioni
-     regolamentate chiede l'ordine e il numero di iscrizione, il titolo
-     professionale, il riferimento al codice deontologico e dove
-     consultarlo, e la partita IVA se l'attivita' e' soggetta a imposta. Se
-     valga anche per un sito vetrina e' discusso, ma la prassi degli Ordini
-     sanitari dice di si'.
-   - **Partita IVA in home page**: art. 35 DPR 633/72, che dal 1° gennaio
-     2027 passa nel Testo unico IVA (D.Lgs. 10/2026) con la stessa formula.
-     Sanzione indicata dalle fonti fra circa 250 e 2.000 €; sistemarlo prima
-     di un controllo la evita.
-   Servono da Sofia il **numero d'Albo** e la **partita IVA**. ⚠️ Il numero
-   d'Albo stava in `bio_p1` fino a ottobre ed e' uscito quando lei ha
-   riscritto i testi, quindi non si puo' ripescare da li'.
+1. **Pubblicare la demo del ramo `demo/spunti-colleghe`**, in anteprima su
+   `https://demo-spunti-colleghe.website-sofy.pages.dev/`. Nata confrontando il
+   sito con quelli di cinque colleghe: domande frequenti, "Inizia il tuo
+   percorso" come percorso a tappe (onda orizzontale da 1100px, verticale
+   sotto), aree che su telefono si aprono toccandole, indirizzo che apre
+   Google Maps, pulsante WhatsApp fisso su telefono, dati strutturati per
+   Google. Prima di unire:
+   - **Sofia deve leggere i testi scritti da Stefano e Claude**: le sei
+     domande frequenti, in particolare fattura e detrazione al 19% e la
+     frase "psicologa e psicoterapeuta in formazione";
+   - **`content/site.json` andra' in conflitto**: nella demo i campi
+     `percorso_consenso` e `percorso_sedute` sono divisi in otto
+     (`tappa1_titolo` ... `tappa4_testo`) alle righe dove Sofia andava a
+     capo. Se nel frattempo lei li ha modificati, va ripresa la sua versione
+     e divisa allo stesso modo;
+   - il ramo non va mai unito senza aver riletto questo punto: cambia i nomi
+     dei campi, e un'unione distratta riporterebbe in pagina i testi vecchi.
 2. **Far confermare a Sofia l'informativa**, in particolare la frase sui
    messaggi di chi non inizia un percorso, che promette di cancellarli. E'
    l'unica parte scritta senza sapere come lavora davvero. ⚠️ **La forma
