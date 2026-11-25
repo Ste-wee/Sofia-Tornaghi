@@ -17,9 +17,11 @@ if (nav) {
 // frequenti, proprio dove nasce la voglia di scrivere.
 // Sparisce anche sulle tariffe: su telefono i prezzi sono allineati a destra,
 // esattamente sotto il pulsante, che copriva proprio la cifra cercata.
+// E sulla scheda con la foto in cima: appena aperto il sito, sugli iPhone
+// piu' piccoli copriva "Online" (visto il 25 novembre con WebKit).
 const whatsappFisso = document.querySelector('.whatsapp-fisso');
 if (whatsappFisso && 'IntersectionObserver' in window) {
-  const zone = ['.hero-actions', '.services-list', '#contatti .contact-action.is-whatsapp', 'footer']
+  const zone = ['.hero-card', '.hero-actions', '.services-list', '#contatti .contact-action.is-whatsapp', 'footer']
     .map((selettore) => document.querySelector(selettore))
     .filter(Boolean);
   const inVista = new Set();
