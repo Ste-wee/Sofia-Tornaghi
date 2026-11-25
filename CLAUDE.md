@@ -329,6 +329,9 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   anti-spam (vedi "Dove gira"). Vale anche per i testi di ripiego dentro i
   segnaposto, che sono quelli che Cloudflare vede: il valore che arriva dal
   pannello lo mette il JavaScript e Cloudflare non lo tocca.
+  ⚠️ **Cloudflare toglie quei due commenti dalla pagina che serve**: chi
+  confronta il file del repository con quello online trova `privacy.html`
+  "diverso" solo per quelli. E' normale, non un deploy rimasto indietro.
 - **Un campo che Sofia puo' lasciare vuoto porta `data-facoltativo` sul
   segnaposto.** Di norma un campo vuoto tiene il testo di ripiego; da quando
   il pannello scrive l'HTML, il ripiego puo' essere il valore che lei ha
@@ -720,6 +723,11 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   sforamenti, pulsante WhatsApp nascosto in cima, informativa con "Riceve
   in:", pannello che risponde, prove di node tutte passate. Nessun
   salvataggio di Sofia dopo quelli del 26 ottobre.
+  A fine giornata il sito vero e' stato confrontato **file per file** con
+  `main` (home, informativa, stile, script, contenuti): identici, a parte i
+  commenti `email_off` che Cloudflare toglie dall'informativa (vedi le
+  convenzioni). In locale tolti i rami gia' uniti; su GitHub restano da
+  cancellare (vedi le cose in sospeso).
 
 ### In sospeso
 
