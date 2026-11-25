@@ -121,22 +121,68 @@
   // studi, uno per riga, ognuno porta al suo. E' un semplice link e non una
   // mappa incorporata: una mappa caricherebbe Google a ogni visita, il link
   // lo contatta solo se qualcuno ci clicca.
+  function nuovoLinkMappa(riga, testo) {
+    var link = document.createElement('a');
+    link.className = 'link-mappa';
+    link.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(riga);
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.title = 'Apri in Google Maps';
+    link.textContent = testo;
+    return link;
+  }
+
+  // Divide "Corso Lodi 24, Milano" in via e citta'. E' la stessa regola di
+  // studiDa in functions/_lib/pagina.js, che la usa per i dati per Google:
+  // se si cambia l'una va cambiata l'altra.
+  function studioDaRiga(riga) {
+    var via, resto;
+    var virgola = riga.lastIndexOf(',');
+    if (virgola !== -1) {
+      via = riga.slice(0, virgola).trim();
+      resto = riga.slice(virgola + 1).trim();
+    } else {
+      var m = riga.match(/^(.*\d+[a-zA-Z]?(?:\/\w+)?)\s+(\D.*)$/);
+      if (!m) return null;
+      via = m[1].trim();
+      resto = m[2].trim();
+    }
+    var citta = resto.replace(/\b\d{5}\b/, '').replace(/\s+/g, ' ').trim();
+    return via && citta ? { via: via, citta: citta } : null;
+  }
+
   function linkMappe(element) {
     var righe = element.textContent.split('\n').map(function (r) { return r.trim(); })
       .filter(function (r) { return r !== ''; });
     if (righe.length === 0) return;
 
     element.textContent = '';
+
+    // Con data-mappa="studi" ogni studio e' un blocco a se': la citta' in
+    // evidenza e la via sotto, che porta alla mappa. Una riga che non si
+    // riesce a dividere si mostra intera, come prima.
+    if (element.getAttribute('data-mappa') === 'studi') {
+      element.classList.remove('testo-a-capo');
+      element.classList.add('studi');
+      righe.forEach(function (riga) {
+        var studio = document.createElement('span');
+        studio.className = 'studio';
+        var parti = studioDaRiga(riga);
+        if (parti) {
+          var citta = document.createElement('span');
+          citta.className = 'studio-citta';
+          citta.textContent = parti.citta;
+          studio.appendChild(citta);
+        }
+        studio.appendChild(nuovoLinkMappa(riga, parti ? parti.via : riga));
+        element.appendChild(studio);
+      });
+      return;
+    }
+
     righe.forEach(function (riga, i) {
       if (i > 0) element.appendChild(document.createTextNode('\n'));
-      var link = document.createElement('a');
-      link.className = 'link-mappa';
-      link.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(riga);
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      link.title = 'Apri in Google Maps';
-      link.textContent = riga;
-      element.appendChild(link);
+      element.appendChild(nuovoLinkMappa(riga, riga));
     });
   }
 

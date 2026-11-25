@@ -1128,6 +1128,24 @@
     }
     .link-mappa:hover { text-decoration-style: solid; }
 
+    /* Gli studi, quando sono piu' d'uno: citta' sopra, via sotto. Nella
+       scheda in alto uno sotto l'altro; nel piè di pagina affiancati finche'
+       c'e' spazio, poi a capo uno alla volta (auto-fit apposta: il numero
+       degli studi lo decide Sofia). */
+    .studi { display: grid; gap: 0.55rem 2rem; }
+    .studio { display: block; min-width: 0; }
+    .studio-citta { display: block; }
+    .stat-label.studi .studio-citta {
+      color: var(--text);
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.1rem;
+    }
+    .footer-studi { margin-top: 0.5rem; }
+    .footer-studi.studi { grid-template-columns: repeat(auto-fit, minmax(9rem, max-content)); }
+    .footer-studi .studio-citta { color: var(--ivory); margin-bottom: 0.1rem; }
+    .indirizzo-blocco { display: block; margin-top: 0.3rem; }
+
     /* WHATSAPP FISSO — solo su telefono, vedi il blocco mobile. */
     .whatsapp-fisso { display: none; }
 
