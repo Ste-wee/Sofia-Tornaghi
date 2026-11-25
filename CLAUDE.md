@@ -288,6 +288,12 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
 
 ## Convenzioni
 
+- **Prima il telefono, poi il PC.** Regola data da Stefano il 25 novembre
+  2026: ogni modifica si pensa per lo schermo del telefono e poi si adatta a
+  quello largo, non il contrario. E' da li' che arriva chi cerca una
+  psicologa, ed e' li' che quasi tutti i difetti di questo sito sono stati
+  trovati (40 campi rotti su telefono contro 2 da PC il 29 settembre, il piè
+  di pagina, gli indirizzi). Si guarda a **320px e 375px**, poi tablet e PC.
 - **Italiano ovunque**: interfaccia, commenti nel codice, messaggi di commit.
 - Niente framework, niente dipendenze, niente passo di build. Il sito deve
   restare apribile e modificabile a mano.
@@ -787,6 +793,16 @@ settembre, i font il 2 ottobre, lo stile di `/privacy` il 26 ottobre.
 **Lo stato della propria finestra non e' lo stato del sito.** Nel browser si
 forza la versione nuova cambiando l'indirizzo del foglio di stile con un
 `?v=` qualunque.
+
+**Come guardare il sito da telefono**, dal piu' affidabile:
+- il telefono vero, aprendo l'indirizzo dell'anteprima del ramo: e' l'unico
+  modo per vedere Safari su iPhone, che su Windows non esiste;
+- in Chrome o Edge, **F12 e poi Ctrl+Shift+M**: la pagina si ridisegna alla
+  misura del telefono scelto;
+- un Android collegato col cavo, aprendo `chrome://inspect` dal PC;
+- **Responsively App** (`responsively.app`, gratuito): piu' telefoni e il PC
+  affiancati, che scorrono insieme;
+- nel browser integrato di Claude Code, il menu *Viewport* (Mobile, Tablet).
 
 **Dopo aver cambiato il CSS o aggiunto campi, provare i testi imprevisti.**
 Riempire ogni segnaposto, uno alla volta, con una frase lunga e con una parola
