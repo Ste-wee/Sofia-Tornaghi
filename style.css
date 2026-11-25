@@ -1141,7 +1141,7 @@
       letter-spacing: 0.04em;
       margin-bottom: 0.1rem;
     }
-    .footer-studi { margin-top: 0.5rem; }
+    .footer-studi { margin-top: 0.7rem; }
     .footer-studi.studi { grid-template-columns: repeat(auto-fit, minmax(9rem, max-content)); }
     .footer-studi .studio-citta { color: var(--ivory); margin-bottom: 0.1rem; }
     .indirizzo-blocco { display: block; margin-top: 0.3rem; }
@@ -1166,6 +1166,17 @@
       font-size: 1.2rem;
       color: var(--ivory);
       font-weight: 300;
+    }
+    /* La qualifica accanto al nome, nel carattere del testo. inline-block:
+       se lo schermo e' troppo stretto va a capo intera sotto il nome,
+       invece di spezzarsi. */
+    .footer-ruolo {
+      display: inline-block;
+      margin-left: 0.5rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      color: rgba(250,250,247,0.7);
     }
     .footer-note {
       font-size: 0.78rem;
