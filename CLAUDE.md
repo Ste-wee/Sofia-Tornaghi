@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **25 novembre 2026** — niente statistiche, confermato; Sofia ha due studi e l'indirizzo scritto a mano e' da aggiornare
+> Ultimo aggiornamento: **25 novembre 2026** — niente statistiche, confermato; l'indirizzo per Google ora si aggiorna da solo
 
 ---
 
@@ -253,10 +253,28 @@ ricadono facilmente nei dati sanitari dell'art. 9 GDPR, e non farli passare da
 un fornitore terzo toglie il problema alla radice.
 
 L'indirizzo dello studio e' un campo multiriga: piu' studi si scrivono uno per
-riga. Compare nel riquadro in alto e nel piè di pagina. ⚠️ Compare anche nella
-`meta description` in testa al documento, e li' e' scritto a mano: quella la
-leggono i motori di ricerca prima che il JavaScript abbia girato, quindi non
-puo' arrivare dal pannello. Se lo studio cambia, va aggiornata a mano.
+riga. Compare nel riquadro in alto, nel piè di pagina e nell'informativa,
+con un collegamento a Google Maps per riga.
+**Dal 25 novembre compare anche in testa alla pagina, e si aggiorna da
+solo**: a ogni salvataggio `pagina.js` riscrive la `meta description`,
+l'`og:description` e, nei dati strutturati, `address`, `location` (una sede
+per studio) e `areaServed`. Prima erano scritti a mano, e il cambio di studio
+di Sofia del 26 ottobre li aveva lasciati su Viale Gran Sasso per un mese,
+proprio dove legge Google. Come funziona:
+- **le due descrizioni hanno un attributo `data-modello`** con la frase e i
+  buchi `{citta}`, `{studi}` ("Studio" o "Studi") e `{indirizzi}`. Per
+  cambiare la frase si cambia il modello, non `content`, che viene
+  riscritto;
+- **ogni riga dell'indirizzo e' uno studio**: la citta' e' dopo l'ultima
+  virgola ("Corso Lodi 24, Milano") o, senza virgola, dopo l'ultimo numero
+  civico; un CAP di cinque cifre si stacca e finisce in `postalCode`;
+- **se anche una sola riga non si capisce** (niente citta'), l'intestazione
+  resta com'era invece di diventare una frase zoppa. Va guardato a mano;
+- **un indirizzo ostile non puo' iniettare codice**: negli attributi le
+  virgolette e i `<` sono codificati, e nei dati strutturati `<` diventa
+  `<`, cosi' un `</script>` non chiude il blocco. Provato;
+- **titolo e nome restano "Psicologa a Milano"**, scritti a mano: se un
+  giorno Sofia lasciasse Milano vanno cambiati qui.
 
 I recapiti stanno in `site.json` e si impostano dal pannello. Ogni pulsante
 compare solo se il recapito è valido. Se manca il numero WhatsApp si riusa
@@ -664,6 +682,12 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   del ramo sbagliato. Non e' un visitatore.
   Valutate tre strade — Clarity completo, Cloudflare Web Analytics, niente —
   e scelto **niente** (vedi le decisioni).
+  Guardando i salvataggi di Sofia e' venuto fuori che la descrizione per
+  Google e i dati strutturati dicevano ancora Viale Gran Sasso 10: erano
+  scritti a mano e il pannello non li toccava. Corretti e **resi
+  automatici** (vedi "Contatti"): ora li riscrive il pannello dal campo
+  "indirizzo". Provato con node anche contro un indirizzo costruito per
+  iniettare codice.
 
 ### In sospeso
 
@@ -679,14 +703,11 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
    giuridica non e' stata validata da nessuno di competente**: se c'e' chi
    ha preparato l'informativa dello studio, conviene farla vedere a quella
    persona.
-3. **Aggiornare a mano l'indirizzo dove il pannello non arriva.** Il 26
-   ottobre Sofia ha cambiato studio: ora sono due, *Corso Lodi 24, Milano* e
-   *Piazza IV Novembre 3, Melegnano*. Nei segnaposto e' gia' giusto, ma al 25
-   novembre la `meta description` e i dati strutturati (`application/ld+json`)
-   in testa a `index.html` dicevano ancora *Viale Gran Sasso 10*, ed e'
-   quello che legge Google. Nella domanda frequente "Meglio in studio o
-   online?" c'e' "ricevo in studio a Milano", senza Melegnano: testo nel
-   pannello, lo puo' sistemare Sofia.
+3. **Due ritocchi che spettano a Sofia, dal pannello**, emersi col cambio di
+   studio: nell'indirizzo ha scritto *"Corso lodi"* con la minuscola, e
+   adesso finisce anche nella descrizione per Google; e la domanda frequente
+   "Meglio in studio o online?" dice "ricevo in studio a Milano", senza
+   Melegnano.
 4. **Cancellare i rami gia' uniti**, che restano sul remoto con la loro
    anteprima accesa (con `noindex`, quindi innocua):
    `demo/spunti-colleghe`, `demo/chi-sono`, `demo/piede-mobile`,

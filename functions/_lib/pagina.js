@@ -36,6 +36,105 @@ function aggiornaClasse(apertura, aCapo) {
   return classi.length ? apertura.replace(/>$/, ' class="' + classi.join(' ') + '">') : apertura;
 }
 
+// --- L'INDIRIZZO NELL'INTESTAZIONE ---
+//
+// La descrizione per i motori di ricerca e i dati strutturati per Google
+// stanno in testa alla pagina, dove i segnaposto non arrivano. Finche' erano
+// scritti a mano, il cambio di studio del 26 ottobre li aveva lasciati su
+// Viale Gran Sasso per un mese. Ora si ricavano dal campo "indirizzo".
+
+// Una riga per studio, come la scrive Sofia nel pannello. La citta' e' dopo
+// l'ultima virgola ("Corso Lodi 24, Milano"); senza virgola, dopo l'ultimo
+// numero civico ("Corso Lodi 24 Milano"). Il CAP, se c'e', si stacca dalla
+// citta'. Una riga in cui la citta' non si riconosce rende nullo tutto:
+// meglio lasciare la descrizione di prima che scriverne una zoppa.
+export function studiDa(indirizzo) {
+  const righe = String(indirizzo || '').split(/\r?\n/).map(function (r) { return r.trim(); })
+    .filter(function (r) { return r !== ''; });
+  const studi = righe.map(function (riga) {
+    let via, resto;
+    const virgola = riga.lastIndexOf(',');
+    if (virgola !== -1) {
+      via = riga.slice(0, virgola).trim();
+      resto = riga.slice(virgola + 1).trim();
+    } else {
+      const m = riga.match(/^(.*\d+[a-zA-Z]?(?:\/\w+)?)\s+(\D.*)$/);
+      if (!m) return null;
+      via = m[1].trim();
+      resto = m[2].trim();
+    }
+    const cap = (resto.match(/\b\d{5}\b/) || [''])[0];
+    const citta = resto.replace(cap, '').replace(/\s+/g, ' ').trim();
+    if (!via || !citta) return null;
+    return { riga: riga, via: via, citta: citta, cap: cap };
+  });
+  return studi.length && studi.every(Boolean) ? studi : [];
+}
+
+// "a", "a e b", "a, b e c"
+function elenco(parti) {
+  if (parti.length < 2) return parti.join('');
+  return parti.slice(0, -1).join(', ') + ' e ' + parti[parti.length - 1];
+}
+
+function senzaDoppioni(parti) {
+  return parti.filter(function (p, i) { return parti.indexOf(p) === i; });
+}
+
+function decodificaAttributo(testo) {
+  return testo.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+}
+
+function codificaAttributo(testo) {
+  return testo.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// Le <meta> con data-modello: il testo e' quello scritto a mano nel modello,
+// con {citta}, {studi} e {indirizzi} riempiti dagli studi.
+function aggiornaDescrizioni(html, studi) {
+  const sostituzioni = {
+    citta: elenco(senzaDoppioni(studi.map(function (s) { return s.citta; }))),
+    studi: studi.length === 1 ? 'Studio' : 'Studi',
+    indirizzi: elenco(studi.map(function (s) { return s.via + ', ' + s.citta; }))
+  };
+  return html.replace(/<meta\b[^>]*\bdata-modello="([^"]*)"[^>]*>/g, function (tag, modello) {
+    const testo = decodificaAttributo(modello).replace(/\{(citta|studi|indirizzi)\}/g, function (m, nome) {
+      return sostituzioni[nome];
+    });
+    return tag.replace(/\scontent="[^"]*"/, ' content="' + codificaAttributo(testo) + '"');
+  });
+}
+
+// I dati strutturati: indirizzo del primo studio, una sede per ogni studio
+// quando sono piu' d'uno, e le citta' servite. Il resto resta com'e'.
+function aggiornaDatiStrutturati(html, studi, aCapoDelFile) {
+  return html.replace(/(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/, function (intero, apre, json, chiude) {
+    let dati;
+    try { dati = JSON.parse(json); } catch (e) { return intero; }
+    const indirizzo = function (s) {
+      const a = { '@type': 'PostalAddress', streetAddress: s.via };
+      if (s.cap) a.postalCode = s.cap;
+      a.addressLocality = s.citta;
+      a.addressCountry = 'IT';
+      return a;
+    };
+    dati.address = indirizzo(studi[0]);
+    if (studi.length > 1) {
+      dati.location = studi.map(function (s) { return { '@type': 'Place', address: indirizzo(s) }; });
+    } else {
+      delete dati.location;
+    }
+    const citta = senzaDoppioni(studi.map(function (s) { return s.citta; }));
+    dati.areaServed = citta.length === 1 ? citta[0] : citta;
+    // "<" scritto come <: un indirizzo che contenesse "</script>" non
+    // deve poter chiudere il blocco e iniettare codice nella pagina.
+    const testo = JSON.stringify(dati, null, 2).replace(/</g, '\\u003c')
+      .split('\n').map(function (r) { return '  ' + r; }).join(aCapoDelFile);
+    return apre + aCapoDelFile + testo + aCapoDelFile + '  ' + chiude;
+  });
+}
+
 // Restituisce l'HTML con i segnaposto riempiti, e quanti ne ha cambiati.
 //
 // Si lavora sul testo invece che su un albero DOM perche' i segnaposto sono
@@ -71,5 +170,10 @@ export function riempiPagina(html, valori) {
       return nuovo;
     }
   );
-  return { html: risultato, cambiati: cambiati };
+
+  const studi = studiDa(valori.indirizzo);
+  if (!studi.length) return { html: risultato, cambiati: cambiati };
+  const conIntestazione = aggiornaDatiStrutturati(aggiornaDescrizioni(risultato, studi), studi, aCapoDelFile);
+  if (conIntestazione !== risultato) cambiati++;
+  return { html: conIntestazione, cambiati: cambiati };
 }

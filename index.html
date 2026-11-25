@@ -4,7 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dott.ssa Sofia Tornaghi — Psicologa a Milano</title>
-  <meta name="description" content="Dott.ssa Sofia Tornaghi, psicologa a Milano. Supporto per adolescenza, giovane adultità e disturbi alimentari. Studio in Viale Gran Sasso 10, anche online." />
+  <!-- Le due descrizioni si riscrivono da sole quando Sofia cambia
+       l'indirizzo nel pannello (functions/_lib/pagina.js): il testo e'
+       quello di data-modello, con {citta}, {studi} e {indirizzi} riempiti
+       dagli studi. Per cambiare la frase si cambia il modello, non content,
+       che al primo salvataggio verrebbe riscritto. -->
+  <meta name="description" content="Dott.ssa Sofia Tornaghi, psicologa a Milano e Melegnano. Supporto per adolescenza, giovane adultità e disturbi alimentari. Studi in Corso lodi 24, Milano e Piazza IV Novembre 3, Melegnano, anche online." data-modello="Dott.ssa Sofia Tornaghi, psicologa a {citta}. Supporto per adolescenza, giovane adultità e disturbi alimentari. {studi} in {indirizzi}, anche online." />
 
   <!-- Il sito risponde anche su website-sofy.pages.dev, che Cloudflare tiene
        comunque acceso. Questo dice ai motori di ricerca quale dei due conta,
@@ -12,7 +17,7 @@
   <link rel="canonical" href="https://sofiatornaghi.com/" />
 
   <meta property="og:title" content="Dott.ssa Sofia Tornaghi — Psicologa a Milano" />
-  <meta property="og:description" content="Supporto psicologico per adolescenti, giovani adulti e disturbi alimentari. Studio a Milano, anche online." />
+  <meta property="og:description" content="Supporto psicologico per adolescenti, giovani adulti e disturbi alimentari. Studi a Milano e Melegnano, anche online." data-modello="Supporto psicologico per adolescenti, giovani adulti e disturbi alimentari. {studi} a {citta}, anche online." />
   <!-- Gli indirizzi Open Graph devono essere assoluti: WhatsApp, Facebook e
        LinkedIn leggono questi tag dai loro server, dove un percorso relativo
        non significa niente. Prima l'anteprima restava senza foto. -->
@@ -24,10 +29,10 @@
   <!-- Dati strutturati: dicono a Google in modo esplicito chi e' Sofia, che
        mestiere fa e dove riceve, invece di lasciarglielo dedurre dal testo.
        Aiutano soprattutto nelle ricerche locali ("psicologa Milano").
-       ⚠️ Come la meta description, sono scritti a mano e il pannello non li
-       tocca: se cambia lo studio vanno aggiornati qui. Il telefono e' stato
-       lasciato fuori apposta, per non avere un secondo numero da tenere
-       allineato. -->
+       Indirizzo, sedi (location) e citta' servite (areaServed) li riscrive
+       il pannello a ogni salvataggio, dal campo "indirizzo"; il resto e'
+       scritto a mano. Il telefono e' stato lasciato fuori apposta, per non
+       avere un secondo numero da tenere allineato. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -38,19 +43,43 @@
     "image": "https://sofiatornaghi.com/foto-professionale.jpg",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Viale Gran Sasso 10",
-      "postalCode": "20131",
+      "streetAddress": "Corso lodi 24",
       "addressLocality": "Milano",
       "addressCountry": "IT"
     },
-    "areaServed": "Milano",
+    "areaServed": [
+      "Milano",
+      "Melegnano"
+    ],
     "vatID": "IT14520970964",
-    "sameAs": ["https://www.miodottore.it/sofia-tornaghi/psicologo/milano"],
+    "sameAs": [
+      "https://www.miodottore.it/sofia-tornaghi/psicologo/milano"
+    ],
     "founder": {
       "@type": "Person",
       "name": "Sofia Tornaghi",
       "jobTitle": "Psicologa"
-    }
+    },
+    "location": [
+      {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Corso lodi 24",
+          "addressLocality": "Milano",
+          "addressCountry": "IT"
+        }
+      },
+      {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Piazza IV Novembre 3",
+          "addressLocality": "Melegnano",
+          "addressCountry": "IT"
+        }
+      }
+    ]
   }
   </script>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
