@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **26 ottobre 2026**, sera — tutto online; restano i punti di Sofia e i rami da cancellare
+> Ultimo aggiornamento: **25 novembre 2026** — niente statistiche, confermato; Sofia ha due studi e l'indirizzo scritto a mano e' da aggiornare
 
 ---
 
@@ -643,6 +643,28 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   ⚠️ Visto che le anteprime restano accese, Stefano ne ha aperta una vecchia
   credendola nuova: un motivo in piu' per cancellare i rami gia' uniti.
 
+  Nel pomeriggio **Sofia ha salvato tre volte dal pannello** (15:59-16:02):
+  due studi al posto di uno (Corso Lodi 24, Milano; Piazza IV Novembre 3,
+  Melegnano), la scuola nell'apertura della biografia ("scuola di
+  psicoterapia Minotauro di Milano"), l'approccio ("Psicologia dinamica -
+  evolutiva") e un dettaglio della consegna del consenso. **E' la prova che
+  il pannello scrive davvero anche l'HTML col token vero**: a ogni
+  salvataggio seguono i commit "Allinea index.html ai testi del pannello",
+  e per l'indirizzo anche quello di `privacy.html`.
+
+- **25 novembre 2026** — Stefano chiede quale portale misurasse le visite.
+  **Nessuno**: il progetto **Microsoft Clarity** "Sito web Sofy" (ID
+  `xxofk1n8l1`) esiste nell'account Microsoft di Stefano, creato il 5 agosto,
+  ma il suo codice e' stato solo sul ramo scartato `fix/audit-codice-e-ui`
+  (commit `1145626`) e non e' mai stato pubblicato: tutte le pubblicazioni
+  registrate su GitHub, e poi su Cloudflare, partono da `main`, che Clarity
+  non l'ha mai avuto. In un anno Clarity ha registrato **una sola sessione**,
+  con indirizzo "electron", da un portatile Windows a Milano: il browser
+  integrato dell'app di Claude, che ad agosto aveva aperto l'`index.html`
+  del ramo sbagliato. Non e' un visitatore.
+  Valutate tre strade — Clarity completo, Cloudflare Web Analytics, niente —
+  e scelto **niente** (vedi le decisioni).
+
 ### In sospeso
 
 1. **Far leggere a Sofia i testi della demo che non ha scritto lei**, e che
@@ -657,13 +679,14 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
    giuridica non e' stata validata da nessuno di competente**: se c'e' chi
    ha preparato l'informativa dello studio, conviene farla vedere a quella
    persona.
-3. **Verificare il primo salvataggio vero di Sofia** dopo il 26 ottobre: nella
-   storia di GitHub devono comparire, oltre a "Aggiorna i testi del sito dal
-   pannello", i commit "Allinea index.html ai testi del pannello" e, se
-   cambia l'indirizzo o l'email, quello di `privacy.html`. Le prove sono
-   state fatte con un GitHub simulato: il token vero non e' mai stato usato
-   per scrivere `index.html`, e se non avesse il permesso su quel file
-   l'errore sarebbe solo nei log.
+3. **Aggiornare a mano l'indirizzo dove il pannello non arriva.** Il 26
+   ottobre Sofia ha cambiato studio: ora sono due, *Corso Lodi 24, Milano* e
+   *Piazza IV Novembre 3, Melegnano*. Nei segnaposto e' gia' giusto, ma al 25
+   novembre la `meta description` e i dati strutturati (`application/ld+json`)
+   in testa a `index.html` dicevano ancora *Viale Gran Sasso 10*, ed e'
+   quello che legge Google. Nella domanda frequente "Meglio in studio o
+   online?" c'e' "ricevo in studio a Milano", senza Melegnano: testo nel
+   pannello, lo puo' sistemare Sofia.
 4. **Cancellare i rami gia' uniti**, che restano sul remoto con la loro
    anteprima accesa (con `noindex`, quindi innocua):
    `demo/spunti-colleghe`, `demo/chi-sono`, `demo/piede-mobile`,
@@ -694,6 +717,15 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   raccoglie dati — statistiche, un modulo, un video incorporato, un font o
   uno script preso da fuori — l'informativa va aggiornata**, perche' oggi
   dice che non succede.
+- **Niente statistiche sul sito.** Scelta dell'8 agosto, riconfermata da
+  Stefano il 25 novembre 2026 dopo aver valutato le alternative. Clarity
+  registrerebbe le sessioni di chi legge, per esempio, dei disturbi
+  alimentari, e manderebbe tutto a Microsoft: servirebbero banner dei cookie
+  con consenso, informativa riscritta e CSP aperta, e chi rifiuta non
+  verrebbe comunque contato. Cloudflare Web Analytics sarebbe senza cookie e
+  senza banner, ma aggiunge uno script esterno. Per i numeri c'e' gia' la
+  sezione Analytics del dominio su Cloudflare, contata dal server, senza
+  codice nella pagina: numeri grezzi, robot compresi.
 - **Niente dominio `.it`.** Deciso da Stefano il 26 ottobre 2026, dopo averlo
   valutato due volte. Era libero e sarebbe servito solo a due cose: intercettare
   chi sente il nome a voce e digita `.it` per istinto, e impedire che qualcun
