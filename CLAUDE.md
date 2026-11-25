@@ -4,7 +4,7 @@
 > sessione di lavoro: stato, decisioni prese, cose rimaste in sospeso. Serve a
 > ripartire senza dover ricostruire il contesto dai commit.
 >
-> Ultimo aggiornamento: **25 novembre 2026** — niente statistiche, confermato; l'indirizzo per Google ora si aggiorna da solo
+> Ultimo aggiornamento: **25 novembre 2026** — studi impaginati, indirizzo per Google automatico, prove col motore di Safari
 
 ---
 
@@ -275,6 +275,13 @@ proprio dove legge Google. Come funziona:
   `<`, cosi' un `</script>` non chiude il blocco. Provato;
 - **titolo e nome restano "Psicologa a Milano"**, scritti a mano: se un
   giorno Sofia lasciasse Milano vanno cambiati qui.
+
+Sulla pagina ogni riga dell'indirizzo diventa **uno studio con la citta'
+sopra e la via sotto** (`data-mappa="studi"`, in `content-loader.js`), nella
+scheda in alto e nel piè di pagina. La divisione segue la stessa regola dei
+dati per Google, scritta due volte: `studioDaRiga` in `content-loader.js` e
+`studiDa` in `functions/_lib/pagina.js`. **Se si cambia l'una va cambiata
+l'altra.** Una riga che non si divide si mostra intera.
 
 I recapiti stanno in `site.json` e si impostano dal pannello. Ogni pulsante
 compare solo se il recapito è valido. Se manca il numero WhatsApp si riusa
@@ -694,6 +701,20 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   automatici** (vedi "Contatti"): ora li riscrive il pannello dal campo
   "indirizzo". Provato con node anche contro un indirizzo costruito per
   iniettare codice.
+  Poi, su richiesta di Stefano: *"Corso lodi"* corretto in *"Corso Lodi"* e
+  Melegnano aggiunto alla domanda "Meglio in studio o online?". E **gli
+  studi impaginati come studi**, dal ramo `demo/indirizzi-studi`, scelti fra
+  tre mockup: nella scheda in alto e nel piè di pagina ogni studio ha la
+  citta' sopra e la via sotto (che porta alla mappa), con il numero civico
+  attaccato alla via perche' nella colonna stretta non resti solo su una
+  riga. Nel piè di pagina gli studi si affiancano finche' c'e' spazio e
+  "Psicologa" sta accanto al nome. Nell'informativa *"con studio in"* e'
+  diventato *"Riceve in:"*, che regge uno o piu' studi.
+  Provando la demo per la prima volta col motore di Safari (vedi "Come
+  verificare") e' venuto fuori che **il pulsante WhatsApp fisso copriva la
+  scheda in alto** appena aperto il sito, sopra "Online" sull'iPhone piu'
+  piccolo: ora compare solo da "Chi sono" in giu'.
+  E' da questa giornata la regola **"prima il telefono, poi il PC"**.
 
 ### In sospeso
 
@@ -709,14 +730,10 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
    giuridica non e' stata validata da nessuno di competente**: se c'e' chi
    ha preparato l'informativa dello studio, conviene farla vedere a quella
    persona.
-3. **Due ritocchi che spettano a Sofia, dal pannello**, emersi col cambio di
-   studio: nell'indirizzo ha scritto *"Corso lodi"* con la minuscola, e
-   adesso finisce anche nella descrizione per Google; e la domanda frequente
-   "Meglio in studio o online?" dice "ricevo in studio a Milano", senza
-   Melegnano.
-4. **Cancellare i rami gia' uniti**, che restano sul remoto con la loro
+3. **Cancellare i rami gia' uniti**, che restano sul remoto con la loro
    anteprima accesa (con `noindex`, quindi innocua):
    `demo/spunti-colleghe`, `demo/chi-sono`, `demo/piede-mobile`,
+   `demo/indirizzi-studi`,
    `claude/dove-siamo-rimasti-nrsh36`, `claude/memoria-progetto`. Tutti
    interamente dentro `main`. Claude non ha il permesso di cancellare rami
    remoti, quindi tocca a Stefano, **dal sito di GitHub** (pagina
@@ -800,8 +817,20 @@ forza la versione nuova cambiando l'indirizzo del foglio di stile con un
 - in Chrome o Edge, **F12 e poi Ctrl+Shift+M**: la pagina si ridisegna alla
   misura del telefono scelto;
 - un Android collegato col cavo, aprendo `chrome://inspect` dal PC;
-- **Responsively App** (`responsively.app`, gratuito): piu' telefoni e il PC
-  affiancati, che scorrono insieme;
+- **il motore di Safari con Playwright**, installato il 25 novembre fuori dal
+  repository, in `C:\Users\Stefano Merlini\Desktop\Steve\Git\prove-mobile-sito`
+  (Playwright 1.65.0 con WebKit, circa 200 MB, tutto in quella cartella: per
+  toglierlo si cancella la cartella). Dentro:
+  - `node scatti.mjs <indirizzo> [selettore]` apre la pagina su quattro
+    iPhone (SE 320px, SE 375px, 15 393px, 15 Pro Max 430px), dice se sfora e
+    mette gli scatti affiancati in `scatti/<data e ora>/foglio.png`;
+  - `node verifica-whatsapp.mjs <indirizzo>` scorre la pagina e dice dove si
+    vede il pulsante WhatsApp fisso.
+  E' il motore di Safari ma gira su Windows: per a capo, sforamenti e
+  impaginazione e' affidabile, per caratteri e dettagli di disegno l'ultima
+  parola resta a un iPhone vero. Valutato anche Responsively App, scaricato e
+  tolto prima di installarlo: e' un programma a parte che Claude non puo'
+  usare direttamente, e usa il motore di Chrome come il browser integrato;
 - nel browser integrato di Claude Code, il menu *Viewport* (Mobile, Tablet).
 
 **Dopo aver cambiato il CSS o aggiunto campi, provare i testi imprevisti.**
