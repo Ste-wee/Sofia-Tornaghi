@@ -715,6 +715,11 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
   scheda in alto** appena aperto il sito, sopra "Online" sull'iPhone piu'
   piccolo: ora compare solo da "Chi sono" in giu'.
   E' da questa giornata la regola **"prima il telefono, poi il PC"**.
+  **Tutto online in serata, ultimo commit di codice `90a338d`**, verificato
+  sul sito vero col motore di Safari: pagina intera su quattro iPhone senza
+  sforamenti, pulsante WhatsApp nascosto in cima, informativa con "Riceve
+  in:", pannello che risponde, prove di node tutte passate. Nessun
+  salvataggio di Sofia dopo quelli del 26 ottobre.
 
 ### In sospeso
 
