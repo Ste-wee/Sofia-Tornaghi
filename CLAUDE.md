@@ -741,12 +741,22 @@ su cui si chiama resta comunque il formato internazionale completo nell'href.
    `demo/indirizzi-studi`,
    `claude/dove-siamo-rimasti-nrsh36`, `claude/memoria-progetto`. Tutti
    interamente dentro `main`. Claude non ha il permesso di cancellare rami
-   remoti, quindi tocca a Stefano, **dal sito di GitHub** (pagina
-   *Branches* del repository, icona del cestino) con l'accesso come
-   `Ste-wee`. ⚠️ Da terminale non e' detto che funzioni: il 26 ottobre il
-   PowerShell di Stefano si e' presentato a GitHub come `stefanomerlini-gif`,
-   un altro suo account senza permessi di scrittura qui, e ha ricevuto 403.
-   Le sessioni di Claude invece passano da GitHub CLI, collegato a `Ste-wee`.
+   remoti, quindi tocca a Stefano: dal sito di GitHub (pagina *Branches*,
+   icona del cestino) oppure da terminale con `git push origin --delete`.
+   **Le copie locali sono gia' state tolte** il 25 novembre; in locale resta
+   solo `fix/audit-codice-e-ui`, che ha un commit mai pubblicato
+   dell'impianto scartato (`a67814d`, indirizzo del Worker OAuth).
+   ⚠️ **Le credenziali, chiarite il 25 novembre.** Git, per github.com, le
+   chiede a GitHub CLI (`gh auth git-credential`, in `~/.gitconfig`), e
+   GitHub CLI sul PC di Stefano conosce **tre account**: `Ste-wee`, il
+   proprietario del repository, `stefanomerlini-gif` e `Merlo21`. Vale
+   quello *attivo*: il 26 ottobre dal PowerShell era attivo un altro e
+   GitHub ha risposto 403; il 25 novembre e' attivo `Ste-wee` sia da
+   PowerShell sia dalle sessioni di Claude. Se torna un 403:
+   `gh auth status` per vedere chi e' attivo, `gh auth switch --user Ste-wee`
+   per cambiarlo. In Windows resta salvata anche una vecchia credenziale git
+   di `stefanomerlini-gif` (`git:https://github.com` in Gestione
+   credenziali), che git da terminale non usa ma altri programmi potrebbero.
    Le anteprime vecchie confondono: il 26 ottobre ne e' stata aperta una
    credendola quella nuova.
 
