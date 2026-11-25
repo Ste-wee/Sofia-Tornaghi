@@ -177,7 +177,7 @@
         // Il numero civico resta attaccato alla parola prima: nella colonna
         // stretta della scheda in alto il "3" di "Piazza IV Novembre 3"
         // finiva da solo sulla riga sotto.
-        var via = parti ? parti.via.replace(/ (d+S*)$/, ' $1') : riga;
+        var via = parti ? parti.via.replace(/ (\d+\S*)$/, '\u00a0$1') : riga;
         studio.appendChild(nuovoLinkMappa(riga, via));
         element.appendChild(studio);
       });
